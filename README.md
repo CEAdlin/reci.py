@@ -1,6 +1,6 @@
-# HACKATHON
+# reci.py
 
-[Learn more and book online at our website](https://HACKATHON-a4a079b504db.herokuapp.com/).
+[Live website](https://reci-py-93c536d719a2.herokuapp.com/).
 
 ## Screenshot
 
@@ -112,7 +112,7 @@ In the following sections you will copy your database URL into your `.env` file 
 To develop or deploy this project you first need to fork it on GitHub.
 
 1. Login to your GitHub account.
-2. Navigate to [HACKATHON on GitHub](https://github.com/ctr-code/HACKATHON/).
+2. Navigate to [reci.py on GitHub](https://github.com/lion695/reci.py).
 3. Click on the Fork button (on the right, near the top).
 4. The `Create a new fork` page opens.
 5. Click on `Create fork`.
@@ -126,13 +126,13 @@ The instructions work on Linux, WSL and maybe the VSCode bash prompt, but that's
 Having [forked the project](#fork), open a terminal, switch to a suitable parent directory and run this command with your github username:
 
 ```bash
-git clone https://github.com/<your-github-username>/HACKATHON/
+git clone https://github.com/<your-github-username>/reci.py/
 ```
 
 Then run:
 
 ```bash
-cd HACKATHON
+cd reci.py
 python3 -m venv .venv
 source .venv/bin/activate
 echo "DJANGO_DEBUG = True" > .env
@@ -175,7 +175,7 @@ Having [forked the project](#fork) and [created a database](#database).
 13. Enter some random data as `DJANGO_SECRET_KEY`.
 14. Open the `Deploy` tab.
 15. Choose `GitHub - Connect to GitHub`.
-16. Connect to your GitHub user account and select `HACKATHON`.
+16. Connect to your GitHub user account and select `reci.py`.
 17. Click on `Connect`.
 18. Click on `Deploy`.
 19. Click on `Open App`.
