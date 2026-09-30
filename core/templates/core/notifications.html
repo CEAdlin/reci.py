@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block head_title %}My Notifications | reci.py{% endblock %}
+
+{% block main %}
+<div class="container my-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="h2 mb-4"><i class="fas fa-bell text-secondary"></i> Notifications Inbox</h1>
+            
+            {% if notifications %}
+                <div class="list-group shadow-sm">
+                    {% for notification in notifications %}
+                        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-3 border-start border-4 border-info">
+                            <div>
+                                <p class="mb-1 text-dark">{{ notification.verb }}</p>
+                                <small class="text-muted"><i class="far fa-clock"></i> {{ notification.timestamp|timesince }} ago</small>
+                            </div>
+                            <!-- Mark as Read interaction anchor action trigger -->
+                            <a href="{% url 'notifications_inbox' %}?mark_read={{ notification.id }}" class="btn btn-sm btn-outline-secondary px-3">
+                                <i class="fas fa-check"></i> Clear
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-5 border rounded bg-white shadow-sm">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <h3 class="h5 text-secondary">Your inbox is clear!</h3>
+                    <p class="text-muted mb-0">We will notify you here when your recipe scripts update or receive comments.</p>
+                </div>
+            {% endif %}
+            
+            <div class="mt-4">
+                <a href="{% url 'index' %}" class="btn btn-outline-dark"><i class="fas fa-arrow-left"></i> Return Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

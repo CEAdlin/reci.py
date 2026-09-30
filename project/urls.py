@@ -25,4 +25,6 @@ urlpatterns = [
     path('recipes/<int:pk>/', core_views.recipe_detail, name='recipe_detail'),
     path('profile', core_views.profile, name='profile'),
     path('recipes/submit/', core_views.submit_recipe, name='submit_recipe'),
+    path('inbox/notifications/', include('notifications.urls', namespace='notifications')),
+    path('inbox/', core_views.notifications_inbox, name='notifications_inbox'),
 ]

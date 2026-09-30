@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm, RecipeForm
 from django.core.paginator import Paginator
 from .models import Recipe
+from notifications.signals import notify
 
 
 def index(request):
@@ -86,6 +87,12 @@ def submit_recipe(request):
             recipe.author = request.user
             recipe.status = recipe.Status.PENDING
             recipe.save()
+            notify.send(
+                sender=request.user,
+                recipient=request.user,
+                verb=f'Your recipe "{recipe.title}" was submitted and is pending review.',
+                target=recipe
+            )
             messages.success(
                 request,
                 "Your recipe has been submitted and is awaiting review.",
@@ -95,3 +102,23 @@ def submit_recipe(request):
         form = RecipeForm()
 
     return render(request, "core/submit_recipe.html", {"form": form})
+
+@login_required
+def notifications_inbox(request):
+    """Fulfill Acceptance Criteria: Lists messages and handles marking notifications as read."""
+    # If user clicks "Mark as read", process the request
+    notification_id = request.GET.get('mark_read')
+    if notification_id:
+        notification = get_object_or_404(request.user.notifications.unread(), id=notification_id)
+        notification.mark_as_read()
+        messages.success(request, "Notification marked as read.")
+        return redirect('notifications_inbox')
+
+    # Get all unread notifications for this user
+    unread_notifications = request.user.notifications.unread()
+    
+    return render(
+        request, 
+        "core/notifications.html", 
+        {"notifications": unread_notifications}
+    )
