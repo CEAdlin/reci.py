@@ -56,7 +56,7 @@ main {
     position: relative;
     min-height: 70vh;
     overflow: hidden;
-    background-image: url('/static/images/hero.webp');
+    /*background-image: url('/static/images/hero.webp');*/
     background-size: cover;
     background-position: 60% 65%;
 }
