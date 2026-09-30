@@ -27,34 +27,6 @@ def index(request):
     )
 
 
-def recipe_detail(request, pk):
-    """Display a recipe after it has been approved for public viewing."""
-    recipe = get_object_or_404(
-        Recipe,
-        pk=pk,
-        status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED],
-    )
-    ingredients = [
-        ingredient.strip()
-        for ingredient in recipe.ingredients.splitlines()
-        if ingredient.strip()
-    ]
-    method_steps = [
-        step.strip()
-        for step in recipe.method.splitlines()
-        if step.strip()
-    ]
-    return render(
-        request,
-        "core/recipe_detail.html",
-        {
-            "recipe": recipe,
-            "ingredients": ingredients,
-            "method_steps": method_steps,
-        },
-    )
-
-
 @login_required
 def profile(request):
     """View for the profile page"""
@@ -136,14 +108,40 @@ def notifications_inbox(request):
 # INTEGRATED RECIPE DETAIL & COMMENT VIEWS
 # ==========================================
 
-from .forms import CommentForm  # Ensure CommentForm is imported if not at top of file
-from .models import Comment      # Ensure Comment model is imported if not at top of file
+
+def get_recipe_detail_context(recipe):
+    """
+    Get the context for displaying recipe detail.  This is also used
+    for displaying recipes for review.
+    """
+    ingredients = [
+        ingredient.strip()
+        for ingredient in recipe.ingredients.splitlines()
+        if ingredient.strip()
+    ]
+    method_steps = [
+        step.strip()
+        for step in recipe.method.splitlines()
+        if step.strip()
+    ]
+    return {
+        "recipe": recipe,
+        "ingredients": ingredients,
+        "method_steps": method_steps,
+        "comments": recipe.comments.all(),
+        "comment_form": CommentForm(),
+    }
+
 
 def recipe_detail(request, pk):
     """Display recipe details and handle new comment submission."""
-    recipe = get_object_or_404(Recipe, pk=pk)
-    comments = recipe.comments.all()
-    comment_form = CommentForm()
+    recipe = get_object_or_404(
+        Recipe,
+        pk=pk,
+        status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED],
+    )
+    context = get_recipe_detail_context(recipe)
+    comment_form = context["comment_form"]
 
     if request.method == "POST":
         if not request.user.is_authenticated:
@@ -171,15 +169,8 @@ def recipe_detail(request, pk):
         else:
             messages.error(request, "Error submitting comment. Please try again.")
 
-    return render(
-        request,
-        "core/recipe_detail.html",
-        {
-            "recipe": recipe,
-            "comments": comments,
-            "comment_form": comment_form,
-        },
-    )
+    context["comment_form"] = comment_form
+    return render(request, "core/recipe_detail.html", context)
 
 
 @login_required
@@ -230,25 +221,53 @@ def comment_delete(request, pk):
 # INTEGRATED STAFF APPROVAL VIEWS
 # ==========================================
 
-from django.contrib.admin.views.decorators import staff_member_required
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+
+@staff_member_required
+def recipe_admin(request):
+    """Display links to review recipes and comments"""
+    pending_recipe = \
+        Recipe.objects.filter(status=Recipe.Status.PENDING).first()
+    pending_comment = \
+        Comment.objects.first()  # filter(status=Recipe.Status.PENDING).first()
+
+    return render(
+        request,
+        "core/recipe_admin.html",
+        {
+            "review_recipes": pending_recipe is not None,
+            "review_comments": pending_comment is not None,
+        }
+    )
+
 
 @staff_member_required
 def recipe_review(request):
-    """Allow the admin to approve or deny recipes"""
+    """
+    Allow the admin to approve or deny recipes.
+    Each time this is called it shows a recipe for review.
+    """
     pending = Recipe.objects.filter(status=Recipe.Status.PENDING).first()
     if pending is None:
-        return render(request, "core/recipe_none.html")
+        return HttpResponseRedirect(reverse('recipe_admin'))
     else:
-        return render(
-            request,
-            "core/recipe_detail.html",
-            {
-                "recipe": pending,
-                "approval": True
-            }
-        )
+        context = get_recipe_detail_context(pending)
+        context["approval"] = True
+        return render(request, "core/recipe_detail.html", context)
+
+
+@staff_member_required
+def comment_review(request):
+    """
+    Allow the admin to approve or deny comments.
+    Each time this is called it shows a recipe with a pending comment.
+    """
+    pending = \
+        Comment.objects.first()  # filter(status=Recipe.Status.PENDING).first()
+    if pending is None:
+        return HttpResponseRedirect(reverse('recipe_admin'))
+    else:
+        context = get_recipe_detail_context(pending.recipe)
+        return render(request, "core/recipe_detail.html", context)
 
 
 @staff_member_required
@@ -258,6 +277,10 @@ def recipe_approve(request, pk):
         recipe = get_object_or_404(Recipe, pk=pk)
         recipe.status = Recipe.Status.APPROVED
         recipe.save()
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'{recipe.title} was approved.'
+        )
 
         # USER STORY ACTION: Notify author when their recipe is approved
         notify.send(
@@ -277,6 +300,10 @@ def recipe_reject(request, pk):
         recipe = get_object_or_404(Recipe, pk=pk)
         recipe.status = Recipe.Status.REJECTED
         recipe.save()
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'{recipe.title} was rejected.'
+        )
 
         # USER STORY ACTION: Notify author when their recipe is rejected
         notify.send(
@@ -288,3 +315,48 @@ def recipe_reject(request, pk):
 
     return HttpResponseRedirect(reverse('recipe_review'))
 
+
+@staff_member_required
+def comment_approve(request, pk):
+    """Approve a comment"""
+    if request.method == "POST":
+        comment = get_object_or_404(Comment, pk=pk)
+        # comment.status = Comment.Status.APPROVED
+        # comment.save()
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'Comment by {comment.author} approved.'
+        )
+
+        # USER STORY ACTION: Notify author when their comment is approved
+        notify.send(
+            sender=request.user,
+            recipient=comment.author,
+            verb=f'Your comment on "{comment.recipe.title}" was approved!',
+            target=comment
+        )
+
+    return HttpResponseRedirect(reverse('comment_review'))
+
+
+@staff_member_required
+def comment_reject(request, pk):
+    """Reject a comment"""
+    if request.method == "POST":
+        comment = get_object_or_404(Comment, pk=pk)
+        # comment.status = Comment.Status.REJECTED
+        # comment.save()
+        messages.add_message(
+            request, messages.SUCCESS,
+            f'Comment by {comment.author} rejected.'
+        )
+
+        # USER STORY ACTION: Notify author when their comment is rejected
+        notify.send(
+            sender=request.user,
+            recipient=comment.author,
+            verb=f'Your comment on "{comment.recipe.title}" was rejected.',
+            target=comment
+        )
+
+    return HttpResponseRedirect(reverse('comment_review'))
