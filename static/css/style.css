@@ -143,3 +143,74 @@ main {
     color: #fff;
     font-size: 3rem;
 }
+
+
+.recipe-detail-image {
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    max-height: 540px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.recipe-image-card,
+.recipe-summary-card,
+.recipe-content-card {
+    border: 1px solid rgba(38, 70, 83, 0.15);
+    box-shadow: 0 0.75rem 2rem rgba(33, 37, 41, 0.08);
+}
+
+.recipe-facts {
+    color: var(--charcoal-blue);
+}
+
+.recipe-facts span {
+    padding: 0.65rem 0.85rem;
+    background: white;
+    border-left: 3px solid var(--sandy-brown);
+}
+
+.recipe-content {
+    border-top: 1px solid rgba(38, 70, 83, 0.2);
+}
+
+.recipe-tabs .recipe-tab {
+    color: var(--charcoal-blue);
+    font-weight: bold;
+}
+
+.recipe-tabs .recipe-tab.active {
+    color: var(--dark-spruce);
+    border-color: var(--sandy-brown) var(--sandy-brown) white;
+}
+
+.recipe-panel {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 0.5rem;
+    opacity: 0;
+    transition: max-height 0.45s ease, opacity 0.35s ease, padding 0.45s ease;
+}
+
+.recipe-panel.is-open {
+    max-height: 1000px;
+    padding: 1.5rem 0.5rem 0.5rem;
+    opacity: 1;
+}
+
+.ingredient-list,
+.method-list {
+    padding-left: 1.25rem;
+}
+
+.ingredient-list li,
+.method-list li {
+    margin-bottom: 0.85rem;
+    padding-left: 0.35rem;
+}
+
+.method-list li::marker {
+    color: var(--sandy-brown);
+    font-weight: bold;
+}
