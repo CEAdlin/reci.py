@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Submit a Recipe | HACKATHON{% endblock %}
+
+{% block main %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <p class="text-uppercase text-muted small fw-bold">Share your cooking</p>
+            <h1>Submit a recipe</h1>
+            <p class="lead mb-4">Tell us how to make something delicious. Your recipe will be reviewed before it is published.</p>
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-primary mt-3">
+                    Submit recipe <i class="fas fa-paper-plane ms-2" aria-hidden="true"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
