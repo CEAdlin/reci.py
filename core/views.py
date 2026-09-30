@@ -142,7 +142,7 @@ from .models import Comment      # Ensure Comment model is imported if not at to
 def recipe_detail(request, pk):
     """Display recipe details and handle new comment submission."""
     recipe = get_object_or_404(Recipe, pk=pk)
-    comments = recipe.comments.all()
+    comments = recipe.comments.filter(approved=True).order_by("-created_at")
     comment_form = CommentForm()
 
     if request.method == "POST":
