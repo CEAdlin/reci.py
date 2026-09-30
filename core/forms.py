@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recipe
+from .models import Comment, Recipe
 
 
 class ProfileForm(forms.Form):
@@ -40,3 +40,26 @@ class RecipeForm(forms.ModelForm):
             "prep_time": forms.NumberInput(attrs={"min": 1}),
             "cook_time": forms.NumberInput(attrs={"min": 1}),
         }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ["body"]
+        widgets = {
+            "body": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 3,
+                    "placeholder": "Write a comment...",
+                }
+            ),
+        }
+        labels = {
+            "body": "",
+        }
+
+    def clean_body(self):
+        body = self.cleaned_data.get("body", "").strip()
+        if not body:
+            raise forms.ValidationError("Comment cannot be empty.")
+        return body
