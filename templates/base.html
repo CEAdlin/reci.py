@@ -18,9 +18,8 @@
         {% endblock head_title %}
     </title>
     {# favicon #}
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=2">
+    
     {# stylesheet #}
     <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
     {# Font-Awesome stylesheet #}
@@ -35,7 +34,7 @@
     <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'index' %}">
-                <img src="{% static 'images/logo-80.png' %}" alt="reci.py logo" width="40" height="40"
+                <img src="{% static 'images/reci_py_logo.png' %}" alt="reci.py logo" width="40" height="40"
                     class="logo">
             </a>
             {# Don't share the preceding <a> because this text moves about #}
