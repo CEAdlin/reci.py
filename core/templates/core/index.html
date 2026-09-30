@@ -9,12 +9,56 @@
 {% endblock %}
 
 {% block main %}
-<section class="container">
-    <div class="row">
-        <div class="col-12">
-            <h1>Welcome</h1>
-            <p>To reci.py.</p>
+<section class="container" aria-labelledby="recipes-heading">
+    <h1 id="recipes-heading">Latest recipes</h1>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for recipe in page_obj %}
+        <div class="col">
+            <article class="card h-100">
+                <div class="card-img-top recipe-card-img recipe-card-placeholder" aria-hidden="true">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div class="card-body">
+                    <h2 class="card-title h5">{{ recipe.title }}</h2>
+                    <p class="card-text text-muted mb-2">By {{ recipe.author.username }}</p>
+                    <ul class="list-inline mb-0 small">
+                        <li class="list-inline-item">
+                            <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                            {{ recipe.prep_time|add:recipe.cook_time }} mins
+                        </li>
+                        <li class="list-inline-item">
+                            <i class="fa-solid fa-signal" aria-hidden="true"></i>
+                            {{ recipe.get_difficulty_display }}
+                        </li>
+                    </ul>
+                </div>
+            </article>
         </div>
+        {% empty %}
+        <div class="col-12">
+            <p>No recipes have been published yet.</p>
+        </div>
+        {% endfor %}
     </div>
+
+    {% if page_obj.has_other_pages %}
+    <nav aria-label="Recipe pages" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+            </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            </li>
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
 </section>
 {% endblock %}
