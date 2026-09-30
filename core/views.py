@@ -141,6 +141,7 @@ def recipe_detail(request, pk):
         status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED],
     )
     context = get_recipe_detail_context(recipe)
+    comments = recipe.comments.filter(approved=True).order_by("-created_at")
     comment_form = context["comment_form"]
 
     if request.method == "POST":
