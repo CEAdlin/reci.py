@@ -2,14 +2,23 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm, RecipeForm
+from django.core.paginator import Paginator
 from .models import Recipe
 
 
 def index(request):
-    """View for the home page"""
+    """Home page: show approved recipes as cards, 6 per page."""
+    recipes = (
+        Recipe.objects.filter(status=Recipe.Status.APPROVED)
+        .select_related("author")
+        .order_by("-created_at")
+    )
+    paginator = Paginator(recipes, 6)
+    page_obj = paginator.get_page(request.GET.get("page"))
     return render(
         request,
         "core/index.html",
+        {"page_obj": page_obj},
     )
 
 

@@ -129,6 +129,22 @@ main {
     background-position: 60% 65%;
 }
 
+/* Recipe list cards */
+.recipe-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.recipe-card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--charcoal-blue);
+    color: #fff;
+    font-size: 3rem;
+}
+
+
 .recipe-detail-image {
     width: 100%;
     height: 100%;
