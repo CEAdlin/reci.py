@@ -1,6 +1,8 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from .forms import CommentForm, ProfileForm, RecipeForm
 from .models import Comment, Recipe
@@ -173,3 +175,44 @@ def comment_delete(request, pk):
         messages.success(request, "Comment deleted successfully!")
 
     return redirect("recipe_detail", pk=comment.recipe.pk)
+
+@staff_member_required
+def recipe_review(request):
+    """Allow the admin to approve or deny recipes"""
+
+    pending = Recipe.objects.filter(status=Recipe.Status.PENDING).first()
+    if pending is None:
+        return render(request, "core/recipe_none.html")
+    else:
+        return render(
+            request,
+            "core/recipe_detail.html",
+            {
+                "recipe": pending,
+                "approval": True
+            }
+        )
+
+
+@staff_member_required
+def recipe_approve(request, pk):
+    """Approve a recipe"""
+
+    if request.method == "POST":
+        recipe = get_object_or_404(Recipe, pk=pk)
+        recipe.status = Recipe.Status.APPROVED
+        recipe.save()
+
+    return HttpResponseRedirect(reverse('recipe_review'))
+
+
+@staff_member_required
+def recipe_reject(request, pk):
+    """Reject a recipe"""
+
+    if request.method == "POST":
+        recipe = get_object_or_404(Recipe, pk=pk)
+        recipe.status = Recipe.Status.REJECTED
+        recipe.save()
+
+    return HttpResponseRedirect(reverse('recipe_review'))

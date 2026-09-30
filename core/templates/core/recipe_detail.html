@@ -1,12 +1,22 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block head_title %}{{ recipe.title }} | reci.py{% endblock %}
+{% block head_title %}{% if approval %}Review {% endif %}{{ recipe.title }} | reci.py{% endblock %}
 
 {% block main %}
 <article class="container py-5 recipe-detail">
     <!-- TEAM'S RECIPE DETAILS (IMAGE, SERVINGS, INGREDIENTS, METHOD) -->
     <div class="row g-4 g-lg-5 align-items-stretch">
+        {% if approval %}
+        <div class="col-12">
+            <h1>Review Recipe</h1>
+            <form method="post">
+                {% csrf_token %}
+                <button class="btn btn-primary" formaction="{% url 'recipe_approve' recipe.pk %}">Approve</button>
+                <button class="btn btn-danger" formaction="{% url 'recipe_reject' recipe.pk %}">Reject</button>
+            </form>
+        </div>
+        {% endif %}
         <div class="col-12 col-lg-7">
             <div class="card recipe-image-card h-100">
                 {% if recipe.image_url %}
