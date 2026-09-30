@@ -12,10 +12,12 @@ class Recipe(models.Model):
     class Status(models.TextChoices):
         PENDING = "pending", "Pending"
         APPROVED = "approved", "Approved"
+        PUBLISHED = "published", "Published"
         REJECTED = "rejected", "Rejected"
 
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
     title = models.CharField(max_length=200, unique=True)
+    image_url = models.URLField(blank=True)
     description = models.TextField()
     ingredients = models.TextField()
     method = models.TextField()
