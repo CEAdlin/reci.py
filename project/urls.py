@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.index, name='index'),
     path('profile', core_views.profile, name='profile'),
+    path('recipes/submit/', core_views.submit_recipe, name='submit_recipe'),
 ]

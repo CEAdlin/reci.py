@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileForm
+from .forms import ProfileForm, RecipeForm
 
 
 def index(request):
@@ -36,3 +36,24 @@ def profile(request):
             "form": form,
         }
     )
+
+
+@login_required
+def submit_recipe(request):
+    """Allow authenticated users to submit a recipe for review."""
+    if request.method == "POST":
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            recipe = form.save(commit=False)
+            recipe.author = request.user
+            recipe.status = recipe.Status.PENDING
+            recipe.save()
+            messages.success(
+                request,
+                "Your recipe has been submitted and is awaiting review.",
+            )
+            return redirect("index")
+    else:
+        form = RecipeForm()
+
+    return render(request, "core/submit_recipe.html", {"form": form})
