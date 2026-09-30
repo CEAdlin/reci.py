@@ -1,8 +1,8 @@
-@import url("https://bunny.net");
+@import url("https://fonts.bunny.net/css?family=dm-sans:400,500,600,700|playfair-display:500,600,700");
 
 :root {
-    --primary-font: "PT Serif", sans-serif;
-    --secondary-font: "PT Serif", sans-serif;
+    --primary-font: "DM Sans", sans-serif;
+    --secondary-font: "Playfair Display", Georgia, serif;
 
     /* Palette Colors */
     --sandy-brown: #F4A261;
@@ -10,6 +10,10 @@
     --bright-snow: #F8F9FA;
     --carbon-black: #212529;
     --dark-spruce: #2D4A22;
+    --warm-white: #fbfaf7;
+    --muted-sage: #e6eee7;
+    --line-color: rgba(38, 70, 83, 0.14);
+    --soft-shadow: 0 1rem 2.5rem rgba(33, 37, 41, 0.08);
 
     /* Fixed Spelled Theme Mapping */
     --highlight-color: var(--charcoal-blue);
@@ -20,15 +24,16 @@
 
 body {
     font-family: var(--primary-font);
-    background-color: var(--bright-snow);
+    background-color: var(--warm-white);
     color: var(--carbon-black);
+    letter-spacing: 0.01em;
 }
 
 h1 {
     font-family: var(--secondary-font);
     font-weight: bold;
-    padding-top: 33px;
-    padding-bottom: 15px;
+    padding-top: 1.5rem;
+    padding-bottom: 0.75rem;
     color: var(--charcoal-blue);
 }
 
@@ -42,17 +47,24 @@ h2 {
    NAVIGATION BAR (Scoped Selectors)
    ========================================== */
 #navbar.navbar {
+    min-height: 72px;
     background-color: var(--charcoal-blue);
     border-bottom: 3px solid var(--sandy-brown);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.5rem 1.5rem rgba(33, 37, 41, 0.14);
+    backdrop-filter: blur(12px);
 }
 
 /* Scoped identity brand links */
 #navbar.navbar .navbar-brand,
 #navbar.navbar .navbar-brand span {
-    font-size: inherit;
+    font-family: var(--secondary-font);
+    font-size: 1.25rem;
     font-weight: bold;
     color: var(--bright-snow);
+}
+
+#navbar.navbar .logo {
+    border-radius: 0.65rem;
 }
 
 /* Scoped baseline nav links */
@@ -60,6 +72,7 @@ h2 {
     color: rgba(248, 249, 250, 0.8);
     font-weight: 500;
     transition: color 0.2s ease-in-out;
+    padding-inline: 0.8rem;
 }
 
 /* Hover active state */
@@ -123,21 +136,70 @@ main {
 
 #hero {
     position: relative;
-    min-height: 70vh;
+    min-height: 19vh;
+    margin-bottom: 2rem;
     overflow: hidden;
-    background-size: cover;
-    background-position: 60% 65%;
+    background-color: var(--charcoal-blue);
+    background-image: repeating-linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.04) 0,
+        rgba(255, 255, 255, 0.04) 1px,
+        transparent 1px,
+        transparent 18px
+    );
+}
+
+#hero::after {
+    position: absolute;
+    right: 8%;
+    bottom: -3rem;
+    width: 18rem;
+    height: 18rem;
+    border: 1px solid rgba(244, 162, 97, 0.35);
+    border-radius: 50%;
+    content: "";
 }
 
 /* Recipe list cards */
 .recipe-toolbar {
     border: 1px solid rgba(38, 70, 83, 0.15);
-    box-shadow: 0 0.5rem 1.5rem rgba(33, 37, 41, 0.06);
+    border-radius: 0.75rem;
+    background: var(--muted-sage);
+    box-shadow: var(--soft-shadow);
 }
 
 .recipe-card-img {
     height: 200px;
     object-fit: cover;
+    transition: transform 0.45s ease;
+}
+
+.card {
+    border-color: var(--line-color);
+    border-radius: 0.75rem;
+}
+
+.row > .col > .card {
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1.5rem rgba(33, 37, 41, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.row > .col > .card:hover {
+    box-shadow: var(--soft-shadow);
+    transform: translateY(-0.3rem);
+}
+
+.row > .col > .card:hover .recipe-card-img {
+    transform: scale(1.04);
+}
+
+.card-title a {
+    color: var(--charcoal-blue);
+}
+
+.card-title a:hover {
+    color: var(--dark-spruce);
 }
 
 .recipe-card-placeholder {
@@ -162,8 +224,9 @@ main {
 .recipe-image-card,
 .recipe-summary-card,
 .recipe-content-card {
-    border: 1px solid rgba(38, 70, 83, 0.15);
-    box-shadow: 0 0.75rem 2rem rgba(33, 37, 41, 0.08);
+    border: 1px solid var(--line-color);
+    border-radius: 0.75rem;
+    box-shadow: var(--soft-shadow);
 }
 
 .recipe-facts {
@@ -218,4 +281,28 @@ main {
 .method-list li::marker {
     color: var(--sandy-brown);
     font-weight: bold;
+}
+
+.form-label,
+.text-uppercase {
+    letter-spacing: 0.08em;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--charcoal-blue);
+    --bs-btn-border-color: var(--charcoal-blue);
+    --bs-btn-hover-bg: var(--dark-spruce);
+    --bs-btn-hover-border-color: var(--dark-spruce);
+}
+
+.form-control,
+.form-select {
+    border-color: var(--line-color);
+    border-radius: 0.45rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--sandy-brown);
+    box-shadow: 0 0 0 0.2rem rgba(244, 162, 97, 0.2);
 }

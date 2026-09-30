@@ -1,17 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block head_title %}{{ recipe.title }} | reci.py{% endblock %}
+{% block head_title %}{% if approval %}Review {% endif %}{{ recipe.title }} | reci.py{% endblock %}
 
 {% block main %}
 <article class="container py-5 recipe-detail">
+    <!-- TEAM'S RECIPE DETAILS (IMAGE, SERVINGS, INGREDIENTS, METHOD) -->
     <div class="row g-4 g-lg-5 align-items-stretch">
+        {% if approval %}
+        <div class="col-12">
+            <h1>Review Recipe</h1>
+            <form method="post">
+                {% csrf_token %}
+                <button class="btn btn-primary" formaction="{% url 'recipe_approve' recipe.pk %}">Approve</button>
+                <button class="btn btn-danger" formaction="{% url 'recipe_reject' recipe.pk %}">Reject</button>
+            </form>
+        </div>
+        {% endif %}
         <div class="col-12 col-lg-7">
             <div class="card recipe-image-card h-100">
                 {% if recipe.image_url %}
                 <img class="recipe-detail-image card-img-top" src="{{ recipe.image_url }}" alt="{{ recipe.title }}">
                 {% else %}
-                <img class="recipe-detail-image card-img-top" src="{% static 'images/logo-80.png' %}" alt="{{ recipe.title }}">
+                <img class="recipe-detail-image card-img-top" src="{% static 'images/logo-80.png' %}"
+                    alt="{{ recipe.title }}">
                 {% endif %}
             </div>
         </div>
@@ -22,24 +34,30 @@
                     <h1 class="card-title mb-3">{{ recipe.title }}</h1>
                     <p class="lead">{{ recipe.description }}</p>
                     <div class="recipe-facts row row-cols-2 g-2 my-4" aria-label="Recipe details">
-                        <div class="col"><span class="d-block"><strong>{{ recipe.servings }}</strong> servings</span></div>
-                        <div class="col"><span class="d-block"><strong>{{ recipe.prep_time }}</strong> min prep</span></div>
-                        <div class="col"><span class="d-block"><strong>{{ recipe.cook_time }}</strong> min cook</span></div>
-                        <div class="col"><span class="d-block"><strong>{{ recipe.get_difficulty_display }}</strong></span></div>
+                        <div class="col"><span class="d-block"><strong>{{ recipe.servings }}</strong> servings</span>
+                        </div>
+                        <div class="col"><span class="d-block"><strong>{{ recipe.prep_time }}</strong> min prep</span>
+                        </div>
+                        <div class="col"><span class="d-block"><strong>{{ recipe.cook_time }}</strong> min cook</span>
+                        </div>
+                        <div class="col"><span
+                                class="d-block"><strong>{{ recipe.get_difficulty_display }}</strong></span></div>
                     </div>
-                    <p class="text-muted mb-0 mt-auto">By {{ recipe.author.username }} · {{ recipe.created_at|date:"j F Y" }}</p>
+                    <p class="text-muted mb-0 mt-auto">By {{ recipe.author.username }} ·
+                        {{ recipe.created_at|date:"j F Y" }}</p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- INGREDIENTS & METHOD TABS -->
     <div class="card recipe-content-card mt-5">
         <div class="card-body p-3 p-md-4">
             <div class="nav nav-tabs recipe-tabs" role="tablist" aria-label="Recipe instructions">
-                <button class="nav-link recipe-tab" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="ingredients-panel" data-recipe-panel="ingredients-panel">
+                <button class="nav-link recipe-tab" type="button" role="tab">
                     Ingredients <span class="ms-1" aria-hidden="true">+</span>
                 </button>
-                <button class="nav-link recipe-tab" type="button" role="tab" aria-selected="false" aria-expanded="false" aria-controls="method-panel" data-recipe-panel="method-panel">
+                <button class="nav-link recipe-tab" type="button" role="tab">
                     Method <span class="ms-1" aria-hidden="true">+</span>
                 </button>
             </div>
@@ -62,6 +80,66 @@
             </div>
         </div>
     </div>
+
+    <hr class="my-5">
+
+    <!-- YOUR COMMENTS SECTION -->
+    <section class="comments-section">
+        <h3>Comments ({{ comments.count }})</h3>
+
+        <!-- Display List of Comments -->
+        <div class="comments-list my-3">
+            {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong>{{ comment.author.username }}</strong>
+                        <small class="text-muted">{{ comment.created_at|date:"N j, Y, P" }}</small>
+                    </div>
+                    <p class="card-text">{{ comment.body }}</p>
+
+                    {% if user.is_authenticated and comment.author == user %}
+                    <div class="comment-actions">
+                        <a href="{% url 'comment_edit' comment.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'comment_delete' comment.pk %}" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Are you sure you want to delete this comment?');">Delete</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No comments yet. Be the first to share your thoughts!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Comment Form / Authentication Gate -->
+        <div class="comment-form-container mt-4">
+            {% if user.is_authenticated %}
+            <h4>Leave a comment</h4>
+            <form method="post" action="{% url 'recipe_detail' recipe.pk %}">
+                {% csrf_token %}
+                {% if comment_form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ comment_form.non_field_errors }}
+                </div>
+                {% endif %}
+                <div class="mb-3">
+                    {{ comment_form.body }}
+                    {% if comment_form.body.errors %}
+                    <div class="text-danger small">
+                        {{ comment_form.body.errors.0 }}
+                    </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+            {% else %}
+            <div class="alert alert-info">
+                <a href="{% url 'account_login' %}?next={{ request.path }}">Log in to comment</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
 </article>
 {% endblock %}
 
@@ -71,7 +149,6 @@
         tab.addEventListener('click', () => {
             const panel = document.getElementById(tab.dataset.recipePanel);
             const isOpen = !panel.hidden;
-
             document.querySelectorAll('.recipe-panel').forEach((recipePanel) => {
                 recipePanel.hidden = true;
                 recipePanel.classList.remove('is-open');
@@ -82,7 +159,6 @@
                 recipeTab.setAttribute('aria-expanded', 'false');
                 recipeTab.querySelector('span').textContent = '+';
             });
-
             if (!isOpen) {
                 panel.hidden = false;
                 tab.classList.add('active');
@@ -91,7 +167,10 @@
                 tab.querySelector('span').textContent = '-';
                 requestAnimationFrame(() => {
                     panel.classList.add('is-open');
-                    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    panel.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
                 });
             }
         });
