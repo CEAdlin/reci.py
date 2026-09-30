@@ -24,4 +24,7 @@ urlpatterns = [
     path('', core_views.index, name='index'),
     path('profile', core_views.profile, name='profile'),
     path('recipes/submit/', core_views.submit_recipe, name='submit_recipe'),
+    path('recipes/<int:pk>/', core_views.recipe_detail, name='recipe_detail'),
+    path('comments/<int:pk>/edit/', core_views.comment_edit, name='comment_edit'),
+    path('comments/<int:pk>/delete/', core_views.comment_delete, name='comment_delete'),
 ]
