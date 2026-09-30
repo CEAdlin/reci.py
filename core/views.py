@@ -9,7 +9,9 @@ from .models import Recipe
 def index(request):
     """Home page: show approved recipes as cards, 6 per page."""
     recipes = (
-        Recipe.objects.filter(status=Recipe.Status.APPROVED)
+        Recipe.objects.filter(
+            status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED]
+        )
         .select_related("author")
         .order_by("-created_at")
     )
@@ -23,11 +25,11 @@ def index(request):
 
 
 def recipe_detail(request, pk):
-    """Display a recipe only after it has been published."""
+    """Display a recipe after it has been approved for public viewing."""
     recipe = get_object_or_404(
         Recipe,
         pk=pk,
-        status=Recipe.Status.PUBLISHED,
+        status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED],
     )
     ingredients = [
         ingredient.strip()
