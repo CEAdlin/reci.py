@@ -4,34 +4,70 @@
 {% block head_title %}reci.py{% endblock %}
 
 {% block header %}
-    <header id="hero">
-    </header>
+<header id="hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-12 col-lg-7">
+                <p class="hero-eyebrow">&gt;&gt;&gt; import dinner</p>
+                <h1 class="hero-title">Recipes, <em>compiled</em> with love.</h1>
+                <p class="hero-blurb">
+                    reci.py is a community cookbook for people who write code — and need feeding.
+                    Share the dishes that fuel your late-night deploys, discover what other developers
+                    are cooking, and swap tips in the comments. No bugs, just good food.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-primary btn-lg" href="#recipes-heading">Browse recipes</a>
+                    {% if user.is_authenticated %}
+                    <a class="btn btn-outline-primary btn-lg" href="{% url 'submit_recipe' %}">Share a recipe</a>
+                    {% else %}
+                    <a class="btn btn-outline-primary btn-lg" href="{% url 'account_signup' %}">Join to share a recipe</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-12 col-lg-5">
+                <div class="hero-art">
+                    <div class="pot-wrap">
+                        <span class="steam steam-1" aria-hidden="true"></span>
+                        <span class="steam steam-2" aria-hidden="true"></span>
+                        <span class="steam steam-3" aria-hidden="true"></span>
+                        <img class="hero-pot" src="{% static 'images/reci_py_pot.png' %}"
+                            alt="A cooking pot full of vegetables with a code symbol on the front"
+                            width="450" height="425">
+                    </div>
+                    <img class="hero-wordmark" src="{% static 'images/reci_py_wordmark.png' %}"
+                        alt="Reci.py – Simple recipes, healthy meals, for coders" width="618" height="261">
+                    <span class="hero-sticker" aria-hidden="true">🍳 Fresh commits daily</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 {% endblock %}
 
 {% block main %}
 <section class="container" aria-labelledby="recipes-heading">
-    <h1 id="recipes-heading">Latest recipes</h1>
+    <h2 id="recipes-heading" class="mb-4">Latest recipes</h2>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for recipe in page_obj %}
         <div class="col">
-            <article class="card h-100">
-                <div class="card-img-top recipe-card-img recipe-card-placeholder" aria-hidden="true">
+            <article class="card recipe-card h-100">
+                <div class="card-img-top recipe-card-img recipe-card-placeholder thumb-{{ recipe.difficulty }}"
+                    aria-hidden="true">
                     <i class="fa-solid fa-utensils"></i>
                 </div>
                 <div class="card-body">
-                    <h2 class="card-title h5">
+                    <h3 class="card-title h5">
                         <a class="stretched-link text-decoration-none" href="{% url 'recipe_detail' recipe.pk %}">
                             {{ recipe.title }}
                         </a>
-                    </h2>
-                    <p class="card-text text-muted mb-2">By {{ recipe.author.username }}</p>
-                    <ul class="list-inline mb-0 small">
-                        <li class="list-inline-item">
+                    </h3>
+                    <p class="card-text text-muted mb-3">By {{ recipe.author.username }}</p>
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item recipe-tag">
                             <i class="fa-regular fa-clock" aria-hidden="true"></i>
                             {{ recipe.prep_time|add:recipe.cook_time }} mins
                         </li>
-                        <li class="list-inline-item">
-                            <i class="fa-solid fa-signal" aria-hidden="true"></i>
+                        <li class="list-inline-item recipe-tag tag-{{ recipe.difficulty }}">
                             {{ recipe.get_difficulty_display }}
                         </li>
                     </ul>
@@ -46,11 +82,11 @@
     </div>
 
     {% if page_obj.has_other_pages %}
-    <nav aria-label="Recipe pages" class="mt-4">
+    <nav aria-label="Recipe pages" class="mt-5">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}#recipes-heading">&laquo; Previous</a>
             </li>
             {% endif %}
             <li class="page-item disabled">
@@ -58,7 +94,7 @@
             </li>
             {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}#recipes-heading">Next &raquo;</a>
             </li>
             {% endif %}
         </ul>
