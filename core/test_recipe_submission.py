@@ -119,7 +119,7 @@ class RecipeDetailTests(TestCase):
         self.assertContains(response, expected_date)
 
     def test_unpublished_recipes_are_not_public(self):
-        for status in (Recipe.Status.PENDING, Recipe.Status.APPROVED):
+        for status in (Recipe.Status.PENDING, Recipe.Status.REJECTED):
             unpublished_data = {
                 **self.recipe_data,
                 "title": f"{status} tomato tart",
@@ -132,3 +132,16 @@ class RecipeDetailTests(TestCase):
             response = self.client.get(reverse("recipe_detail", args=[recipe.pk]))
 
             self.assertEqual(response.status_code, 404)
+
+    def test_approved_recipe_is_linked_from_homepage(self):
+        recipe = Recipe.objects.create(
+            **self.recipe_data,
+            status=Recipe.Status.APPROVED,
+        )
+
+        response = self.client.get(reverse("index"))
+
+        self.assertContains(
+            response,
+            reverse("recipe_detail", args=[recipe.pk]),
+        )

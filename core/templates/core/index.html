@@ -19,7 +19,11 @@
                     <i class="fa-solid fa-utensils"></i>
                 </div>
                 <div class="card-body">
-                    <h2 class="card-title h5">{{ recipe.title }}</h2>
+                    <h2 class="card-title h5">
+                        <a class="stretched-link text-decoration-none" href="{% url 'recipe_detail' recipe.pk %}">
+                            {{ recipe.title }}
+                        </a>
+                    </h2>
                     <p class="card-text text-muted mb-2">By {{ recipe.author.username }}</p>
                     <ul class="list-inline mb-0 small">
                         <li class="list-inline-item">
