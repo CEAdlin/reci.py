@@ -82,3 +82,53 @@ class RecipeSubmissionTests(TestCase):
             "submitted and is awaiting review",
             str(list(get_messages(response.wsgi_request))[0]),
         )
+
+
+class RecipeDetailTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.author = User.objects.create_user(username="published-cook")
+        cls.recipe_data = {
+            "author": cls.author,
+            "title": "Published tomato tart",
+            "image_url": "https://example.com/tomato-tart.jpg",
+            "description": "A crisp savoury tart.",
+            "ingredients": "Tomatoes\nPuff pastry",
+            "method": "Prepare the pastry.\nBake until golden.",
+            "servings": 4,
+            "prep_time": 15,
+            "cook_time": 30,
+            "difficulty": Recipe.Difficulty.EASY,
+        }
+
+    def test_published_recipe_shows_complete_details(self):
+        recipe = Recipe.objects.create(
+            **self.recipe_data,
+            status=Recipe.Status.PUBLISHED,
+        )
+
+        response = self.client.get(reverse("recipe_detail", args=[recipe.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, recipe.title)
+        self.assertContains(response, recipe.image_url)
+        self.assertContains(response, "Tomatoes")
+        self.assertContains(response, "Prepare the pastry.")
+        self.assertContains(response, recipe.author.username)
+        expected_date = recipe.created_at.strftime("%d %B %Y").lstrip("0")
+        self.assertContains(response, expected_date)
+
+    def test_unpublished_recipes_are_not_public(self):
+        for status in (Recipe.Status.PENDING, Recipe.Status.APPROVED):
+            unpublished_data = {
+                **self.recipe_data,
+                "title": f"{status} tomato tart",
+                "status": status,
+            }
+            recipe = Recipe.objects.create(
+                **unpublished_data,
+            )
+
+            response = self.client.get(reverse("recipe_detail", args=[recipe.pk]))
+
+            self.assertEqual(response.status_code, 404)

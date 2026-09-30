@@ -14,6 +14,7 @@ class RecipeForm(forms.ModelForm):
         model = Recipe
         fields = [
             "title",
+            "image_url",
             "description",
             "ingredients",
             "method",
@@ -24,6 +25,7 @@ class RecipeForm(forms.ModelForm):
         ]
         labels = {
             "title": "Recipe title",
+            "image_url": "Recipe image URL (optional)",
             "description": "Short description",
             "ingredients": "Ingredients",
             "method": "Method",

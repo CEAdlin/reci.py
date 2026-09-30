@@ -1,15 +1,52 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from .forms import CommentForm, ProfileForm, RecipeForm
 from .models import Comment, Recipe
 
 
 def index(request):
-    """View for the home page"""
+    """Home page: show approved recipes as cards, 6 per page."""
+    recipes = (
+        Recipe.objects.filter(status=Recipe.Status.APPROVED)
+        .select_related("author")
+        .order_by("-created_at")
+    )
+    paginator = Paginator(recipes, 6)
+    page_obj = paginator.get_page(request.GET.get("page"))
     return render(
         request,
         "core/index.html",
+        {"page_obj": page_obj},
+    )
+
+
+def recipe_detail(request, pk):
+    """Display a recipe only after it has been published."""
+    recipe = get_object_or_404(
+        Recipe,
+        pk=pk,
+        status=Recipe.Status.PUBLISHED,
+    )
+    ingredients = [
+        ingredient.strip()
+        for ingredient in recipe.ingredients.splitlines()
+        if ingredient.strip()
+    ]
+    method_steps = [
+        step.strip()
+        for step in recipe.method.splitlines()
+        if step.strip()
+    ]
+    return render(
+        request,
+        "core/recipe_detail.html",
+        {
+            "recipe": recipe,
+            "ingredients": ingredients,
+            "method_steps": method_steps,
+        },
     )
 
 
