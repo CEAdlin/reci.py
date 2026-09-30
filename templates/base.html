@@ -4,6 +4,7 @@
 {% url 'account_signup' as signup_url %}
 {% url 'profile' as profile_url %}
 {% url 'submit_recipe' as submit_recipe_url %}
+{% url 'recipe_admin' as recipe_admin_url %}
 
 <!DOCTYPE html>
 <html lang="en-gb">
@@ -20,12 +21,18 @@
     {# favicon #}
     <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}?v=2">
     
+    {# Google Fonts: Fraunces (headings), DM Sans (body), JetBrains Mono (code bits) #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=JetBrains+Mono:wght@400;600&display=swap">
+
     {# stylesheet #}
     <link rel="stylesheet" href="{% static 'vendor/bootstrap/bootstrap.min.css' %}">
     {# Font-Awesome stylesheet #}
     <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/all.min.css' %}">
     {# Project stylesheet comes last #}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1.1">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2.0">
 
 </head>
 
@@ -34,12 +41,8 @@
     <nav id="navbar" class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'index' %}">
-                <img src="{% static 'images/reci_py_logo.png' %}" alt="reci.py logo" width="40" height="40"
-                    class="logo">
-            </a>
-            {# Don't share the preceding <a> because this text moves about #}
-            <a class="navbar-brand" href="{% url 'index' %}">
-                <span>reci.py</span>
+                <img src="{% static 'images/reci_py_icon.png' %}" alt="" width="44" height="42" class="logo">
+                <span>reci<span class="brand-dot">.py</span></span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -69,6 +72,12 @@
                         <a class="nav-link {% if request.path == submit_recipe_url %}active{% endif %}" {% if request.path == submit_recipe_url %}aria-current="page"{% endif %}
                             href="{% url 'submit_recipe' %}">Submit recipe</a>
                     </li>
+                    {% if user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == recipe_admin_url %}active{% endif %}" {% if request.path == recipe_admin_url %}aria-current="page"{% endif %}
+                            href="{% url 'recipe_admin' %}">Admin</a>
+                    </li>
+                    {% endif %}
                     {% else %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == signup_url %}active{% endif %}" {% if request.path == signup_url %}aria-current="page"{% endif %}

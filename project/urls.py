@@ -25,15 +25,26 @@ urlpatterns = [
     path('recipes/<int:pk>/', core_views.recipe_detail, name='recipe_detail'),
     path('profile', core_views.profile, name='profile'),
     path('recipes/submit/', core_views.submit_recipe, name='submit_recipe'),
-        # Notifications Integration
-    path('inbox/notifications/', include('notifications.urls', namespace='notifications')),
+    # Notifications Integration
+    path('inbox/notifications/', include('notifications.urls',namespace='notifications')),
     path('inbox/', core_views.notifications_inbox, name='notifications_inbox'),
 
     # Incoming Recipe & Comment Systems
     path('recipes/<int:pk>/', core_views.recipe_detail, name='recipe_detail'),
-    path('comments/<int:pk>/edit/', core_views.comment_edit, name='comment_edit'),
-    path('comments/<int:pk>/delete/', core_views.comment_delete, name='comment_delete'),
+    path('comments/<int:pk>/edit/', core_views.comment_edit,
+         name='comment_edit'),
+    path('comments/<int:pk>/delete/', core_views.comment_delete,
+         name='comment_delete'),
+    path('recipes/admin', core_views.recipe_admin, name='recipe_admin'),
     path('recipes/review/', core_views.recipe_review, name='recipe_review'),
-    path('recipes/approve/<int:pk>/', core_views.recipe_approve, name='recipe_approve'),
-    path('recipes/reject/<int:pk>/', core_views.recipe_reject, name='recipe_reject'),
+    path('recipes/approve/<int:pk>', core_views.recipe_approve,
+         name='recipe_approve'),
+    path('recipes/reject/<int:pk>', core_views.recipe_reject,
+         name='recipe_reject'),
+    path('recipes/comment_review/', core_views.comment_review,
+         name='comment_review'),
+    path('recipes/comment_approve/<int:pk>', core_views.comment_approve,
+         name='comment_approve'),
+    path('recipes/comment_reject/<int:pk>', core_views.comment_reject,
+         name='comment_reject'),
 ]

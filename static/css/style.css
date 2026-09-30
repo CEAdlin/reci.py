@@ -29,7 +29,9 @@ body {
     letter-spacing: 0.01em;
 }
 
-h1 {
+h1,
+h2,
+h3 {
     font-family: var(--secondary-font);
     font-weight: bold;
     padding-top: 1.5rem;
@@ -37,14 +39,53 @@ h1 {
     color: var(--charcoal-blue);
 }
 
-h2 {
-    font-family: var(--secondary-font);
-    font-weight: bold;
-    color: var(--dark-spruce);
+.text-muted {
+    color: var(--muted) !important;
 }
 
 /* ==========================================
-   NAVIGATION BAR (Scoped Selectors)
+   BUTTONS (every page)
+   ========================================== */
+.btn {
+    border-radius: 999px;
+    font-weight: 700;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--tomato);
+    --bs-btn-border-color: var(--tomato);
+    --bs-btn-hover-bg: var(--tomato-dark);
+    --bs-btn-hover-border-color: var(--tomato-dark);
+    --bs-btn-active-bg: var(--tomato-dark);
+    --bs-btn-active-border-color: var(--tomato-dark);
+    --bs-btn-disabled-bg: var(--tomato);
+    --bs-btn-disabled-border-color: var(--tomato);
+    --bs-btn-focus-shadow-rgb: 181, 65, 43;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--tomato);
+    --bs-btn-border-color: var(--tomato);
+    --bs-btn-hover-color: var(--tomato);
+    --bs-btn-hover-bg: var(--crust);
+    --bs-btn-hover-border-color: var(--tomato);
+    --bs-btn-active-color: var(--tomato);
+    --bs-btn-active-bg: var(--crust);
+    --bs-btn-active-border-color: var(--tomato);
+    border-width: 2px;
+}
+
+.btn-success {
+    --bs-btn-bg: var(--basil);
+    --bs-btn-border-color: var(--basil);
+    --bs-btn-hover-bg: #2E6419;
+    --bs-btn-hover-border-color: #2E6419;
+}
+
+/* ==========================================
+   NAVIGATION BAR
    ========================================== */
 #navbar.navbar {
     min-height: 72px;
@@ -69,72 +110,84 @@ h2 {
 
 /* Scoped baseline nav links */
 #navbar.navbar .navbar-nav .nav-link {
-    color: rgba(248, 249, 250, 0.8);
+    color: var(--ink);
     font-weight: 500;
     transition: color 0.2s ease-in-out;
     padding-inline: 0.8rem;
 }
 
-/* Hover active state */
 #navbar.navbar .navbar-nav .nav-link:hover,
-#navbar.navbar .navbar-nav .nav-link:focus {
-    color: var(--sandy-brown);
-}
-
-/* Explicit active page state matching your template conditional logic */
+#navbar.navbar .navbar-nav .nav-link:focus,
 #navbar.navbar .navbar-nav .nav-link.active {
-    color: var(--sandy-brown);
-    font-weight: bold;
+    color: var(--tomato);
 }
 
-/* Responsive Menu Toggle Buttons */
+#navbar.navbar .navbar-nav .nav-link.active {
+    font-weight: 700;
+}
+
 #navbar.navbar .navbar-toggler {
-    border-color: var(--bright-snow);
+    border-color: var(--crust);
 }
 
 #navbar.navbar .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28248, 249, 250, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%232B2118' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
-
 
 /* ==========================================
-   SITE FOOTER & INTERACTIVES
+   HERO (home page)
    ========================================== */
-.site-footer {
-    background-color: var(--carbon-black);
-    color: var(--bright-snow);
-    padding: 20px 0;
-    border-top: 2px solid var(--charcoal-blue);
-}
-
-.site-footer .social-links a {
-    color: var(--bright-snow);
-    margin-left: 15px;
-    font-size: 1.2rem;
-    transition: color 0.2s ease;
-}
-
-.site-footer .social-links a:hover {
-    color: var(--sandy-brown);
-}
-
-
-/* ==========================================
-   LAYOUT STRUCTURES
-   ========================================== */
-.errorlist {
-    color: #d9534f;
-}
-
-#messages {
-    margin-top: 90px;
-}
-
-main {
-    margin-bottom: 33px;
-}
-
 #hero {
+    position: relative;
+    overflow: hidden;
+    padding: 24px 0 56px;
+}
+
+/* Butter-coloured circle behind the logo */
+#hero::before {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    background: var(--butter);
+    opacity: 0.35;
+    right: -140px;
+    top: -120px;
+}
+
+#hero .container {
+    position: relative;
+}
+
+.hero-eyebrow {
+    font-family: var(--code-font);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--basil);
+    margin-bottom: 12px;
+}
+
+.hero-title {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    line-height: 1.05;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.hero-title em {
+    font-style: normal;
+    color: var(--tomato);
+}
+
+.hero-blurb {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 34em;
+    margin-bottom: 28px;
+}
+
+.hero-art {
     position: relative;
     min-height: 19vh;
     margin-bottom: 2rem;
@@ -169,7 +222,7 @@ main {
 }
 
 .recipe-card-img {
-    height: 200px;
+    height: 170px;
     object-fit: cover;
     transition: transform 0.45s ease;
 }
@@ -206,12 +259,81 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--charcoal-blue);
-    color: #fff;
+    background-color: var(--crust);
+    color: var(--tomato);
     font-size: 3rem;
 }
 
+/* Placeholder colour changes with difficulty */
+.recipe-card-placeholder.thumb-easy { background-color: #DDEBD9; color: var(--basil); }
+.recipe-card-placeholder.thumb-medium { background-color: #FBEAC2; color: #7A5A0B; }
+.recipe-card-placeholder.thumb-hard { background-color: #F6D3CB; color: var(--tomato-dark); }
 
+/* Little rounded "pills" for time and difficulty */
+.recipe-tag {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--crust);
+    color: var(--ink);
+}
+
+.recipe-tag.tag-easy { background: #DDEBD9; color: var(--basil); }
+.recipe-tag.tag-medium { background: #FBEAC2; color: #7A5A0B; }
+.recipe-tag.tag-hard { background: #F6D3CB; color: var(--tomato-dark); }
+
+/* Previous / Next buttons */
+.pagination {
+    --bs-pagination-color: var(--tomato);
+    --bs-pagination-hover-color: var(--tomato-dark);
+    --bs-pagination-hover-bg: var(--crust);
+    --bs-pagination-border-color: var(--crust);
+    --bs-pagination-disabled-color: var(--muted);
+    --bs-pagination-disabled-bg: #fff;
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(181, 65, 43, 0.25);
+}
+
+/* ==========================================
+   SITE FOOTER
+   ========================================== */
+.site-footer {
+    background-color: var(--ink);
+    color: #F8EDE3;
+    padding: 24px 0;
+}
+
+.site-footer .social-links a {
+    color: #F8EDE3;
+    margin-left: 15px;
+    font-size: 1.2rem;
+    transition: color 0.2s ease;
+}
+
+.site-footer .social-links a:hover,
+.site-footer .social-links a:focus {
+    color: var(--butter);
+}
+
+/* ==========================================
+   LAYOUT STRUCTURES
+   ========================================== */
+.errorlist {
+    color: var(--tomato-dark);
+}
+
+#messages {
+    margin-top: 90px;
+}
+
+main {
+    margin-bottom: 33px;
+}
+
+/* ==========================================
+   RECIPE DETAIL PAGE
+   ========================================== */
 .recipe-detail-image {
     width: 100%;
     height: 100%;
@@ -230,27 +352,27 @@ main {
 }
 
 .recipe-facts {
-    color: var(--charcoal-blue);
+    color: var(--ink);
 }
 
 .recipe-facts span {
     padding: 0.65rem 0.85rem;
-    background: white;
-    border-left: 3px solid var(--sandy-brown);
+    background: #fff;
+    border-left: 3px solid var(--butter);
 }
 
 .recipe-content {
-    border-top: 1px solid rgba(38, 70, 83, 0.2);
+    border-top: 1px solid var(--crust);
 }
 
 .recipe-tabs .recipe-tab {
-    color: var(--charcoal-blue);
+    color: var(--ink);
     font-weight: bold;
 }
 
 .recipe-tabs .recipe-tab.active {
-    color: var(--dark-spruce);
-    border-color: var(--sandy-brown) var(--sandy-brown) white;
+    color: var(--tomato);
+    border-color: var(--crust) var(--crust) #fff;
 }
 
 .recipe-panel {
@@ -279,7 +401,7 @@ main {
 }
 
 .method-list li::marker {
-    color: var(--sandy-brown);
+    color: var(--tomato);
     font-weight: bold;
 }
 
