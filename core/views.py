@@ -59,7 +59,7 @@ def submit_recipe(request):
 
     return render(request, "core/submit_recipe.html", {"form": form})
 
-    def recipe_detail(request, pk):
+def recipe_detail(request, pk):
     """Display recipe details and handle new comment submission."""
     recipe = get_object_or_404(Recipe, pk=pk)
     comments = recipe.comments.all()

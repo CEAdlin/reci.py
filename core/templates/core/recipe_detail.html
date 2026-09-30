@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Recipe Information -->
+    <div class="recipe-header mb-4">
+        <h1>{{ recipe.title }}</h1>
+        <p class="text-muted">By {{ recipe.author.username }} | {{ recipe.created_at|date:"N j, Y" }}</p>
+        <p>{{ recipe.description }}</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Ingredients</h3>
+            <p style="white-space: pre-line;">{{ recipe.ingredients }}</p>
+        </div>
+        <div class="col-md-6">
+            <h3>Method</h3>
+            <p style="white-space: pre-line;">{{ recipe.method }}</p>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Comments Section -->
+    <section class="comments-section">
+        <h3>Comments ({{ comments.count }})</h3>
+
+        <!-- Display List of Comments -->
+        <div class="comments-list my-3">
+            {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong>{{ comment.author.username }}</strong>
+                        <small class="text-muted">{{ comment.created_at|date:"N j, Y, P" }}</small>
+                    </div>
+                    <p class="card-text">{{ comment.body }}</p>
+
+                    <!-- Only show edit/delete buttons if user is the comment author -->
+                    {% if user.is_authenticated and comment.author == user %}
+                    <div class="comment-actions">
+                        <a href="{% url 'comment_edit' comment.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'comment_delete' comment.pk %}" class="btn btn-sm btn-outline-danger"
+                            onclick="return confirm('Are you sure you want to delete this comment?');">
+                            Delete
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No comments yet. Be the first to share your thoughts!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Comment Form / Authentication Gate -->
+        <div class="comment-form-container mt-4">
+            {% if user.is_authenticated %}
+            <h4>Leave a comment</h4>
+            <form method="post" action="{% url 'recipe_detail' recipe.pk %}">
+                {% csrf_token %}
+
+                {% if comment_form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ comment_form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                    {{ comment_form.body }}
+                    {% if comment_form.body.errors %}
+                    <div class="text-danger small">
+                        {{ comment_form.body.errors.0 }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+            {% else %}
+            <div class="alert alert-info">
+                <a href="{% url 'account_login' %}?next={{ request.path }}">Log in to comment</a>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
