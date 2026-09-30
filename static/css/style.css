@@ -60,3 +60,18 @@ main {
     background-size: cover;
     background-position: 60% 65%;
 }
+
+/* Recipe list cards */
+.recipe-card-img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.recipe-card-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--highlight-colour-light);
+    color: #fff;
+    font-size: 3rem;
+}
