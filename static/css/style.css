@@ -130,6 +130,11 @@ main {
 }
 
 /* Recipe list cards */
+.recipe-toolbar {
+    border: 1px solid rgba(38, 70, 83, 0.15);
+    box-shadow: 0 0.5rem 1.5rem rgba(33, 37, 41, 0.06);
+}
+
 .recipe-card-img {
     height: 200px;
     object-fit: cover;

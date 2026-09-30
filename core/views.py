@@ -1,26 +1,50 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import ProfileForm, RecipeForm
 from django.core.paginator import Paginator
+from django.db.models import Q
+from .forms import ProfileForm, RecipeForm
 from .models import Recipe
 
 
+PUBLIC_RECIPE_STATUSES = [Recipe.Status.APPROVED, Recipe.Status.PUBLISHED]
+
+
 def index(request):
-    """Home page: show approved recipes as cards, 6 per page."""
-    recipes = (
-        Recipe.objects.filter(
-            status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED]
+    """Home page with searchable, filterable, sortable recipe cards."""
+    query = request.GET.get("q", "").strip()
+    difficulty = request.GET.get("difficulty", "")
+    sort = request.GET.get("sort", "newest")
+    recipes = Recipe.objects.filter(
+        status__in=PUBLIC_RECIPE_STATUSES
+    ).select_related("author")
+
+    if query:
+        recipes = recipes.filter(
+            Q(title__icontains=query) | Q(description__icontains=query)
         )
-        .select_related("author")
-        .order_by("-created_at")
-    )
-    paginator = Paginator(recipes, 6)
+    if difficulty in Recipe.Difficulty.values:
+        recipes = recipes.filter(difficulty=difficulty)
+
+    sort_fields = {
+        "newest": "-created_at",
+        "oldest": "created_at",
+        "title": "title",
+        "shortest": "prep_time",
+    }
+    recipes = recipes.order_by(sort_fields.get(sort, "-created_at"))
+    paginator = Paginator(recipes, 9)
     page_obj = paginator.get_page(request.GET.get("page"))
     return render(
         request,
         "core/index.html",
-        {"page_obj": page_obj},
+        {
+            "page_obj": page_obj,
+            "difficulty_choices": Recipe.Difficulty.choices,
+            "selected_difficulty": difficulty,
+            "selected_sort": sort,
+            "search_query": query,
+        },
     )
 
 
@@ -29,7 +53,7 @@ def recipe_detail(request, pk):
     recipe = get_object_or_404(
         Recipe,
         pk=pk,
-        status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED],
+        status__in=PUBLIC_RECIPE_STATUSES,
     )
     ingredients = [
         ingredient.strip()

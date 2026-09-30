@@ -10,14 +10,61 @@
 
 {% block main %}
 <section class="container" aria-labelledby="recipes-heading">
-    <h1 id="recipes-heading">Latest recipes</h1>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+        <div>
+            <p class="text-uppercase text-muted small fw-bold mb-2">The recipe collection</p>
+            <h1 id="recipes-heading" class="mb-0">All recipes</h1>
+        </div>
+        <span class="text-muted">{{ page_obj.paginator.count }} recipes</span>
+    </div>
+
+    <form method="get" class="card recipe-toolbar mb-4" aria-label="Filter and sort recipes">
+        <div class="card-body">
+            <div class="row g-3 align-items-end">
+                <div class="col-12 col-lg-5">
+                    <label class="form-label" for="recipe-search">Search</label>
+                    <input id="recipe-search" name="q" type="search" class="form-control"
+                        value="{{ search_query }}" placeholder="Search by recipe name or description">
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label class="form-label" for="difficulty-filter">Difficulty</label>
+                    <select id="difficulty-filter" name="difficulty" class="form-select">
+                        <option value="">All difficulties</option>
+                        {% for value, label in difficulty_choices %}
+                        <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <label class="form-label" for="recipe-sort">Sort by</label>
+                    <select id="recipe-sort" name="sort" class="form-select">
+                        <option value="newest" {% if selected_sort == "newest" %}selected{% endif %}>Newest</option>
+                        <option value="oldest" {% if selected_sort == "oldest" %}selected{% endif %}>Oldest</option>
+                        <option value="title" {% if selected_sort == "title" %}selected{% endif %}>Title A-Z</option>
+                        <option value="shortest" {% if selected_sort == "shortest" %}selected{% endif %}>Quickest prep</option>
+                    </select>
+                </div>
+                <div class="col-12 col-lg-1 d-grid">
+                    <button type="submit" class="btn btn-primary" aria-label="Apply recipe filters">
+                        <i class="fas fa-sliders-h" aria-hidden="true"></i>
+                        <span class="d-lg-none ms-2">Apply</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for recipe in page_obj %}
         <div class="col">
             <article class="card h-100">
+                {% if recipe.image_url %}
+                <img src="{{ recipe.image_url }}" class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+                {% else %}
                 <div class="card-img-top recipe-card-img recipe-card-placeholder" aria-hidden="true">
                     <i class="fa-solid fa-utensils"></i>
                 </div>
+                {% endif %}
                 <div class="card-body">
                     <h2 class="card-title h5">
                         <a class="stretched-link text-decoration-none" href="{% url 'recipe_detail' recipe.pk %}">
@@ -50,7 +97,7 @@
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
+                <a class="page-link" href="?q={{ search_query|urlencode }}&amp;difficulty={{ selected_difficulty|urlencode }}&amp;sort={{ selected_sort|urlencode }}&amp;page={{ page_obj.previous_page_number }}">&laquo; Previous</a>
             </li>
             {% endif %}
             <li class="page-item disabled">
@@ -58,7 +105,7 @@
             </li>
             {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next &raquo;</a>
+                <a class="page-link" href="?q={{ search_query|urlencode }}&amp;difficulty={{ selected_difficulty|urlencode }}&amp;sort={{ selected_sort|urlencode }}&amp;page={{ page_obj.next_page_number }}">Next &raquo;</a>
             </li>
             {% endif %}
         </ul>

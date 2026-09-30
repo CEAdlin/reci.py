@@ -145,3 +145,31 @@ class RecipeDetailTests(TestCase):
             response,
             reverse("recipe_detail", args=[recipe.pk]),
         )
+
+    def test_homepage_can_filter_by_search_and_difficulty(self):
+        easy_recipe_data = {
+            **self.recipe_data,
+            "title": "Quick tomato tart",
+            "difficulty": Recipe.Difficulty.EASY,
+            "status": Recipe.Status.APPROVED,
+        }
+        hard_recipe_data = {
+            **self.recipe_data,
+            "title": "Chocolate celebration cake",
+            "difficulty": Recipe.Difficulty.HARD,
+            "status": Recipe.Status.APPROVED,
+        }
+        Recipe.objects.create(
+            **easy_recipe_data,
+        )
+        Recipe.objects.create(
+            **hard_recipe_data,
+        )
+
+        response = self.client.get(
+            reverse("index"),
+            {"q": "tomato", "difficulty": Recipe.Difficulty.EASY},
+        )
+
+        self.assertContains(response, "Quick tomato tart")
+        self.assertNotContains(response, "Chocolate celebration cake")
