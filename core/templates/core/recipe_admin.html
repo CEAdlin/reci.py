@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Admin Panel | reci.py{% endblock %}
+
+{% block main %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <p class="text-uppercase text-muted small fw-bold">Share your cooking</p>
+            <h1>Admin Panel</h1>
+            {% if review_recipes %}
+            <p><a href="{% url 'recipe_review' %}">Review pending recipes</a>.</p>
+            {% else %}
+            <p>There are no pending recipes to review.<p>
+            {% endif %}
+            {% if review_comments %}
+            <p><a href="{% url 'comment_review' %}">Review pending comments</a>.</p>
+            {% else %}
+            <p>There are no pending comments to review.<p>
+            {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -92,6 +92,13 @@
             {% for comment in comments %}
             <div class="card mb-3">
                 <div class="card-body">
+                    {#{% if comment.status='pending' %}#}
+                    <form method="post" class="mb-3">
+                        {% csrf_token %}
+                        <button class="btn btn-primary" formaction="{% url 'comment_approve' comment.pk %}">Approve</button>
+                        <button class="btn btn-danger" formaction="{% url 'comment_reject' comment.pk %}">Reject</button>
+                    </form>
+                    {#{% endif %}#}
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <strong>{{ comment.author.username }}</strong>
                         <small class="text-muted">{{ comment.created_at|date:"N j, Y, P" }}</small>
