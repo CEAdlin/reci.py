@@ -9,6 +9,7 @@ class RecipeAdmin(admin.ModelAdmin):
     list_filter = ("status", "difficulty")
     search_fields = ("title",)
 
+
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ("author", "recipe", "body", "approved", "created_at")
