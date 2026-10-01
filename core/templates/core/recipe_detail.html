@@ -24,7 +24,7 @@
                 {% elif recipe.image_url %}
                 <img class="recipe-detail-image card-img-top" src="{{ recipe.image_url }}" alt="{{ recipe.title }}">
                 {% else %}
-                <img class="recipe-detail-image card-img-top" src="{% static 'images/logo-80.png' %}"
+                <img class="recipe-detail-image card-img-top" src="{% static 'images/reci_py_pot.png' %}"
                     alt="{{ recipe.title }}">
                 {% endif %}
             </div>
@@ -47,6 +47,16 @@
                     </div>
                     <p class="text-muted mb-0 mt-auto">By {{ recipe.author.username }} ·
                         {{ recipe.created_at|date:"j F Y" }}</p>
+                    {% if user == recipe.author %}
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'edit_recipe' recipe.pk %}">
+                            <i class="fa-solid fa-pen me-1" aria-hidden="true"></i> Edit recipe
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" href="{% url 'delete_recipe' recipe.pk %}">
+                            <i class="fa-solid fa-trash me-1" aria-hidden="true"></i> Delete recipe
+                        </a>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>

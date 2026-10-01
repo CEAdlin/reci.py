@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head_title %}Not allowed - reci.py{% endblock %}
+
+{% block main %}
+<section class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h1>You can't do that</h1>
+            <p class="lead">You can only edit or delete recipes that you wrote.</p>
+            <a class="btn btn-primary" href="{% url 'index' %}">Return to the home page</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

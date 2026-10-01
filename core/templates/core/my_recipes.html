@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block head_title %}My recipes | reci.py{% endblock %}
+
+{% block main %}
+<section class="container py-5" aria-labelledby="my-recipes-heading">
+    <p class="text-uppercase text-muted small fw-bold">Your kitchen</p>
+    <h1 id="my-recipes-heading">My recipes</h1>
+    <p class="lead mb-4">Everything you've shared. Edit a recipe to fix a mistake, or delete it to remove it for good.
+        Edited recipes go back to an admin for review.</p>
+
+    {% if recipes %}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for recipe in recipes %}
+        <div class="col">
+            <article class="card recipe-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <p class="mb-2">
+                        <span class="recipe-tag status-tag status-{{ recipe.status }}">{{ recipe.get_status_display }}</span>
+                    </p>
+                    <h2 class="card-title h5">
+                        {% if recipe.status == "approved" or recipe.status == "published" %}
+                        <a class="text-decoration-none" href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a>
+                        {% else %}
+                        {{ recipe.title }}
+                        {% endif %}
+                    </h2>
+                    <p class="card-text text-muted small mb-3">Added {{ recipe.created_at|date:"j F Y" }}</p>
+                    <div class="d-flex flex-wrap gap-2 mt-auto">
+                        <a class="btn btn-outline-primary btn-sm" href="{% url 'edit_recipe' recipe.pk %}"
+                            aria-label="Edit {{ recipe.title }}">
+                            <i class="fa-solid fa-pen me-1" aria-hidden="true"></i> Edit
+                        </a>
+                        <a class="btn btn-outline-danger btn-sm" href="{% url 'delete_recipe' recipe.pk %}"
+                            aria-label="Delete {{ recipe.title }}">
+                            <i class="fa-solid fa-trash me-1" aria-hidden="true"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </article>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>You haven't shared any recipes yet.</p>
+    <a class="btn btn-primary" href="{% url 'submit_recipe' %}">Share your first recipe</a>
+    {% endif %}
+</section>
+{% endblock %}

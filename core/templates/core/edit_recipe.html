@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}Edit {{ recipe.title }} | reci.py{% endblock %}
+
+{% block main %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-8">
+            <p class="text-uppercase text-muted small fw-bold">Edit your recipe</p>
+            <h1>{{ recipe.title }}</h1>
+            <p class="lead mb-4">Make your changes and save. Your recipe will be checked by an admin again before it
+                appears on the home page.</p>
+            <form method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="d-flex flex-wrap gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        Save changes <i class="fa-solid fa-floppy-disk ms-2" aria-hidden="true"></i>
+                    </button>
+                    <a class="btn btn-outline-primary" href="{% url 'my_recipes' %}">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

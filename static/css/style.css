@@ -348,6 +348,12 @@ h1 {
 .recipe-tag.tag-medium { background: var(--butter); color: var(--ink); }
 .recipe-tag.tag-hard { background: var(--tomato); color: var(--cream); }
 
+/* Recipe status labels on the My recipes page */
+.status-tag.status-pending { background: #FBEAC2; color: #7A5A0B; }
+.status-tag.status-approved,
+.status-tag.status-published { background: #DDEBD9; color: #2E6419; }
+.status-tag.status-rejected { background: #F6D3CB; color: var(--tomato-dark); }
+
 /* Previous / Next buttons */
 .pagination {
     --bs-pagination-color: var(--tomato);
