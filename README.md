@@ -250,6 +250,27 @@ The following tables are ready for a screenshot to be added to each test case. R
 | Notification page        | Open the notifications page on various devices.                            | Notifications list displays cleanly on all screens.  | ![](docs/screenshots/notification_page.png)      |
 
 
+### Accessibility
+
+Accessibility was tested using Lighthouse and the [WAVE accessibility extension](https://wave.webaim.org/extension/).
+
+All pages have a warning about redundant links because the logo and site name both link to the home page.  This is what users expect.
+
+|Page|WAVE Screenshot|
+|-|-|
+|Home|![](docs/wave/home.png)|
+|Register|![](docs/wave/register.png)|
+|Login|![](docs/wave/login.png)|
+|Recipe Detail|![](docs/wave/recipe.png)|
+|Submit a Recipe|![](docs/wave/submit.png)|
+|Notifications|![](docs/wave/notifications.png)|
+|Edit Recipe|![](docs/wave/edit-recipe.png)|
+|Edit Comment|![](docs/wave/edit-comment.png)|
+|My Recipes|![](docs/wave/my-recipes.png)|
+|Profile|![](docs/wave/profile.png)|
+|Admin|![](docs/wave/admin.png)|
+|Review|![](docs/wave/review.png)|
+
 ### Automated Tests
 
 Install dependencies before running Django commands:
