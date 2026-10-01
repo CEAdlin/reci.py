@@ -5,8 +5,8 @@ from .models import Comment, Recipe
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     """Admin settings for recipes."""
-    list_display = ("title", "author", "status", "created_at")
-    list_filter = ("status", "difficulty")
+    list_display = ("title", "author", "category", "status", "created_at")
+    list_filter = ("status", "category", "difficulty")
     search_fields = ("title",)
 
 

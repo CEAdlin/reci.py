@@ -328,6 +328,128 @@ h1 {
     color: var(--ink);
 }
 
+.recipe-list-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.recipe-toolbar {
+    display: grid;
+    grid-template-columns: minmax(180px, 1.35fr) repeat(3, minmax(135px, 1fr)) auto auto auto;
+    align-items: end;
+    gap: 0.65rem;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
+    background: var(--crust);
+    border: 1px solid var(--butter);
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(43, 33, 24, 0.08);
+    font-family: var(--primary-font);
+}
+
+.recipe-toolbar-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.recipe-toolbar-search {
+    min-width: 0;
+}
+
+.recipe-toolbar label {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.recipe-toolbar input,
+.recipe-toolbar select {
+    width: 100%;
+    min-height: 36px;
+    padding: 0.35rem 0.6rem;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid var(--muted);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 0.88rem;
+}
+
+.recipe-toolbar-check {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 38px;
+    white-space: nowrap;
+}
+
+.recipe-toolbar-check input {
+    min-height: auto;
+}
+
+.recipe-toolbar-submit,
+.recipe-toolbar-reset {
+    min-height: 38px;
+    white-space: nowrap;
+}
+
+.recipe-toolbar-reset {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.35rem;
+    color: var(--tomato);
+    font-weight: 700;
+}
+
+.recipe-toolbar input:focus,
+.recipe-toolbar select:focus {
+    border-color: var(--tomato);
+    box-shadow: 0 0 0 3px rgba(181, 65, 40, 0.18);
+    outline: 0;
+}
+
+@media (max-width: 767.98px) {
+    .recipe-toolbar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .recipe-toolbar-search {
+        grid-column: 1 / -1;
+    }
+
+    .recipe-toolbar-submit,
+    .recipe-toolbar-reset {
+        justify-self: start;
+    }
+}
+
+.recipe-card-actions {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.like-button {
+    padding: 0.2rem 0.45rem;
+    color: var(--tomato);
+    background: transparent;
+    border: 0;
+    font-weight: 700;
+}
+
+.like-button:hover,
+.like-button:focus-visible {
+    color: var(--tomato-dark);
+}
+
 .recipe-card-img {
     height: 170px;
     object-fit: cover;

@@ -46,7 +46,53 @@
 
 {% block main %}
 <section class="container" aria-labelledby="recipes-heading">
-    <h2 id="recipes-heading" class="mb-4">Latest recipes</h2>
+    <div class="recipe-list-heading">
+        <h2 id="recipes-heading" class="mb-0">Recipes</h2>
+        <span class="text-muted">{{ page_obj.paginator.count }} results</span>
+    </div>
+
+    <form class="recipe-toolbar" method="get" action="{% url 'index' %}">
+        <div class="recipe-toolbar-field recipe-toolbar-search">
+            <label for="recipe-name">Name</label>
+            <input id="recipe-name" name="name" type="search" value="{{ selected_name }}"
+                placeholder="Search recipes">
+        </div>
+        <div class="recipe-toolbar-field">
+            <label for="recipe-sort">Sort by</label>
+            <select id="recipe-sort" name="sort">
+                <option value="date" {% if selected_sort == "date" %}selected{% endif %}>Date (newest first)</option>
+                <option value="name" {% if selected_sort == "name" %}selected{% endif %}>Name (A-Z)</option>
+                <option value="likes" {% if selected_sort == "likes" %}selected{% endif %}>Most liked</option>
+            </select>
+        </div>
+        <div class="recipe-toolbar-field">
+            <label for="recipe-category">Category</label>
+            <select id="recipe-category" name="category">
+                <option value="">All categories</option>
+                {% for value, label in categories %}
+                <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="recipe-toolbar-field">
+            <label for="recipe-difficulty">Difficulty</label>
+            <select id="recipe-difficulty" name="difficulty">
+                <option value="">All difficulty levels</option>
+                {% for value, label in difficulties %}
+                <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% if user.is_authenticated %}
+        <label class="recipe-toolbar-check" for="liked-only">
+            <input id="liked-only" name="liked" value="1" type="checkbox" {% if liked_only %}checked{% endif %}>
+            My liked
+        </label>
+        {% endif %}
+        <button class="btn btn-primary recipe-toolbar-submit" type="submit">Apply</button>
+        <a class="recipe-toolbar-reset" href="{% url 'index' %}">Reset</a>
+    </form>
+
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for recipe in page_obj %}
         <div class="col">
@@ -77,6 +123,21 @@
                             {{ recipe.get_difficulty_display }}
                         </li>
                     </ul>
+                    <div class="recipe-card-actions">
+                        <span class="recipe-tag">{{ recipe.get_category_display }}</span>
+                        {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'toggle_recipe_like' recipe.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                            <button class="like-button" type="submit" aria-label="{% if user in recipe.liked_by.all %}Unlike{% else %}Like{% endif %} {{ recipe.title }}">
+                                <i class="fa-{% if user in recipe.liked_by.all %}solid{% else %}regular{% endif %} fa-heart" aria-hidden="true"></i>
+                                {{ recipe.like_count }}
+                            </button>
+                        </form>
+                        {% else %}
+                        <span class="recipe-tag"><i class="fa-regular fa-heart" aria-hidden="true"></i> {{ recipe.like_count }}</span>
+                        {% endif %}
+                    </div>
                 </div>
             </article>
         </div>
@@ -92,7 +153,7 @@
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}#recipes-heading">&laquo; Previous</a>
+                <a class="page-link" href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.previous_page_number }}#recipes-heading">&laquo; Previous</a>
             </li>
             {% endif %}
             <li class="page-item disabled">
@@ -100,7 +161,7 @@
             </li>
             {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}#recipes-heading">Next &raquo;</a>
+                <a class="page-link" href="?{% if query_string %}{{ query_string }}&amp;{% endif %}page={{ page_obj.next_page_number }}#recipes-heading">Next &raquo;</a>
             </li>
             {% endif %}
         </ul>

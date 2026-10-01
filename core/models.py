@@ -4,6 +4,15 @@ from django.db import models
 
 
 class Recipe(models.Model):
+    class Category(models.TextChoices):
+        BREAKFAST = "breakfast", "Breakfast"
+        LUNCH = "lunch", "Lunch"
+        DINNER = "dinner", "Dinner"
+        DESSERT = "dessert", "Dessert"
+        SNACK = "snack", "Snack"
+        DRINK = "drink", "Drink"
+        OTHER = "other", "Other"
+
     class Difficulty(models.TextChoices):
         EASY = "easy", "Easy"
         MEDIUM = "medium", "Medium"
@@ -20,6 +29,11 @@ class Recipe(models.Model):
         on_delete=models.CASCADE,
         related_name="recipes"
     )
+    liked_by = models.ManyToManyField(
+        User,
+        related_name="liked_recipes",
+        blank=True,
+    )
     title = models.CharField(max_length=200, unique=True)
     image = models.ImageField(upload_to="recipes/", blank=True, null=True)
     image_url = models.URLField(blank=True)
@@ -34,6 +48,11 @@ class Recipe(models.Model):
     cook_time = models.PositiveIntegerField(
         verbose_name="Cook time (minutes)",
         validators=[MinValueValidator(1)],
+    )
+    category = models.CharField(
+        max_length=10,
+        choices=Category.choices,
+        default=Category.OTHER,
     )
     difficulty = models.CharField(max_length=10, choices=Difficulty.choices)
     status = models.CharField(
