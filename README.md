@@ -216,6 +216,21 @@ The following tables are ready for a screenshot to be added to each test case. R
 | Profile and notifications | Update an email address and mark a notification as read. | The profile saves and the notification is removed from the unread list. | `[Screenshot placeholder: feature 8]` |
 | Responsive layout | Test the homepage, forms, detail page, and inbox at desktop, tablet, and mobile widths. | Content stacks correctly without horizontal scrolling or distorted images. | `[Screenshot placeholder: feature 9]` |
 
+
+### Performance and Responsiveness
+
+| Feature                  | Test steps                                                                 | Expected result                                      | Screenshot                  |
+|--------------------------|----------------------------------------------------------------------------|------------------------------------------------------|-----------------------------|
+| Am I responsive          | Resize the browser window or use device emulation to test multiple breakpoints. | Layout adapts correctly on desktop, tablet, and mobile. | ![](docs/screenshots/responsive.png)             |
+| Home page                | Load the homepage on different screen sizes.                               | All content is visible and properly aligned.         | ![](docs/screenshots/home_page.png)              |
+| Recipe page              | Open a recipe detail page on various screen widths.                        | Recipe content, images, and comments display correctly. | ![](docs/screenshots/recipe_page.png)            |
+| Sign up page             | View the sign-up form on desktop, tablet, and mobile.                      | Form fields and buttons are responsive and usable.   | ![](docs/screenshots/sign_up_page.png)           |
+| Sign in page             | View the sign-in form on multiple devices.                                 | Form layout and validation work correctly.           | ![](docs/screenshots/sign_in_page.png)           |
+| Profile page             | Open the user profile on different screen sizes.                           | Profile information and actions are accessible.      | ![](docs/screenshots/profile_page.png)           |
+| My recipe page           | View the “My Recipes” page on desktop and mobile.                          | Recipe list and management buttons respond well.     | ![](docs/screenshots/my_recipe_page.png)         |
+| Notification page        | Open the notifications page on various devices.                            | Notifications list displays cleanly on all screens.  | ![](docs/screenshots/notification_page.png)      |
+
+
 ### Automated Tests
 
 Install dependencies before running Django commands:
