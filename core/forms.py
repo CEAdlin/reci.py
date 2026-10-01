@@ -45,6 +45,7 @@ class RecipeForm(forms.ModelForm):
             "cook_time": forms.NumberInput(attrs={"min": 1}),
         }
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment

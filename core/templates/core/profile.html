@@ -11,12 +11,57 @@
             <h1>Profile</h1>
             <p>You are logged in as <strong>{{ user.username }}</strong>.</p>
             <p><button id="signoutButton" class="btn btn-primary">Sign Out</button></p>
-            <h1>Edit Details</h1>
+
+            <h2>Edit Details</h2>
+
             <form method="post">
                 {% csrf_token %}
                 {{ form | crispy }}
                 <button id="submitButton" type="submit" class="btn btn-primary" disabled>Submit</button>
             </form>
+
+            <hr class="my-5">
+
+            <h2>My Published Recipes</h2>
+
+            {% if user_recipes %}
+                <div class="row">
+                    {% for recipe in user_recipes %}
+                        <div class="col-12 col-md-6 mb-4">
+                            <div class="card h-100">
+
+                                {% if recipe.image %}
+                                    <img
+                                        src="{{ recipe.image.url }}"
+                                        class="card-img-top"
+                                        alt="{{ recipe.title }}"
+                                    >
+                                {% endif %}
+
+                                <div class="card-body d-flex flex-column">
+                                    <h3 class="card-title h5">
+                                        {{ recipe.title }}
+                                    </h3>
+
+                                    <p class="card-text">
+                                        {{ recipe.description }}
+                                    </p>
+
+                                    <a
+                                        href="{% url 'recipe_detail' recipe.pk %}"
+                                        class="btn btn-primary mt-auto"
+                                    >
+                                        View Recipe
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>You have not published any recipes yet.</p>
+            {% endif %}
         </div>
     </div>
 </section>

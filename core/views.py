@@ -30,8 +30,12 @@ def index(request):
 
 @login_required
 def profile(request):
-    """View for the profile page"""
+    """
+    View for the profile page.
 
+    Displays the logged-in user's username and published recipes.
+    Allows the user to update their own email address with validation.
+    """
     if request.method == "POST":
         form = ProfileForm(data=request.POST)
         if form.is_valid():
@@ -41,15 +45,26 @@ def profile(request):
                 request, messages.SUCCESS,
                 f'Email address changed to {request.user.email}'
             )
+            return redirect("profile")
 
     else:
         form = ProfileForm(initial={"email": request.user.email})
+
+    # Fetch only published recipes belonging to the currently logged-in user
+    user_recipes = Recipe.objects.filter(
+        author=request.user,
+        status__in=[
+            Recipe.Status.APPROVED,
+            Recipe.Status.PUBLISHED,
+        ],
+    ).order_by("-created_at")
 
     return render(
         request,
         "core/profile.html",
         {
             "form": form,
+            "user_recipes": user_recipes,
         }
     )
 
@@ -79,6 +94,7 @@ def submit_recipe(request):
         form = RecipeForm()
 
     return render(request, "core/submit_recipe.html", {"form": form})
+
 
 # ==========================================
 # MY RECIPES: EDIT AND DELETE (USER STORY #9)
@@ -179,10 +195,10 @@ def notifications_inbox(request):
 
     # Get all unread notifications for this user
     unread_notifications = request.user.notifications.unread()
-    
+
     return render(
-        request, 
-        "core/notifications.html", 
+        request,
+        "core/notifications.html",
         {"notifications": unread_notifications}
     )
 
