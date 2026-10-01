@@ -212,11 +212,11 @@ h1 {
 
 /* On tablets, laptops and desktops (logo beside the text), shrink the logo on short screens so the whole
    pot and "Reci.py" wordmark fit above the fold instead of being cut off.
-   The logo is about 1.13 times taller than it is wide; 190px leaves room
+   The logo is about 1.16 times taller than it is wide; 190px leaves room
    for the navbar and the hero's padding. */
 @media (min-width: 768px) {
     .hero-art {
-        max-width: min(440px, max(260px, calc((100vh - 190px) / 1.13)));
+        max-width: min(440px, max(260px, calc((100vh - 190px) / 1.16)));
     }
 }
 

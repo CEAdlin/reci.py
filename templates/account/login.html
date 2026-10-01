@@ -1,0 +1,19 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n crispy_forms_tags %}
+
+{% block head_title %}Sign in | reci.py{% endblock head_title %}
+
+{% block content %}
+<p class="auth-eyebrow">&gt;&gt;&gt; login()</p>
+<h1 class="auth-title">Welcome back</h1>
+<p class="auth-intro">Sign in to share recipes, leave comments and check your notifications.</p>
+
+<form method="post" action="{% url 'account_login' %}" class="auth-form" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+    {{ redirect_field }}
+    <button type="submit" class="btn btn-primary btn-lg w-100 mt-2">Sign in</button>
+</form>
+
+<p class="auth-switch">New to reci.py? <a href="{{ signup_url }}">Create an account</a></p>
+{% endblock content %}
