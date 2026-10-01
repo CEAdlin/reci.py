@@ -210,6 +210,16 @@ h1 {
     text-align: center;
 }
 
+/* On tablets, laptops and desktops (logo beside the text), shrink the logo on short screens so the whole
+   pot and "Reci.py" wordmark fit above the fold instead of being cut off.
+   The logo is about 1.13 times taller than it is wide; 190px leaves room
+   for the navbar and the hero's padding. */
+@media (min-width: 768px) {
+    .hero-art {
+        max-width: min(440px, max(260px, calc((100vh - 190px) / 1.13)));
+    }
+}
+
 /* The pot and the "Reci.py" words are two images so only the pot moves */
 .pot-wrap {
     position: relative;
@@ -279,14 +289,18 @@ h1 {
     }
 }
 
+/* The sticker stays on one line and shrinks with the logo,
+   so it never wraps and covers the pot on smaller screens */
 .hero-sticker {
     position: absolute;
-    top: 8px;
-    left: 0;
+    top: 0;
+    left: -6px;
     background: var(--butter);
     color: var(--ink);
     font-weight: 700;
-    padding: 10px 16px;
+    font-size: clamp(0.7rem, 1.6vw, 1rem);
+    white-space: nowrap;
+    padding: 0.5em 1em;
     border-radius: 999px;
     transform: rotate(-6deg);
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
@@ -374,17 +388,25 @@ h1 {
     padding: 24px 0;
 }
 
-.site-footer .social-links a {
-    color: #F8EDE3;
-    margin-left: 15px;
-    font-size: 1.2rem;
-    transition: color 0.2s ease;
+/* Team GitHub links */
+.site-footer .team-credits {
+    font-size: 0.9rem;
+    color: #D9C9B6;
 }
 
-.site-footer .social-links a:hover,
-.site-footer .social-links a:focus {
-    color: var(--butter);
+.site-footer .team-credits a {
+    color: #F8EDE3;
+    font-family: var(--code-font);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(248, 237, 227, 0.4);
 }
+
+.site-footer .team-credits a:hover,
+.site-footer .team-credits a:focus {
+    color: var(--butter);
+    border-bottom-color: var(--butter);
+}
+
 
 /* ==========================================
    LAYOUT STRUCTURES
@@ -399,6 +421,93 @@ h1 {
 
 main {
     margin-bottom: 33px;
+}
+
+/* ==========================================
+   FORMS (every page) AND ACCOUNT PAGES
+   ========================================== */
+.form-label {
+    font-weight: 500;
+}
+
+.form-control,
+.form-select {
+    border: 1.5px solid #DCCBB7;
+    border-radius: 10px;
+    padding: 0.65rem 0.85rem;
+    background-color: #fff;
+}
+
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: var(--tomato);
+    box-shadow: 0 0 0 0.2rem rgba(181, 65, 43, 0.18);
+}
+
+.form-check-input:checked {
+    background-color: var(--tomato);
+    border-color: var(--tomato);
+}
+
+.form-text,
+.form-text li {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.asteriskField {
+    color: var(--tomato);
+    margin-left: 2px;
+}
+
+.invalid-feedback {
+    color: var(--tomato-dark);
+}
+
+.auth-card {
+    background: #fff;
+    border: 1px solid var(--crust);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 1rem 2.5rem rgba(43, 33, 24, 0.08);
+}
+
+@media (min-width: 576px) {
+    .auth-card {
+        padding: 2.5rem 2.5rem 2rem;
+    }
+}
+
+.auth-eyebrow {
+    font-family: var(--code-font);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--basil);
+    margin-bottom: 0.5rem;
+}
+
+.auth-card h1,
+.auth-title {
+    font-size: 2.1rem;
+    padding: 0;
+    margin-bottom: 0.5rem;
+}
+
+.auth-intro {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+}
+
+.auth-switch {
+    text-align: center;
+    margin: 1.5rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--crust);
+}
+
+.auth-switch a {
+    font-weight: 700;
 }
 
 /* ==========================================
