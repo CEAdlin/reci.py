@@ -3,29 +3,93 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
+from django.db.models import Count
+from django.utils.http import url_has_allowed_host_and_scheme
 from .forms import CommentForm, ProfileForm, RecipeForm
 from .models import Comment, Recipe
 from notifications.signals import notify
 
 
 def index(request):
-    """Home page: show approved recipes as cards, 6 per page."""
+    """Show public recipes with sorting and filtering controls."""
     recipes = (
         Recipe.objects.filter(
             status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED]
         )
         .select_related("author")
-        .order_by("-created_at")
+        .annotate(like_count=Count("liked_by", distinct=True))
     )
+
+    name = request.GET.get("name", "").strip()
+    category = request.GET.get("category", "")
+    difficulty = request.GET.get("difficulty", "")
+    sort = request.GET.get("sort", "date")
+    liked = request.GET.get("liked") == "1"
+
+    if name:
+        recipes = recipes.filter(title__icontains=name)
+    if category in dict(Recipe.Category.choices):
+        recipes = recipes.filter(category=category)
+    if difficulty in dict(Recipe.Difficulty.choices):
+        recipes = recipes.filter(difficulty=difficulty)
+    if liked and request.user.is_authenticated:
+        recipes = recipes.filter(liked_by=request.user)
+
+    sort_fields = {
+        "name": "title",
+        "date": "-created_at",
+        "likes": "-like_count",
+    }
+    recipes = recipes.order_by(sort_fields.get(sort, "-created_at"), "title")
+
     paginator = Paginator(recipes, 6)
     page_obj = paginator.get_page(request.GET.get("page"))
+    query_params = request.GET.copy()
+    query_params.pop("page", None)
     return render(
         request,
         "core/index.html",
-        {"page_obj": page_obj},
+        {
+            "page_obj": page_obj,
+            "categories": Recipe.Category.choices,
+            "difficulties": Recipe.Difficulty.choices,
+            "selected_name": name,
+            "selected_category": category,
+            "selected_difficulty": difficulty,
+            "selected_sort": sort if sort in sort_fields else "date",
+            "liked_only": liked and request.user.is_authenticated,
+            "query_string": query_params.urlencode(),
+        },
     )
+
+
+@login_required
+def toggle_recipe_like(request, pk):
+    """Toggle the current user's like and return to the recipe list."""
+    if request.method != "POST":
+        raise ValidationError("Likes must be changed with POST.")
+
+    recipe = get_object_or_404(
+        Recipe,
+        pk=pk,
+        status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED],
+    )
+    if recipe.liked_by.filter(pk=request.user.pk).exists():
+        recipe.liked_by.remove(request.user)
+    else:
+        recipe.liked_by.add(request.user)
+
+    next_url = request.POST.get("next", "")
+    if not url_has_allowed_host_and_scheme(
+        next_url,
+        allowed_hosts={request.get_host()},
+        require_https=request.is_secure(),
+    ):
+        next_url = reverse("index")
+    return redirect(next_url)
 
 
 @login_required

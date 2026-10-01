@@ -328,6 +328,100 @@ h1 {
     color: var(--ink);
 }
 
+.recipe-list-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.recipe-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background: var(--crust);
+    border: 1px solid var(--butter);
+    border-radius: 12px;
+}
+
+.recipe-toolbar-field {
+    display: flex;
+    flex: 1 1 150px;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.recipe-toolbar-search {
+    flex-basis: 220px;
+}
+
+.recipe-toolbar label {
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.recipe-toolbar input,
+.recipe-toolbar select {
+    min-height: 38px;
+    padding: 0.45rem 0.65rem;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid var(--muted);
+    border-radius: 6px;
+}
+
+.recipe-toolbar-check {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 38px;
+    white-space: nowrap;
+}
+
+.recipe-toolbar-check input {
+    min-height: auto;
+}
+
+.recipe-toolbar-submit,
+.recipe-toolbar-reset {
+    min-height: 38px;
+}
+
+.recipe-toolbar-reset {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.35rem;
+    color: var(--tomato);
+    font-weight: 700;
+}
+
+.recipe-card-actions {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.like-button {
+    padding: 0.2rem 0.45rem;
+    color: var(--tomato);
+    background: transparent;
+    border: 0;
+    font-weight: 700;
+}
+
+.like-button:hover,
+.like-button:focus-visible {
+    color: var(--tomato-dark);
+}
+
 .recipe-card-img {
     height: 170px;
     object-fit: cover;

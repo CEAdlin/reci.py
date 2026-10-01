@@ -30,13 +30,13 @@ reci.py is a Django recipe website where visitors can discover public recipes an
 
 ### Wireframes
 
-> **Screenshot placeholder:** Add wireframes for the homepage, recipe detail page, submission form, profile, notifications, and staff review pages.
+![Wire-Frames](docs\wireframes.png)
 
 ### Agile Methodology
 
 Development was organised around small user stories and acceptance criteria. Features were tested as they were implemented, with priority given to recipe discovery, authenticated submission, moderation, comments, and notifications.
 
-> **Screenshot placeholder:** Add a screenshot of the project board or sprint planning.
+> ![Project Board](docs\project_board.png)
 
 ### Typography
 
@@ -44,7 +44,7 @@ Development was organised around small user stories and acceptance criteria. Fea
 * **Fraunces** is used for headings.
 * **JetBrains Mono** is available for code-style details.
 
-> **Screenshot placeholder:** Add a screenshot showing the typography in the application.
+>![Fonts used](docs\fonts_used.png)
 
 ### Colour Scheme
 
@@ -56,7 +56,7 @@ Development was organised around small user stories and acceptance criteria. Fea
 * **Crust (`#F3EED0`)**: Soft panels, borders, and secondary surfaces.
 * **Muted (`#6B5B4E`)**: Secondary text.
 
-> ![Colour pallet](docs\Reci.pe Colour Palette.png)
+> ![Colour pallet](docs\recipe-colour-pallet.png)
 
 ### Database Diagram
 

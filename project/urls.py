@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', core_views.index, name='index'),
     path('recipes/<int:pk>/', core_views.recipe_detail, name='recipe_detail'),
+     path('recipes/<int:pk>/like/', core_views.toggle_recipe_like, name='toggle_recipe_like'),
     path('profile', core_views.profile, name='profile'),
     path('recipes/submit/', core_views.submit_recipe, name='submit_recipe'),
     # My recipes: edit and delete (user story #9)

@@ -10,6 +10,11 @@ class ProfileForm(forms.Form):
 
 
 class RecipeForm(forms.ModelForm):
+    category = forms.ChoiceField(
+        choices=Recipe.Category.choices,
+        required=False,
+    )
+
     class Meta:
         model = Recipe
         fields = [
@@ -17,6 +22,7 @@ class RecipeForm(forms.ModelForm):
             "image",
             "image_url",
             "description",
+            "category",
             "ingredients",
             "method",
             "servings",
@@ -36,6 +42,7 @@ class RecipeForm(forms.ModelForm):
         }
         widgets = {
             "description": forms.Textarea(attrs={"rows": 3}),
+            "category": forms.Select(),
             "ingredients": forms.Textarea(
                 attrs={
                     "rows": 6,
@@ -48,6 +55,8 @@ class RecipeForm(forms.ModelForm):
             "cook_time": forms.NumberInput(attrs={"min": 1}),
         }
 
+    def clean_category(self):
+        return self.cleaned_data.get("category") or Recipe.Category.OTHER
 
 class CommentForm(forms.ModelForm):
     class Meta:
