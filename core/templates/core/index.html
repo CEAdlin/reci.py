@@ -27,12 +27,16 @@
             <div class="col-12 col-md-5">
                 <div class="hero-art">
                     <div class="pot-wrap">
-                        <span class="steam steam-1" aria-hidden="true"></span>
-                        <span class="steam steam-2" aria-hidden="true"></span>
-                        <span class="steam steam-3" aria-hidden="true"></span>
                         <img class="hero-pot" src="{% static 'images/reci_py_pot.png' %}"
                             alt="A cooking pot full of vegetables with a code symbol on the front"
                             width="450" height="425">
+                        {# The three green steam wisps wiggle like worms: each one is cut into thin
+                           strips that sway one after another, so a wave travels up the steam #}
+                        {% for wisp in "123" %}
+                        <div class="wisp wisp-{{ wisp }}" aria-hidden="true">
+                            {% for strip in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN" %}<span style="--i: {{ forloop.counter0 }}"></span>{% endfor %}
+                        </div>
+                        {% endfor %}
                     </div>
                     <img class="hero-wordmark" src="{% static 'images/reci_py_wordmark.png' %}"
                         alt="Reci.py – Simple recipes, healthy meals, for coders" width="618" height="286">
