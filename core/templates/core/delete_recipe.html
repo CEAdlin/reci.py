@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head_title %}Delete {{ recipe.title }} | reci.py{% endblock %}
+
+{% block main %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-7">
+            <div class="card recipe-card">
+                <div class="card-body p-4">
+                    <p class="text-uppercase text-muted small fw-bold">Delete recipe</p>
+                    <h1 class="h2 pt-0">Delete "{{ recipe.title }}"?</h1>
+                    <p>This will permanently remove the recipe and all of its comments. You can't undo this.</p>
+                    <form method="post" class="d-flex flex-wrap gap-2 mt-4">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fa-solid fa-trash me-1" aria-hidden="true"></i> Yes, delete it
+                        </button>
+                        <a class="btn btn-outline-primary" href="{% url 'my_recipes' %}">No, keep it</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

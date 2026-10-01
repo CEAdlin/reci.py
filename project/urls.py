@@ -27,6 +27,12 @@ urlpatterns = [
     path('recipes/<int:pk>/', core_views.recipe_detail, name='recipe_detail'),
     path('profile', core_views.profile, name='profile'),
     path('recipes/submit/', core_views.submit_recipe, name='submit_recipe'),
+    # My recipes: edit and delete (user story #9)
+    path('my-recipes/', core_views.my_recipes, name='my_recipes'),
+    path('recipes/<int:pk>/edit/', core_views.edit_recipe,
+         name='edit_recipe'),
+    path('recipes/<int:pk>/delete/', core_views.delete_recipe,
+         name='delete_recipe'),
     # Notifications Integration
     path('inbox/notifications/', include('notifications.urls',namespace='notifications')),
     path('inbox/', core_views.notifications_inbox, name='notifications_inbox'),
