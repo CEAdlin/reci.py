@@ -30,8 +30,6 @@
                         <img class="hero-pot" src="{% static 'images/reci_py_pot.png' %}"
                             alt="A cooking pot full of vegetables with a code symbol on the front"
                             width="450" height="425">
-                        {# The three green steam wisps wiggle like worms: each one is cut into thin
-                           strips that sway one after another, so a wave travels up the steam #}
                         {% for wisp in "123" %}
                         <div class="wisp wisp-{{ wisp }}" aria-hidden="true">
                             {% for strip in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMN" %}<span style="--i: {{ forloop.counter0 }}"></span>{% endfor %}
