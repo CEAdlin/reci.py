@@ -104,6 +104,18 @@ h1 {
     --bs-btn-hover-border-color: #2E6419;
 }
 
+/* With our background the default text fails accessibility */
+.btn-outline-secondary {
+    --bs-btn-color: #333;
+}
+
+/* To help prevent wrapping between font-awesome icons and surrounding text,
+   particularly in buttons
+*/
+.fas {
+    display:inline;
+}
+
 /* ==========================================
    NAVIGATION BAR
    ========================================== */
