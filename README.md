@@ -4,6 +4,8 @@
 
 reci.py is a Django recipe website where visitors can discover public recipes and registered users can submit recipes, comment, and receive updates about the review process.
 
+![](docs/screenshots/responsive.png)
+
 ## Contents
 
 1. [Design & Planning](#design--planning)
@@ -44,7 +46,7 @@ Development was organised around small user stories and acceptance criteria. Fea
 * **Fraunces** is used for headings.
 * **JetBrains Mono** is available for code-style details.
 
->![Fonts used](docs\fonts_used.png)
+>![Fonts used](docs/fonts_used.png)
 
 ### Colour Scheme
 
@@ -56,7 +58,7 @@ Development was organised around small user stories and acceptance criteria. Fea
 * **Crust (`#F3EED0`)**: Soft panels, borders, and secondary surfaces.
 * **Muted (`#6B5B4E`)**: Secondary text.
 
-> ![Colour pallet](docs\recipe-colour-pallet.png)
+> ![Colour pallet](docs/recipe-colour-pallet.png)
 
 ### Branding
 
@@ -116,65 +118,71 @@ Recipe statuses are `pending`, `approved`, `published`, and `rejected`. New subm
 
 The responsive navigation provides links to Home, Register, Login, Profile, Submit recipe, Notifications, and the staff Admin area when appropriate. The mobile menu collapses using Bootstrap.
 
-> **Screenshot placeholder:** Add a navigation screenshot.
+> **Screenshot:** ![Navigation](docs/features/feat_nav.png)
 
 ### Footer
 
 The footer contains the team attribution and social media links, including the project GitHub repository.
 
-> **Screenshot placeholder:** Add a footer screenshot.
+> **Screenshot:** ![Footer](docs/features/feat_footer.png)
 
 ### Home Page
 
 The homepage displays approved and published recipes in responsive cards. Visitors can search by title or description, filter by difficulty, sort by date, title, or preparation time, and use pagination.
 
-> **Screenshot placeholder:** Add a homepage screenshot.
+> **Screenshot:** ![Home](docs/features/feat_home.png)
 
 ### Recipe Detail Page
 
 Each public recipe shows its image, description, servings, preparation and cooking times, ingredients, numbered method, author, date, and approved comments.
 
-> **Screenshot placeholder:** Add a recipe detail screenshot.
+> **Screenshot:** ![Recipe detail](docs/features/feat_recipe_deets.png)
 
 ### Submit Recipe
 
 Authenticated users can submit recipe details, an optional uploaded image, or an image URL. Required fields, positive numeric values, and unique recipe titles are validated. New recipes are stored as `pending`.
 
-> **Screenshot placeholder:** Add a submit recipe screenshot.
+> **Screenshot:** ![Submit recipe](docs/features/feat_recipe_sub.png)
 
 ### Profile
 
 Authenticated users can view their profile and update their email address.
 
-> **Screenshot placeholder:** Add a profile screenshot.
+> **Screenshot:** ![Profile](docs/features/feat_profile.png)
 
 ### Notifications
 
 Authenticated users receive notifications for recipe submission, approval, rejection, and comments. The navigation displays an unread badge, and notifications can be marked as read from the inbox.
 
-> **Screenshot placeholder:** Add a notifications screenshot.
+> **Screenshot:** ![Notification](docs/features/feat_notify.png)
 
 ### Comments
 
 Authenticated users can comment on public recipes. Comment authors can edit or delete their own comments, and ownership checks protect these actions.
 
-> **Screenshot placeholder:** Add a comments screenshot.
+> **Screenshot:** ![Comments](docs/features/feat_comments.png)
 
 ### CRUD
 
 * **Create**: Registered users create recipes and comments.
+![Create](docs/crud/crud_create.png)
 * **Read**: Visitors read public recipes and approved comments.
-* **Update**: Users update their profile email and their own comments.
+![alt text](docs/crud/crud_read.png)
+* **Update**: Users update their profile email and their own recipe's.
 * **Delete**: Users delete their own comments.
-* **Moderate**: Staff approve or reject pending recipes and comments.
 
-> **Screenshot placeholder:** Add screenshots demonstrating the CRUD and moderation flows.
+![alt text](docs/crud/crud_update_delete.png)
+
+
+* **Moderate**: Staff approve or reject pending recipes and comments.
+![alt text](docs/crud/crud_mod.png)
+
 
 ### Authentication & Authorisation
 
 Django Allauth provides registration and login. Login protection is applied to user-only pages, staff-only review pages require staff status, and comment edit/delete actions require ownership.
 
-> **Screenshot placeholder:** Add registration, login, and staff authorisation screenshots.
+
 
 ## Technologies Used
 
@@ -241,6 +249,27 @@ The following tables are ready for a screenshot to be added to each test case. R
 | My recipe page           | View the “My Recipes” page on desktop and mobile.                          | Recipe list and management buttons respond well.     | ![](docs/screenshots/my_recipe_page.png)         |
 | Notification page        | Open the notifications page on various devices.                            | Notifications list displays cleanly on all screens.  | ![](docs/screenshots/notification_page.png)      |
 
+
+### Accessibility
+
+Accessibility was tested using Lighthouse and the [WAVE accessibility extension](https://wave.webaim.org/extension/).
+
+All pages have a warning about redundant links because the logo and site name both link to the home page.  This is what users expect.
+
+|Page|WAVE Screenshot|
+|-|-|
+|Home|![](docs/wave/home.png)|
+|Register|![](docs/wave/register.png)|
+|Login|![](docs/wave/login.png)|
+|Recipe Detail|![](docs/wave/recipe.png)|
+|Submit a Recipe|![](docs/wave/submit.png)|
+|Notifications|![](docs/wave/notifications.png)|
+|Edit Recipe|![](docs/wave/edit-recipe.png)|
+|Edit Comment|![](docs/wave/edit-comment.png)|
+|My Recipes|![](docs/wave/my-recipes.png)|
+|Profile|![](docs/wave/profile.png)|
+|Admin|![](docs/wave/admin.png)|
+|Review|![](docs/wave/review.png)|
 
 ### Automated Tests
 

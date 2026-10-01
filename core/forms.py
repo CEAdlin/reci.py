@@ -58,6 +58,7 @@ class RecipeForm(forms.ModelForm):
     def clean_category(self):
         return self.cleaned_data.get("category") or Recipe.Category.OTHER
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -68,6 +69,7 @@ class CommentForm(forms.ModelForm):
                     "class": "form-control",
                     "rows": 3,
                     "placeholder": "Write a comment...",
+                    "aria-label": "Comment text",
                 }
             ),
         }
