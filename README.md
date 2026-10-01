@@ -4,6 +4,8 @@
 
 reci.py is a Django recipe website where visitors can discover public recipes and registered users can submit recipes, comment, and receive updates about the review process.
 
+![](docs/screenshots/responsive.png)
+
 ## Contents
 
 1. [Design & Planning](#design--planning)
