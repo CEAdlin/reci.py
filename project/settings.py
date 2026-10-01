@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'notifications',
+    'cloudinary',
     'core',
 ]
 
@@ -199,6 +200,8 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 STORAGES = {
+    # Uploaded images: Cloudinary when CLOUDINARY_URL is set (see below),
+    # otherwise the local media/ folder
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
@@ -207,6 +210,17 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+# Cloudinary stores uploaded recipe images permanently.
+# Heroku deletes uploaded files whenever the app restarts (about once a day),
+# so in production images must live somewhere else.
+# CLOUDINARY_URL comes from the Cloudinary dashboard. It goes in .env locally
+# and in Heroku Config Vars - never in the code.
+# Tests always use local storage so they never upload to Cloudinary.
+if os.getenv('CLOUDINARY_URL') and 'test' not in sys.argv:
+    STORAGES["default"] = {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    }
 
 # The location of the W3C validator used for testing
 VALIDATOR_DIR = BASE_DIR / "fixtures"
