@@ -192,7 +192,7 @@ def notifications_inbox(request):
 # ==========================================
 
 
-def get_recipe_detail_context(recipe):
+def get_recipe_detail_context(user, recipe):
     """
     Get the context for displaying recipe detail.  This is also used
     for displaying recipes for review.
@@ -207,11 +207,16 @@ def get_recipe_detail_context(recipe):
         for step in recipe.method.splitlines()
         if step.strip()
     ]
+    comments = recipe.comments.order_by("-created_at")
+    if not user.is_staff:
+        comments = \
+            comments.filter(approved=True) | comments.filter(author=user.id)
+
     return {
         "recipe": recipe,
         "ingredients": ingredients,
         "method_steps": method_steps,
-        "comments": recipe.comments.all(),
+        "comments": comments,
         "comment_form": CommentForm(),
     }
 
@@ -223,8 +228,7 @@ def recipe_detail(request, pk):
         pk=pk,
         status__in=[Recipe.Status.APPROVED, Recipe.Status.PUBLISHED],
     )
-    context = get_recipe_detail_context(recipe)
-    comments = recipe.comments.filter(approved=True).order_by("-created_at")
+    context = get_recipe_detail_context(request.user, recipe)
     comment_form = context["comment_form"]
 
     if request.method == "POST":
@@ -312,7 +316,7 @@ def recipe_admin(request):
     pending_recipe = \
         Recipe.objects.filter(status=Recipe.Status.PENDING).first()
     pending_comment = \
-        Comment.objects.first()  # filter(status=Recipe.Status.PENDING).first()
+        Comment.objects.filter(approved=False).first()
 
     return render(
         request,
@@ -334,7 +338,7 @@ def recipe_review(request):
     if pending is None:
         return HttpResponseRedirect(reverse('recipe_admin'))
     else:
-        context = get_recipe_detail_context(pending)
+        context = get_recipe_detail_context(request.user, pending)
         context["approval"] = True
         return render(request, "core/recipe_detail.html", context)
 
@@ -345,12 +349,11 @@ def comment_review(request):
     Allow the admin to approve or deny comments.
     Each time this is called it shows a recipe with a pending comment.
     """
-    pending = \
-        Comment.objects.first()  # filter(status=Recipe.Status.PENDING).first()
+    pending = Comment.objects.filter(approved=False).first()
     if pending is None:
         return HttpResponseRedirect(reverse('recipe_admin'))
     else:
-        context = get_recipe_detail_context(pending.recipe)
+        context = get_recipe_detail_context(request.user, pending.recipe)
         return render(request, "core/recipe_detail.html", context)
 
 
@@ -405,8 +408,8 @@ def comment_approve(request, pk):
     """Approve a comment"""
     if request.method == "POST":
         comment = get_object_or_404(Comment, pk=pk)
-        # comment.status = Comment.Status.APPROVED
-        # comment.save()
+        comment.approved = True
+        comment.save()
         messages.add_message(
             request, messages.SUCCESS,
             f'Comment by {comment.author} approved.'
@@ -428,8 +431,7 @@ def comment_reject(request, pk):
     """Reject a comment"""
     if request.method == "POST":
         comment = get_object_or_404(Comment, pk=pk)
-        # comment.status = Comment.Status.REJECTED
-        # comment.save()
+        comment.delete()
         messages.add_message(
             request, messages.SUCCESS,
             f'Comment by {comment.author} rejected.'
@@ -440,7 +442,6 @@ def comment_reject(request, pk):
             sender=request.user,
             recipient=comment.author,
             verb=f'Your comment on "{comment.recipe.title}" was rejected.',
-            target=comment
         )
 
     return HttpResponseRedirect(reverse('comment_review'))
