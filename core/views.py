@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from .forms import CommentForm, ProfileForm, RecipeForm
@@ -78,6 +79,88 @@ def submit_recipe(request):
         form = RecipeForm()
 
     return render(request, "core/submit_recipe.html", {"form": form})
+
+# ==========================================
+# MY RECIPES: EDIT AND DELETE (USER STORY #9)
+# ==========================================
+
+def get_own_recipe(request, pk):
+    """
+    Return the recipe with this pk if the logged-in user wrote it.
+    Anyone else gets a 403 Forbidden page.
+    """
+    recipe = get_object_or_404(Recipe, pk=pk)
+    if recipe.author != request.user:
+        raise PermissionDenied
+    return recipe
+
+
+@login_required
+def my_recipes(request):
+    """List every recipe the logged-in user has written, with its status."""
+    recipes = Recipe.objects.filter(author=request.user).order_by("-created_at")
+    return render(request, "core/my_recipes.html", {"recipes": recipes})
+
+
+@login_required
+def edit_recipe(request, pk):
+    """
+    Let an author edit their own recipe.
+    Edited recipes go back to pending so an admin can check them again.
+    """
+    recipe = get_own_recipe(request, pk)
+
+    if request.method == "POST":
+        form = RecipeForm(request.POST, request.FILES, instance=recipe)
+        if form.is_valid():
+            recipe = form.save(commit=False)
+            was_public = recipe.status in [
+                Recipe.Status.APPROVED, Recipe.Status.PUBLISHED
+            ]
+            recipe.status = Recipe.Status.PENDING
+            recipe.save()
+            if was_public:
+                message = (
+                    f'"{recipe.title}" was updated and is back in the '
+                    "review queue. It will reappear once it is approved."
+                )
+            else:
+                message = f'"{recipe.title}" was updated and is awaiting review.'
+            messages.success(request, message)
+            notify.send(
+                sender=request.user,
+                recipient=request.user,
+                verb=f'Your recipe "{recipe.title}" was edited and is pending review.',
+                target=recipe
+            )
+            return redirect("my_recipes")
+        messages.error(request, "Please correct the errors below.")
+    else:
+        form = RecipeForm(instance=recipe)
+
+    return render(
+        request,
+        "core/edit_recipe.html",
+        {"form": form, "recipe": recipe},
+    )
+
+
+@login_required
+def delete_recipe(request, pk):
+    """
+    Ask the author to confirm, then delete their recipe.
+    GET shows the confirmation page; only POST deletes.
+    """
+    recipe = get_own_recipe(request, pk)
+
+    if request.method == "POST":
+        title = recipe.title
+        recipe.delete()
+        messages.success(request, f'"{title}" was deleted.')
+        return redirect("my_recipes")
+
+    return render(request, "core/delete_recipe.html", {"recipe": recipe})
+
 
 # ==========================================
 # NOTIFICATIONS SYSTEM VIEWS
