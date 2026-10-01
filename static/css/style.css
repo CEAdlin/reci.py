@@ -109,6 +109,11 @@ h1 {
     --bs-btn-color: #333;
 }
 
+/* Ditto */
+.btn-outline-danger {
+    --bs-btn-color: #A00;
+}
+
 /* To help prevent wrapping between font-awesome icons and surrounding text,
    particularly in buttons
 */
