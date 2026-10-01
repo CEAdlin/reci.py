@@ -58,6 +58,17 @@ Development was organised around small user stories and acceptance criteria. Fea
 
 > ![Colour pallet](docs\recipe-colour-pallet.png)
 
+### Branding
+
+**Logo**
+
+![Reci.py Logo](docs/screenshots/site_logo.png)
+
+**Tagline**  
+*Simple Recipes • Healthy Meals • For Coders*
+
+Reci.py is a recipe-sharing platform built specifically for developers and coders. It combines clean, simple recipes with healthy meal ideas in an interface that feels right at home for the tech community.
+
 ### Database Diagram
 
 ```mermaid
