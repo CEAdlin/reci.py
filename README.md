@@ -30,13 +30,13 @@ reci.py is a Django recipe website where visitors can discover public recipes an
 
 ### Wireframes
 
-![Wire-Frames](docs\wireframes.png)
+![Wire-Frames](docs/wireframes.png)
 
 ### Agile Methodology
 
 Development was organised around small user stories and acceptance criteria. Features were tested as they were implemented, with priority given to recipe discovery, authenticated submission, moderation, comments, and notifications.
 
-> ![Project Board](docs\project_board.png)
+> ![Project Board](docs/project_board.png)
 
 ### Typography
 
