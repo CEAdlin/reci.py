@@ -82,7 +82,8 @@ def submit_recipe(request):
             notify.send(
                 sender=request.user,
                 recipient=request.user,
-                verb=f'Your recipe "{recipe.title}" was submitted and is pending review.',
+                verb=f'Your recipe "{recipe.title}" was submitted '
+                     'and is pending review.',
                 target=recipe
             )
             messages.success(
@@ -100,6 +101,7 @@ def submit_recipe(request):
 # MY RECIPES: EDIT AND DELETE (USER STORY #9)
 # ==========================================
 
+
 def get_own_recipe(request, pk):
     """
     Return the recipe with this pk if the logged-in user wrote it.
@@ -114,7 +116,8 @@ def get_own_recipe(request, pk):
 @login_required
 def my_recipes(request):
     """List every recipe the logged-in user has written, with its status."""
-    recipes = Recipe.objects.filter(author=request.user).order_by("-created_at")
+    recipes = \
+        Recipe.objects.filter(author=request.user).order_by("-created_at")
     return render(request, "core/my_recipes.html", {"recipes": recipes})
 
 
@@ -141,12 +144,14 @@ def edit_recipe(request, pk):
                     "review queue. It will reappear once it is approved."
                 )
             else:
-                message = f'"{recipe.title}" was updated and is awaiting review.'
+                message = \
+                    f'"{recipe.title}" was updated and is awaiting review.'
             messages.success(request, message)
             notify.send(
                 sender=request.user,
                 recipient=request.user,
-                verb=f'Your recipe "{recipe.title}" was edited and is pending review.',
+                verb=f'Your recipe "{recipe.title}" '
+                     f'was edited and is pending review.',
                 target=recipe
             )
             return redirect("my_recipes")
@@ -184,11 +189,17 @@ def delete_recipe(request, pk):
 
 @login_required
 def notifications_inbox(request):
-    """Fulfill Acceptance Criteria: Lists messages and handles marking notifications as read."""
+    """
+    Fulfill Acceptance Criteria: Lists messages and handles marking
+    notifications as read.
+    """
     # If user clicks "Mark as read", process the request
     notification_id = request.GET.get('mark_read')
     if notification_id:
-        notification = get_object_or_404(request.user.notifications.unread(), id=notification_id)
+        notification = get_object_or_404(
+            request.user.notifications.unread(),
+            id=notification_id
+        )
         notification.mark_as_read()
         messages.success(request, "Notification marked as read.")
         return redirect('notifications_inbox')
@@ -249,7 +260,10 @@ def recipe_detail(request, pk):
 
     if request.method == "POST":
         if not request.user.is_authenticated:
-            messages.error(request, "You must be logged in to leave a comment.")
+            messages.error(
+                request,
+                "You must be logged in to leave a comment."
+            )
             return redirect("recipe_detail", pk=pk)
 
         comment_form = CommentForm(data=request.POST)
@@ -259,19 +273,24 @@ def recipe_detail(request, pk):
             comment.recipe = recipe
             comment.save()
 
-            # USER STORY ACTION: Notify the recipe author when someone comments on it
+            # USER STORY ACTION: Notify the recipe author
+            # when someone comments on it
             if recipe.author != request.user:
                 notify.send(
                     sender=request.user,
                     recipient=recipe.author,
-                    verb=f'{request.user.username} commented on your recipe "{recipe.title}".',
+                    verb=f'{request.user.username} commented '
+                         f'on your recipe "{recipe.title}".',
                     target=recipe
                 )
 
             messages.success(request, "Comment submitted successfully!")
             return redirect("recipe_detail", pk=pk)
         else:
-            messages.error(request, "Error submitting comment. Please try again.")
+            messages.error(
+                request,
+                "Error submitting comment. Please try again."
+            )
 
     context["comment_form"] = comment_form
     return render(request, "core/recipe_detail.html", context)

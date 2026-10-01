@@ -15,7 +15,11 @@ class Recipe(models.Model):
         PUBLISHED = "published", "Published"
         REJECTED = "rejected", "Rejected"
 
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recipes")
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="recipes"
+    )
     title = models.CharField(max_length=200, unique=True)
     image = models.ImageField(upload_to="recipes/", blank=True, null=True)
     image_url = models.URLField(blank=True)
@@ -44,7 +48,8 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+
 class Comment(models.Model):
     recipe = models.ForeignKey(
         Recipe,

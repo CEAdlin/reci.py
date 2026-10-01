@@ -37,7 +37,10 @@ class RecipeForm(forms.ModelForm):
         widgets = {
             "description": forms.Textarea(attrs={"rows": 3}),
             "ingredients": forms.Textarea(
-                attrs={"rows": 6, "placeholder": "List one ingredient per line"}
+                attrs={
+                    "rows": 6,
+                    "placeholder": "List one ingredient per line"
+                }
             ),
             "method": forms.Textarea(attrs={"rows": 8}),
             "servings": forms.NumberInput(attrs={"min": 1}),

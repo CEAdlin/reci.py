@@ -34,7 +34,8 @@ urlpatterns = [
     path('recipes/<int:pk>/delete/', core_views.delete_recipe,
          name='delete_recipe'),
     # Notifications Integration
-    path('inbox/notifications/', include('notifications.urls',namespace='notifications')),
+    path('inbox/notifications/',
+         include('notifications.urls', namespace='notifications')),
     path('inbox/', core_views.notifications_inbox, name='notifications_inbox'),
 
     # Incoming Recipe & Comment Systems
@@ -58,4 +59,7 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
-     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+     )

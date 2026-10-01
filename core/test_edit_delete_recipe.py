@@ -55,14 +55,27 @@ class EditDeleteRecipeTests(TestCase):
 
     def test_author_sees_edit_and_delete_buttons(self):
         self.client.login(username="author", password="pass12345")
-        response = self.client.get(reverse("recipe_detail", args=[self.recipe.pk]))
-        self.assertContains(response, reverse("edit_recipe", args=[self.recipe.pk]))
-        self.assertContains(response, reverse("delete_recipe", args=[self.recipe.pk]))
+        response = self.client.get(
+            reverse("recipe_detail", args=[self.recipe.pk])
+        )
+        self.assertContains(
+            response,
+            reverse("edit_recipe", args=[self.recipe.pk])
+        )
+        self.assertContains(
+            response,
+            reverse("delete_recipe", args=[self.recipe.pk])
+        )
 
     def test_other_users_do_not_see_buttons(self):
         self.client.login(username="other", password="pass12345")
-        response = self.client.get(reverse("recipe_detail", args=[self.recipe.pk]))
-        self.assertNotContains(response, reverse("edit_recipe", args=[self.recipe.pk]))
+        response = self.client.get(
+            reverse("recipe_detail", args=[self.recipe.pk])
+        )
+        self.assertNotContains(
+            response,
+            reverse("edit_recipe", args=[self.recipe.pk])
+        )
 
     def test_author_can_edit_and_recipe_goes_back_to_pending(self):
         self.client.login(username="author", password="pass12345")
@@ -79,7 +92,10 @@ class EditDeleteRecipeTests(TestCase):
         self.client.login(username="author", password="pass12345")
         data = self.edit_data()
         data["prep_time"] = 0
-        response = self.client.post(reverse("edit_recipe", args=[self.recipe.pk]), data)
+        response = self.client.post(
+            reverse("edit_recipe", args=[self.recipe.pk]),
+            data
+        )
         self.assertEqual(response.status_code, 200)
         self.recipe.refresh_from_db()
         self.assertEqual(self.recipe.title, "Bug-Free Brownies")
@@ -88,7 +104,8 @@ class EditDeleteRecipeTests(TestCase):
     def test_other_user_cannot_edit(self):
         self.client.login(username="other", password="pass12345")
         response = self.client.post(
-            reverse("edit_recipe", args=[self.recipe.pk]), self.edit_data("Hacked")
+            reverse("edit_recipe", args=[self.recipe.pk]),
+            self.edit_data("Hacked")
         )
         self.assertEqual(response.status_code, 403)
         self.recipe.refresh_from_db()
@@ -96,24 +113,32 @@ class EditDeleteRecipeTests(TestCase):
 
     def test_delete_asks_for_confirmation_first(self):
         self.client.login(username="author", password="pass12345")
-        response = self.client.get(reverse("delete_recipe", args=[self.recipe.pk]))
+        response = self.client.get(
+            reverse("delete_recipe", args=[self.recipe.pk])
+        )
         self.assertContains(response, "Yes, delete it")
         self.assertTrue(Recipe.objects.filter(pk=self.recipe.pk).exists())
 
     def test_author_can_delete(self):
         self.client.login(username="author", password="pass12345")
-        response = self.client.post(reverse("delete_recipe", args=[self.recipe.pk]))
+        response = self.client.post(
+            reverse("delete_recipe", args=[self.recipe.pk])
+        )
         self.assertRedirects(response, reverse("my_recipes"))
         self.assertFalse(Recipe.objects.filter(pk=self.recipe.pk).exists())
 
     def test_other_user_cannot_delete(self):
         self.client.login(username="other", password="pass12345")
-        response = self.client.post(reverse("delete_recipe", args=[self.recipe.pk]))
+        response = self.client.post(
+            reverse("delete_recipe", args=[self.recipe.pk])
+        )
         self.assertEqual(response.status_code, 403)
         self.assertTrue(Recipe.objects.filter(pk=self.recipe.pk).exists())
 
     def test_logged_out_user_is_sent_to_login(self):
-        response = self.client.post(reverse("delete_recipe", args=[self.recipe.pk]))
+        response = self.client.post(
+            reverse("delete_recipe", args=[self.recipe.pk])
+        )
         self.assertEqual(response.status_code, 302)
         self.assertIn(reverse("account_login"), response.url)
         self.assertTrue(Recipe.objects.filter(pk=self.recipe.pk).exists())

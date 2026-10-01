@@ -50,7 +50,12 @@ class RecipeSubmissionTests(TestCase):
         )
 
     def test_form_rejects_non_positive_numbers(self):
-        form_data = {**self.valid_recipe, "servings": 0, "prep_time": 0, "cook_time": -1}
+        form_data = {
+            **self.valid_recipe,
+            "servings": 0,
+            "prep_time": 0,
+            "cook_time": -1
+        }
         form = RecipeForm(data=form_data)
 
         self.assertFalse(form.is_valid())
@@ -129,7 +134,9 @@ class RecipeDetailTests(TestCase):
                 **unpublished_data,
             )
 
-            response = self.client.get(reverse("recipe_detail", args=[recipe.pk]))
+            response = self.client.get(
+                reverse("recipe_detail", args=[recipe.pk])
+            )
 
             self.assertEqual(response.status_code, 404)
 
