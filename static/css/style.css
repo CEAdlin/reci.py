@@ -10,14 +10,14 @@
     --code-font: "JetBrains Mono", monospace;
 
     /* Palette Colors */
-    --cream: #FFF8F0;        /* page background */
-    --ink: #2B2118;          /* main text, footer */
-    --tomato: #B5412B;       /* buttons and links */
-    --tomato-dark: #8F3020;  /* button hover */
-    --butter: #F2C14E;       /* highlights */
-    --basil: #3A7D22;        /* tags, success */
-    --crust: #F3E3D0;        /* soft panels, borders */
-    --muted: #6B5B4D;        /* secondary text */
+    --cream: #FFF8F0;        /* Warm Cream: page background */
+    --ink: #2B2118;          /* Ink: main text, footer */
+    --tomato: #B54128;       /* Tomato: buttons and links */
+    --tomato-dark: #2B2118;  /* Ink: button hover */
+    --butter: #F2C14E;       /* Butter: highlights */
+    --basil: #3A7022;        /* Basil: tags, success */
+    --crust: #F3EED0;        /* Crust: soft panels, borders */
+    --muted: #6B5B4E;        /* Muted: secondary text */
 
     /* Old names kept so older templates still work */
     --sandy-brown: var(--butter);
@@ -32,9 +32,9 @@
     --bs-body-bg: var(--cream);
     --bs-body-color: var(--ink);
     --bs-link-color: var(--tomato);
-    --bs-link-color-rgb: 181, 65, 43;
+    --bs-link-color-rgb: 181, 65, 40;
     --bs-link-hover-color: var(--tomato-dark);
-    --bs-link-hover-color-rgb: 143, 48, 32;
+    --bs-link-hover-color-rgb: 43, 33, 24;
     --bs-secondary-color: var(--muted);
     --bs-border-color: var(--crust);
 }
@@ -82,7 +82,7 @@ h1 {
     --bs-btn-active-border-color: var(--tomato-dark);
     --bs-btn-disabled-bg: var(--tomato);
     --bs-btn-disabled-border-color: var(--tomato);
-    --bs-btn-focus-shadow-rgb: 181, 65, 43;
+    --bs-btn-focus-shadow-rgb: 181, 65, 40;
 }
 
 .btn-outline-primary {
@@ -296,7 +296,7 @@ h1 {
    RECIPE LIST CARDS (home page)
    ========================================== */
 .recipe-card {
-    background: #fff;
+    background: var(--cream);
     border: 1px solid var(--crust);
     border-radius: 16px;
     overflow: hidden;
@@ -329,9 +329,9 @@ h1 {
 }
 
 /* Placeholder colour changes with difficulty */
-.recipe-card-placeholder.thumb-easy { background-color: #DDEBD9; color: var(--basil); }
-.recipe-card-placeholder.thumb-medium { background-color: #FBEAC2; color: #7A5A0B; }
-.recipe-card-placeholder.thumb-hard { background-color: #F6D3CB; color: var(--tomato-dark); }
+.recipe-card-placeholder.thumb-easy { background-color: var(--cream); color: var(--basil); }
+.recipe-card-placeholder.thumb-medium { background-color: var(--butter); color: var(--ink); }
+.recipe-card-placeholder.thumb-hard { background-color: var(--tomato); color: var(--cream); }
 
 /* Little rounded "pills" for time and difficulty */
 .recipe-tag {
@@ -344,9 +344,9 @@ h1 {
     color: var(--ink);
 }
 
-.recipe-tag.tag-easy { background: #DDEBD9; color: var(--basil); }
-.recipe-tag.tag-medium { background: #FBEAC2; color: #7A5A0B; }
-.recipe-tag.tag-hard { background: #F6D3CB; color: var(--tomato-dark); }
+.recipe-tag.tag-easy { background: var(--cream); color: var(--basil); }
+.recipe-tag.tag-medium { background: var(--butter); color: var(--ink); }
+.recipe-tag.tag-hard { background: var(--tomato); color: var(--cream); }
 
 /* Previous / Next buttons */
 .pagination {
@@ -355,8 +355,8 @@ h1 {
     --bs-pagination-hover-bg: var(--crust);
     --bs-pagination-border-color: var(--crust);
     --bs-pagination-disabled-color: var(--muted);
-    --bs-pagination-disabled-bg: #fff;
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(181, 65, 43, 0.25);
+    --bs-pagination-disabled-bg: var(--cream);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(181, 65, 40, 0.25);
 }
 
 /* ==========================================

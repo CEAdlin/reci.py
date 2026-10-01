@@ -1,33 +1,64 @@
 # reci.py - Recipe Website for Coders
 
-[Live website](https://reci-py-93c536d719a2.herokuapp.com/).
-
-## Overview
+[Live website](https://reci-py-93c536d719a2.herokuapp.com/)
 
 reci.py is a Django recipe website where visitors can discover public recipes and registered users can submit recipes, comment, and receive updates about the review process.
 
-## Screenshots
+## Contents
 
-![Site overview](docs/overview.png)
+1. [Design & Planning](#design--planning)
+2. [Features](#features)
+3. [Technologies Used](#technologies-used)
+4. [Libraries Used](#libraries-used)
+5. [Testing](#testing)
+6. [Bugs](#bugs)
+7. [Deployment](#deployment)
+8. [AI](#ai)
+9. [Credits](#credits)
 
-![Site logo](docs/screenshots/site_logo.png)
+## Design & Planning
 
-## Design and Colour Palette
+### User Stories
 
-The visual design is built over Bootstrap with a warm editorial recipe style. **DM Sans** is used for interface text and **Playfair Display** is used for headings.
+* As a visitor, I can browse approved recipes so that I can discover something to cook.
+* As a visitor, I can search, filter, sort, and paginate recipes so that I can find a suitable recipe quickly.
+* As a visitor, I can open a recipe to see its ingredients, method, image, timings, author, and date.
+* As a registered user, I can submit a recipe so that I can share it with others.
+* As a recipe author, I can receive notifications when my recipe is submitted, approved, rejected, or commented on.
+* As a registered user, I can comment on recipes and manage my own comments.
+* As a staff reviewer, I can approve or reject pending recipes and comments.
 
-* **Charcoal Blue (`#264653`)**: Primary navigation and structural elements.
-* **Sandy Brown (`#F4A261`)**: Highlights, borders, and interactive accents.
-* **Bright Snow (`#F8F9FA`)**: Light interface surfaces.
+### Wireframes
 
-* **Carbon Black (`#212529`)**: Main text colour.
-* **Dark Spruce (`#2D4A22`)**: Headings and positive recipe states.
+> **Screenshot placeholder:** Add wireframes for the homepage, recipe detail page, submission form, profile, notifications, and staff review pages.
 
-![Colour palette](docs/screenshots/color_pallet.png)
+### Agile Methodology
 
-## Data Model
+Development was organised around small user stories and acceptance criteria. Features were tested as they were implemented, with priority given to recipe discovery, authenticated submission, moderation, comments, and notifications.
 
-### Database Architecture
+> **Screenshot placeholder:** Add a screenshot of the project board or sprint planning.
+
+### Typography
+
+* **DM Sans** is used for interface text.
+* **Fraunces** is used for headings.
+* **JetBrains Mono** is available for code-style details.
+
+> **Screenshot placeholder:** Add a screenshot showing the typography in the application.
+
+### Colour Scheme
+
+* **Warm Cream (`#FFF8F0`)**: Page background and light surfaces.
+* **Ink (`#2B2118`)**: Main text, headings, and footer content.
+* **Tomato (`#B54128`)**: Buttons, links, and interactive accents.
+* **Butter (`#F2C14E`)**: Highlights and visual emphasis.
+* **Basil (`#3A7022`)**: Tags and positive recipe states.
+* **Crust (`#F3EED0`)**: Soft panels, borders, and secondary surfaces.
+* **Muted (`#6B5B4E`)**: Secondary text.
+
+> ![Colour pallet](docs\Reci.pe Colour Palette.png)
+
+### Database Diagram
 
 ```mermaid
 erDiagram
@@ -66,161 +97,175 @@ erDiagram
 
 Recipe statuses are `pending`, `approved`, `published`, and `rejected`. New submissions begin as `pending` and are reviewed by staff.
 
-## User Roles and Stories
-
-### Target User Roles
-
-* **Visitor**: Browse public recipe cards, search, filter, sort, and open a full recipe.
-* **Registered User**: Submit recipes, update profile details, comment on recipes, and receive notifications.
-* **Recipe Author**: Track whether submitted recipes are pending, approved, or rejected.
-* **Staff Reviewer**: Review pending recipes and approve or reject them.
-
-### User Stories
-
-* As a visitor, I can browse approved recipes from the homepage so that I can discover something to cook.
-* As a visitor, I can search, filter by difficulty, and sort recipes so that I can find a suitable recipe quickly.
-* As a visitor, I can open a recipe to see its ingredients, method, image, servings, timings, author, and date.
-* As a logged-in user, I can submit my own recipe so that I can share it with others.
-* As a recipe author, I receive a notification when my recipe is submitted, approved, or rejected.
-* As a logged-in user, I can comment on a recipe so that I can share feedback with its author.
-* As a recipe author, I receive a notification when another user comments on my recipe.
-* As a staff reviewer, I can review pending recipes and approve or reject them.
+> **Screenshot placeholder:** Add a database diagram screenshot if a visual diagram is preferred.
 
 ## Features
 
-### Recipe Discovery
+### Navigation
 
-* Responsive Bootstrap recipe cards on the homepage.
-* Search by recipe title or description.
-* Filter by easy, medium, or hard difficulty.
-* Sort by newest, oldest, title, or quickest preparation time.
-* Pagination that preserves search, filter, and sort choices.
-* Detail pages with recipe image, servings, prep and cook time, ingredients, numbered method, author, and date.
-* Pending and rejected recipes are excluded from public discovery.
+The responsive navigation provides links to Home, Register, Login, Profile, Submit recipe, Notifications, and the staff Admin area when appropriate. The mobile menu collapses using Bootstrap.
 
-### Recipe Submission and Review
+> **Screenshot placeholder:** Add a navigation screenshot.
 
-*   Logged-in users can submit a recipe through a labelled form.
-*   Required recipe fields are validated.
-*   Servings, prep time, and cook time must be positive.
-*   Recipe titles must be unique.
-*   New recipes start with `pending` status.
-*   Staff can approve or reject pending recipes from the review flow.
+### Footer
 
-### Accounts and Notifications
+The footer contains the team attribution and social media links, including the project GitHub repository.
 
-*   Django Allauth handles registration and login.
-*   Users can access a profile page after logging in.
-*   The navigation shows a notification bell and unread badge for authenticated users.
-*   Notifications are stored in an inbox and can be marked as read.
-*   Authors receive notifications for recipe submission, approval, rejection, and comments.
+> **Screenshot placeholder:** Add a footer screenshot.
+
+### Home Page
+
+The homepage displays approved and published recipes in responsive cards. Visitors can search by title or description, filter by difficulty, sort by date, title, or preparation time, and use pagination.
+
+> **Screenshot placeholder:** Add a homepage screenshot.
+
+### Recipe Detail Page
+
+Each public recipe shows its image, description, servings, preparation and cooking times, ingredients, numbered method, author, date, and approved comments.
+
+> **Screenshot placeholder:** Add a recipe detail screenshot.
+
+### Submit Recipe
+
+Authenticated users can submit recipe details, an optional uploaded image, or an image URL. Required fields, positive numeric values, and unique recipe titles are validated. New recipes are stored as `pending`.
+
+> **Screenshot placeholder:** Add a submit recipe screenshot.
+
+### Profile
+
+Authenticated users can view their profile and update their email address.
+
+> **Screenshot placeholder:** Add a profile screenshot.
+
+### Notifications
+
+Authenticated users receive notifications for recipe submission, approval, rejection, and comments. The navigation displays an unread badge, and notifications can be marked as read from the inbox.
+
+> **Screenshot placeholder:** Add a notifications screenshot.
 
 ### Comments
 
-*   Logged-in users can post comments on public recipes.
-*   Comment authors can edit or delete their own comments.
-*   Comment ownership is checked before edit and delete actions.
+Authenticated users can comment on public recipes. Comment authors can edit or delete their own comments, and ownership checks protect these actions.
 
-### Visual Design and Assets
+> **Screenshot placeholder:** Add a comments screenshot.
 
-*   Bootstrap provides the responsive grid, cards, forms, navigation, and pagination.
-*   Custom CSS defines the recipe-focused palette, typography, toolbar, cards, and detail panels.
-*   Font Awesome provides interface icons.
-*   WhiteNoise serves collected static files in deployment.
+### CRUD
 
-![reci.py logo](docs/screenshots/site_logo.png)
+* **Create**: Registered users create recipes and comments.
+* **Read**: Visitors read public recipes and approved comments.
+* **Update**: Users update their profile email and their own comments.
+* **Delete**: Users delete their own comments.
+* **Moderate**: Staff approve or reject pending recipes and comments.
+
+> **Screenshot placeholder:** Add screenshots demonstrating the CRUD and moderation flows.
+
+### Authentication & Authorisation
+
+Django Allauth provides registration and login. Login protection is applied to user-only pages, staff-only review pages require staff status, and comment edit/delete actions require ownership.
+
+> **Screenshot placeholder:** Add registration, login, and staff authorisation screenshots.
+
+## Technologies Used
+
+* Python
+* Django 6.1.1
+* HTML5, CSS3, and JavaScript
+* PostgreSQL in deployment
+* Heroku
+* Git and GitHub
+
+## Libraries Used
+
+* Django Allauth for authentication.
+* Bootstrap 5 for responsive layout, cards, forms, navigation, and pagination.
+* Font Awesome for interface icons.
+* Django Crispy Forms and Crispy Bootstrap 5 for form rendering.
+* django-notifications-community for the notification inbox and unread badge.
+* WhiteNoise and Django staticfiles for static asset handling.
 
 ## Testing
 
-Testing is organised by user story and by the main interface areas so that new work can be added without turning the README into a large test script.
+### Manual Testing
 
-### User Stories
+The following tables are ready for a screenshot to be added to each test case. Replace each placeholder with the relevant image link when testing is complete.
 
-| Area | Manual test | Expected result |
-| --- | --- | --- |
-| Recipe submission | Log out and visit Submit recipe | The visitor is redirected to login. |
-| Recipe submission | Submit a complete recipe while logged in | The recipe is saved as `pending` and a confirmation message appears. |
-| Recipe validation | Leave required fields empty | The form shows field-level errors. |
-| Recipe validation | Enter zero or negative servings/times | The form rejects the values. |
-| Recipe review | Approve a pending recipe as staff | The recipe becomes visible in public recipe cards. |
-| Recipe review | Reject a pending recipe as staff | The recipe remains hidden from public pages. |
-| Recipe detail | Click an approved recipe card | The full recipe detail page opens. |
-| Comments | Post a comment while logged in | The comment appears and the author receives a notification. |
-| Notifications | Approve, reject, or comment on a recipe | The relevant user sees an unread notification in the inbox. |
+#### User Stories
 
-### Features
+| User story | Test steps | Expected result | Screenshot |
+| --- | --- | --- | --- |
+| Browse public recipes | Open the homepage as a visitor. | Approved and published recipes appear; pending and rejected recipes remain hidden. | `[Screenshot placeholder: user story 1]` |
+| Find a suitable recipe | Search, filter by difficulty, sort, and change page. | Results and ordering update while the selected controls remain usable. | `[Screenshot placeholder: user story 2]` |
+| View recipe information | Open a recipe card. | The detail page shows the recipe image, ingredients, method, timings, author, and date. | `[Screenshot placeholder: user story 3]` |
+| Submit a recipe | Log in, complete the form, and submit it. | The recipe is saved as `pending` and a confirmation message is shown. | `[Screenshot placeholder: user story 4]` |
+| Receive recipe notifications | Submit, approve, or reject a recipe. | The relevant author receives an unread notification in the inbox. | `[Screenshot placeholder: user story 5]` |
+| Comment on a recipe | Log in and submit a valid comment. | The comment appears and the recipe author is notified when applicable. | `[Screenshot placeholder: user story 6]` |
+| Manage own comments | Edit and delete a comment created by the logged-in user. | The comment is updated or removed; another user's comment cannot be managed. | `[Screenshot placeholder: user story 7]` |
+| Review submissions | Sign in as staff and approve or reject a pending recipe. | The recipe status changes and public visibility follows the decision. | `[Screenshot placeholder: user story 8]` |
 
-*   Confirm that the homepage loads recipe cards when public recipes exist.
-*   Search for a word in a recipe title and description.
-*   Select each difficulty option and confirm that unrelated recipes disappear.
-*   Select each sort option and confirm that the card order changes.
-*   Move between pagination pages and confirm that search/filter values remain active.
-*   Open a recipe card and confirm all recipe information is present.
+#### Features
 
-### Responsive Testing
-
-Test the homepage, submission form, detail page, comments, and notification inbox at desktop, tablet, and mobile widths.
-
-*   Confirm the navigation collapses into the Bootstrap menu on smaller screens.
-*   Confirm the toolbar fields stack without horizontal scrolling.
-*   Confirm recipe cards resize from three columns to two columns and then one column.
-*   Confirm recipe images do not distort or overflow their cards.
-*   Confirm detail page content remains readable and the Ingredients and Method panels fit the viewport.
-*   Confirm buttons, form controls, pagination, and notification links remain usable by touch.
+| Feature | Test steps | Expected result | Screenshot |
+| --- | --- | --- | --- |
+| Navigation | Use the desktop navigation and open the mobile menu. | Correct links are shown for the user's role and the menu works on small screens. | `[Screenshot placeholder: feature 1]` |
+| Footer | Scroll to the bottom of a page and select a social link. | Footer content is visible and links open correctly. | `[Screenshot placeholder: feature 2]` |
+| Homepage cards | Load the homepage with public recipes available. | Recipe cards display consistently with working detail links. | `[Screenshot placeholder: feature 3]` |
+| Search and filtering | Search by title/description and select each difficulty. | Matching recipes remain and unrelated recipes are removed. | `[Screenshot placeholder: feature 4]` |
+| Sorting and pagination | Select each sort option and move between pages. | Card order changes and pagination works without losing the current query. | `[Screenshot placeholder: feature 5]` |
+| Recipe detail | Open an approved recipe. | All recipe details and approved comments are readable. | `[Screenshot placeholder: feature 6]` |
+| Form validation | Submit empty fields, duplicate titles, and non-positive numbers. | Clear field-level validation messages prevent invalid submission. | `[Screenshot placeholder: feature 7]` |
+| Profile and notifications | Update an email address and mark a notification as read. | The profile saves and the notification is removed from the unread list. | `[Screenshot placeholder: feature 8]` |
+| Responsive layout | Test the homepage, forms, detail page, and inbox at desktop, tablet, and mobile widths. | Content stacks correctly without horizontal scrolling or distorted images. | `[Screenshot placeholder: feature 9]` |
 
 ### Automated Tests
 
-Run the focused recipe tests with:
-
-```powershell
-.\.venv\Scripts\python.exe manage.py test core.test_recipe_submission
-```
-
-The focused tests cover:
-
-*   Login protection for recipe submission.
-*   Required fields, positive numeric values, and unique titles.
-*   Pending status and submission confirmation messages.
-*   Published and approved recipe detail pages.
-*   Hidden pending and rejected recipes.
-*   Homepage recipe links and search/difficulty filtering.
-
-Run Django system checks with:
-
-```powershell
-.\.venv\Scripts\python.exe manage.py check
-```
-
-### HTML, CSS, and Accessibility Validation
-
-The project includes validation tests in `core/test_valid.py` for the main pages and stylesheet. These tests use the W3C validator supplied in the `fixtures` directory.
-
-Manual accessibility checks include:
-
-*   Every meaningful image has useful alternative text.
-*   Form fields have visible labels.
-*   Navigation and recipe actions are keyboard reachable.
-*   Heading levels follow a logical order.
-*   Colour contrast remains readable against the custom palette.
-*   The recipe detail Ingredients and Method controls expose their state to assistive technology.
-
-### Known Test Setup Requirement
-
-Install the project dependencies before running Django commands:
+Install dependencies before running Django commands:
 
 ```powershell
 python -m pip install -r requirements.txt
 ```
 
-The notification features require `django-notifications-community`, and the HTML/CSS validation tests require Java to run the W3C validator.
+Run the focused recipe tests:
 
-## Technology Stack
+```powershell
+.\.venv\Scripts\python.exe manage.py test core.test_recipe_submission
+```
 
-*   **Core Framework**: Django 6.1.1 with Python.
-*   **Authentication**: Django Allauth.
-*   **Frontend UI**: Bootstrap 5 and Font Awesome.
-*   **Forms**: Django Crispy Forms with Crispy Bootstrap 5.
-*   **Notifications**: django-notifications-community.
-*   **Database**: PostgreSQL in deployment, with environment-based configuration.
-*   **Static Assets**: WhiteNoise and Django staticfiles.
-*   **Deployment**: Heroku.
+Run the full test suite:
+
+```powershell
+.\.venv\Scripts\python.exe manage.py test
+```
+
+Run Django system checks:
+
+```powershell
+.\.venv\Scripts\python.exe manage.py check
+```
+
+The project also includes HTML and CSS validation tests in `core/test_valid.py`. These tests use the W3C validator supplied in the `fixtures` directory and require Java. Accessibility checks include image alternative text, labelled form fields, keyboard navigation, logical headings, colour contrast, and assistive-technology state for recipe detail controls.
+
+## Bugs
+
+No known bugs are outstanding at the time of writing. Any newly discovered issue should be recorded with reproduction steps, expected behaviour, actual behaviour, and its resolution.
+
+> **Screenshot placeholder:** Add evidence of the final bug-testing pass if required.
+
+## Deployment
+
+The deployed application is hosted on Heroku:
+
+[https://reci-py-93c536d719a2.herokuapp.com/](https://reci-py-93c536d719a2.herokuapp.com/)
+
+The deployment uses PostgreSQL, environment-based configuration, WhiteNoise for collected static files, and a `Procfile` to start the Django application. Before deployment, install requirements, configure environment variables, run migrations, collect static files, and create a staff user for the review workflow.
+
+## AI
+
+AI tools were used as development support for brainstorming, documentation structure, debugging guidance, and reviewing implementation details. All generated suggestions were checked against the project code, tests, and final application behaviour.
+
+## Credits
+
+* Bootstrap documentation and components: [getbootstrap.com](https://getbootstrap.com/)
+* Font Awesome icons: [fontawesome.com](https://fontawesome.com/)
+* Django documentation: [docs.djangoproject.com](https://docs.djangoproject.com/)
+* Django Allauth documentation: [docs.allauth.org](https://docs.allauth.org/)
+* Project repository: [github.com/lion695/reci.py](https://github.com/lion695/reci.py)
