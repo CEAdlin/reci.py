@@ -51,10 +51,16 @@
         {% for recipe in page_obj %}
         <div class="col">
             <article class="card recipe-card h-100">
-                <div class="card-img-top recipe-card-img recipe-card-placeholder thumb-{{ recipe.difficulty }}"
+                    {% if recipe.image %}
+                    <img src="{{ recipe.image.url }}" class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+                    {% elif recipe.image_url %}
+                    <img src="{{ recipe.image_url }}" class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+                    {% else %}
+                    <div class="card-img-top recipe-card-img recipe-card-placeholder thumb-{{ recipe.difficulty }}"
                     aria-hidden="true">
                     <i class="fa-solid fa-utensils"></i>
                 </div>
+                    {% endif %}
                 <div class="card-body">
                     <h3 class="card-title h5">
                         <a class="stretched-link text-decoration-none" href="{% url 'recipe_detail' recipe.pk %}">

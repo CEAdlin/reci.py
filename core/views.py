@@ -57,7 +57,7 @@ def profile(request):
 def submit_recipe(request):
     """Allow authenticated users to submit a recipe for review."""
     if request.method == "POST":
-        form = RecipeForm(request.POST)
+        form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.author = request.user

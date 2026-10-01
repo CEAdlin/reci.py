@@ -195,7 +195,13 @@ STATICFILES_DIRS = [BASE_DIR / 'static', ]
 # Where static files are collected to - required by whitenoise
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
+
 STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
     # Enable whitenoise compression and hashing for efficient HTTP caching
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",

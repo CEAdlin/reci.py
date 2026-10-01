@@ -19,7 +19,9 @@
         {% endif %}
         <div class="col-12 col-lg-7">
             <div class="card recipe-image-card h-100">
-                {% if recipe.image_url %}
+                {% if recipe.image %}
+                <img class="recipe-detail-image card-img-top" src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                {% elif recipe.image_url %}
                 <img class="recipe-detail-image card-img-top" src="{{ recipe.image_url }}" alt="{{ recipe.title }}">
                 {% else %}
                 <img class="recipe-detail-image card-img-top" src="{% static 'images/logo-80.png' %}"

@@ -10,7 +10,7 @@
             <p class="text-uppercase text-muted small fw-bold">Share your cooking</p>
             <h1>Submit a recipe</h1>
             <p class="lead mb-4">Tell us how to make something delicious. Your recipe will be reviewed before it is published.</p>
-            <form method="post" novalidate>
+            <form method="post" enctype="multipart/form-data" novalidate>
                 {% csrf_token %}
                 {{ form|crispy }}
                 <button type="submit" class="btn btn-primary mt-3">
