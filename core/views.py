@@ -114,14 +114,20 @@ def profile(request):
     else:
         form = ProfileForm(initial={"email": request.user.email})
 
-    # Fetch only published recipes belonging to the currently logged-in user
-    user_recipes = Recipe.objects.filter(
-        author=request.user,
-        status__in=[
-            Recipe.Status.APPROVED,
-            Recipe.Status.PUBLISHED,
-        ],
-    ).order_by("-created_at")
+    public_statuses = [Recipe.Status.APPROVED, Recipe.Status.PUBLISHED]
+    user_recipes = (
+        Recipe.objects.filter(
+            author=request.user,
+            status__in=public_statuses + [Recipe.Status.PENDING],
+        )
+        .select_related("author")
+        .order_by("-created_at", "-pk")
+    )
+    liked_recipes = (
+        request.user.liked_recipes.filter(status__in=public_statuses)
+        .select_related("author")
+        .order_by("-created_at", "-pk")
+    )
 
     return render(
         request,
@@ -129,6 +135,7 @@ def profile(request):
         {
             "form": form,
             "user_recipes": user_recipes,
+            "liked_recipes": liked_recipes,
         }
     )
 

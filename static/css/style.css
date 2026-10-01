@@ -470,6 +470,190 @@ h1 {
     color: var(--tomato-dark);
 }
 
+/* ==========================================
+   PROFILE PAGE
+   ========================================== */
+.profile-page {
+    max-width: 1180px;
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+}
+
+.profile-page-header {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    min-height: 72px;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.profile-page-header h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.profile-page-header .btn {
+    position: absolute;
+    right: 0;
+}
+
+.profile-recipe-section {
+    margin-bottom: 3.5rem;
+}
+
+.profile-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.profile-section-heading h2 {
+    margin: 0;
+}
+
+.profile-recipe-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0 0.5rem;
+    color: var(--cream);
+    background: var(--tomato);
+    border-radius: 999px;
+    font-family: var(--code-font);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.profile-recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.profile-recipe-card {
+    display: flex;
+    min-width: 0;
+}
+
+.profile-recipe-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.profile-recipe-card-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.profile-recipe-card .card-title {
+    margin-bottom: 0.5rem;
+}
+
+.profile-recipe-card .card-text {
+    flex: 1;
+}
+
+.profile-recipe-meta,
+.profile-card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.profile-recipe-meta {
+    margin: 0.75rem 0 1rem;
+}
+
+.profile-card-actions {
+    justify-content: flex-start;
+    margin-top: auto;
+}
+
+.profile-pending-note {
+    margin-right: auto;
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.profile-card-actions .btn {
+    white-space: nowrap;
+}
+
+.profile-empty-state {
+    padding: 2rem;
+    color: var(--ink);
+    background: var(--crust);
+    border: 1px solid var(--butter);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.profile-empty-state p {
+    margin-bottom: 1rem;
+}
+
+.profile-account-section {
+    padding-top: 2.5rem;
+    border-top: 2px solid var(--crust);
+}
+
+.profile-account-section h2 {
+    margin-bottom: 1.25rem;
+}
+
+.profile-account-form {
+    max-width: 620px;
+}
+
+.profile-password-reset {
+    margin-top: 1.5rem;
+    color: var(--muted);
+}
+
+.profile-password-reset a {
+    color: var(--tomato);
+    font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+    .profile-recipe-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 575.98px) {
+    .profile-page {
+        padding-top: 1.5rem;
+    }
+
+    .profile-page-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 1rem;
+        margin-bottom: 2.25rem;
+        text-align: left;
+    }
+
+    .profile-page-header .btn {
+        position: static;
+    }
+
+    .profile-recipe-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .recipe-card-img {
     height: 170px;
     object-fit: cover;
