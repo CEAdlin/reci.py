@@ -337,26 +337,28 @@ h1 {
 }
 
 .recipe-toolbar {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(180px, 1.35fr) repeat(3, minmax(135px, 1fr)) auto auto auto;
     align-items: end;
-    gap: 0.75rem;
-    padding: 1rem;
+    gap: 0.65rem;
+    padding: 0.8rem;
     margin-bottom: 1.5rem;
     background: var(--crust);
     border: 1px solid var(--butter);
-    border-radius: 12px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(43, 33, 24, 0.08);
+    font-family: var(--primary-font);
 }
 
 .recipe-toolbar-field {
     display: flex;
-    flex: 1 1 150px;
     flex-direction: column;
     gap: 0.25rem;
+    min-width: 0;
 }
 
 .recipe-toolbar-search {
-    flex-basis: 220px;
+    min-width: 0;
 }
 
 .recipe-toolbar label {
@@ -366,12 +368,15 @@ h1 {
 
 .recipe-toolbar input,
 .recipe-toolbar select {
-    min-height: 38px;
-    padding: 0.45rem 0.65rem;
+    width: 100%;
+    min-height: 36px;
+    padding: 0.35rem 0.6rem;
     color: var(--ink);
     background: var(--cream);
     border: 1px solid var(--muted);
     border-radius: 6px;
+    font: inherit;
+    font-size: 0.88rem;
 }
 
 .recipe-toolbar-check {
@@ -389,6 +394,7 @@ h1 {
 .recipe-toolbar-submit,
 .recipe-toolbar-reset {
     min-height: 38px;
+    white-space: nowrap;
 }
 
 .recipe-toolbar-reset {
@@ -397,6 +403,28 @@ h1 {
     padding: 0 0.35rem;
     color: var(--tomato);
     font-weight: 700;
+}
+
+.recipe-toolbar input:focus,
+.recipe-toolbar select:focus {
+    border-color: var(--tomato);
+    box-shadow: 0 0 0 3px rgba(181, 65, 40, 0.18);
+    outline: 0;
+}
+
+@media (max-width: 767.98px) {
+    .recipe-toolbar {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .recipe-toolbar-search {
+        grid-column: 1 / -1;
+    }
+
+    .recipe-toolbar-submit,
+    .recipe-toolbar-reset {
+        justify-self: start;
+    }
 }
 
 .recipe-card-actions {
