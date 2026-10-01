@@ -1,0 +1,17 @@
+{% extends "account/base_manage.html" %}
+{% load i18n %}
+
+{% block head_title %}Sign out | reci.py{% endblock head_title %}
+
+{% block content %}
+<p class="auth-eyebrow">&gt;&gt;&gt; logout()</p>
+<h1 class="auth-title">Signing out?</h1>
+<p class="auth-intro">Your recipes will be right here when you come back.</p>
+
+<form method="post" action="{% url 'account_logout' %}" class="d-flex flex-wrap gap-2">
+    {% csrf_token %}
+    {{ redirect_field }}
+    <button type="submit" class="btn btn-primary btn-lg flex-grow-1">Yes, sign me out</button>
+    <a class="btn btn-outline-primary btn-lg flex-grow-1" href="{% url 'index' %}">Cancel</a>
+</form>
+{% endblock content %}
