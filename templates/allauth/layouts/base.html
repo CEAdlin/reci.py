@@ -2,12 +2,15 @@
 {% load i18n %}
 
 {# main is the project block; content is the allauth block #}
+{# Every account page (sign in, sign up, sign out, passwords) sits in one card #}
 {% block main %}
-<section class="container">
-    <div class="row">
-        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-            {% block content %}
-            {% endblock content %}
+<section class="container py-4 py-md-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
+            <div class="auth-card">
+                {% block content %}
+                {% endblock content %}
+            </div>
         </div>
     </div>
 </section>
