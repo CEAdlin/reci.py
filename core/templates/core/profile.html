@@ -2,87 +2,140 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
-{% block head_title %}reci.py{% endblock %}
+{% block head_title %}{{ user.username }}'s Profile | reci.py{% endblock %}
 
 {% block main %}
-<section class="container">
-    <div class="row">
-        <div class="col-12 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-            <h1>Profile</h1>
-            <p>You are logged in as <strong>{{ user.username }}</strong>.</p>
-            <p><button id="signoutButton" class="btn btn-primary">Sign Out</button></p>
+<main class="profile-page container" aria-labelledby="profile-heading">
+    <header class="profile-page-header">
+        <h1 id="profile-heading">{{ user.username }}'s Profile</h1>
+        <button id="signoutButton" class="btn btn-outline-primary" type="button">
+            Sign Out
+        </button>
+    </header>
 
-            <h2>Edit Details</h2>
-
-            <form method="post">
-                {% csrf_token %}
-                {{ form | crispy }}
-                <button id="submitButton" type="submit" class="btn btn-primary" disabled>Submit</button>
-            </form>
-
-            <hr class="my-5">
-
-            <h2>My Published Recipes</h2>
-
-            {% if user_recipes %}
-                <div class="row">
-                    {% for recipe in user_recipes %}
-                        <div class="col-12 col-md-6 mb-4">
-                            <div class="card h-100">
-
-                                {% if recipe.image %}
-                                    <img
-                                        src="{{ recipe.image.url }}"
-                                        class="card-img-top"
-                                        alt="{{ recipe.title }}"
-                                    >
-                                {% endif %}
-
-                                <div class="card-body d-flex flex-column">
-                                    <h3 class="card-title h5">
-                                        {{ recipe.title }}
-                                    </h3>
-
-                                    <p class="card-text">
-                                        {{ recipe.description }}
-                                    </p>
-
-                                    <a
-                                        href="{% url 'recipe_detail' recipe.pk %}"
-                                        class="btn btn-primary mt-auto"
-                                    >
-                                        View Recipe
-                                    </a>
-                                </div>
-
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <p>You have not published any recipes yet.</p>
-            {% endif %}
+    <section class="profile-recipe-section" aria-labelledby="published-recipes-heading">
+        <div class="profile-section-heading">
+            <h2 id="published-recipes-heading">My Published Recipes</h2>
+            <span class="profile-recipe-count">{{ user_recipes|length }}</span>
         </div>
-    </div>
-</section>
+
+        {% if user_recipes %}
+        <div class="profile-recipe-grid">
+            {% for recipe in user_recipes %}
+            <article class="card recipe-card profile-recipe-card">
+                {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+                {% elif recipe.image_url %}
+                <img src="{{ recipe.image_url }}" class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+                {% else %}
+                <div class="card-img-top recipe-card-img recipe-card-placeholder thumb-{{ recipe.difficulty }}"
+                    aria-hidden="true">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                {% endif %}
+                <div class="card-body profile-recipe-card-body">
+                    <div class="profile-recipe-card-heading">
+                        <h3 class="card-title h5">{{ recipe.title }}</h3>
+                        <span class="recipe-tag status-tag status-{{ recipe.status }}">{{ recipe.get_status_display }}</span>
+                    </div>
+                    <p class="card-text text-muted">{{ recipe.description }}</p>
+                    <div class="profile-recipe-meta">
+                        <span class="recipe-tag tag-{{ recipe.difficulty }}">{{ recipe.get_difficulty_display }}</span>
+                        <span class="recipe-tag">{{ recipe.get_category_display }}</span>
+                    </div>
+                    <div class="profile-card-actions">
+                        {% if recipe.status == "approved" or recipe.status == "published" %}
+                        <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary">View Recipe</a>
+                        {% else %}
+                        <span class="profile-pending-note">Awaiting approval</span>
+                        {% endif %}
+                        <a href="{% url 'edit_recipe' recipe.pk %}" class="btn btn-outline-primary btn-sm"
+                            aria-label="Edit {{ recipe.title }}">Edit</a>
+                        <a href="{% url 'delete_recipe' recipe.pk %}" class="btn btn-outline-danger btn-sm"
+                            aria-label="Delete {{ recipe.title }}">Delete</a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="profile-empty-state">
+            <p>No recipes added yet... why not add your first recipe now?</p>
+            <a href="{% url 'submit_recipe' %}" class="btn btn-primary">Submit Recipe</a>
+        </div>
+        {% endif %}
+    </section>
+
+    <section class="profile-recipe-section" aria-labelledby="liked-recipes-heading">
+        <div class="profile-section-heading">
+            <h2 id="liked-recipes-heading">My Liked Recipes</h2>
+            <span class="profile-recipe-count">{{ liked_recipes|length }}</span>
+        </div>
+
+        {% if liked_recipes %}
+        <div class="profile-recipe-grid">
+            {% for recipe in liked_recipes %}
+            <article class="card recipe-card profile-recipe-card">
+                {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+                {% elif recipe.image_url %}
+                <img src="{{ recipe.image_url }}" class="card-img-top recipe-card-img" alt="{{ recipe.title }}">
+                {% else %}
+                <div class="card-img-top recipe-card-img recipe-card-placeholder thumb-{{ recipe.difficulty }}"
+                    aria-hidden="true">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+                {% endif %}
+                <div class="card-body profile-recipe-card-body">
+                    <h3 class="card-title h5">{{ recipe.title }}</h3>
+                    <p class="card-text text-muted">By {{ recipe.author.username }}</p>
+                    <div class="profile-recipe-meta">
+                        <span class="recipe-tag tag-{{ recipe.difficulty }}">{{ recipe.get_difficulty_display }}</span>
+                        <span class="recipe-tag">{{ recipe.get_category_display }}</span>
+                    </div>
+                    <a href="{% url 'recipe_detail' recipe.pk %}" class="btn btn-primary profile-card-action">
+                        View Recipe
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="profile-empty-state">
+            <p>You have not liked any recipes yet.</p>
+            <a href="{% url 'index' %}" class="btn btn-outline-primary">Browse Recipes</a>
+        </div>
+        {% endif %}
+    </section>
+
+    <section class="profile-account-section" aria-labelledby="account-heading">
+        <h2 id="account-heading">Update User Profile</h2>
+        <form method="post" class="profile-account-form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button id="submitButton" type="submit" class="btn btn-primary" disabled>Save Changes</button>
+        </form>
+        <p class="profile-password-reset">
+            Need to change your password?
+            <a href="{% url 'account_reset_password' %}">Request a password reset</a>.
+        </p>
+    </section>
+</main>
 
 {# Sign out confirmation modal #}
-{# Ideally this would be a <dialog> but bootstrap styles them badly #}
 <div class="modal fade" id="signoutModal" tabindex="-1" role="dialog" aria-labelledby="signoutModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-3" id="signoutModalLabel">Sign Out?</h1>
+                <h2 class="modal-title fs-3" id="signoutModalLabel">Sign Out?</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                Are you sure you want to sign out?
-            </div>
+            <div class="modal-body">Are you sure you want to sign out?</div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <form method="post" action="{% url 'account_logout' %}">
                     {% csrf_token %}
-                    <button id="signoutConfirm" class="btn btn-primary">Sign Out</button>
+                    <button id="signoutConfirm" class="btn btn-primary" type="submit">Sign Out</button>
                 </form>
             </div>
         </div>
