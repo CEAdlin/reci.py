@@ -10,13 +10,30 @@ reci.py is a Django recipe website where visitors can discover public recipes an
 
 ### User Stories
 
-* As a visitor, I can browse approved recipes so that I can discover something to cook.
-* As a visitor, I can search, filter, sort, and paginate recipes so that I can find a suitable recipe quickly.
-* As a visitor, I can open a recipe to see its ingredients, method, image, timings, author, and date.
-* As a registered user, I can submit a recipe so that I can share it with others.
-* As a recipe author, I can receive notifications when my recipe is submitted, approved, rejected, or commented on.
-* As a registered user, I can comment on recipes and manage my own comments.
-* As a staff reviewer, I can approve or reject pending recipes and comments.
+The user stories below are taken from the project board and grouped by user persona. The MoSCoW priority identifies whether each story was a must-have, should-have, could-have, or won't-have requirement for this release.
+
+| US No. | User Story | User | MoSCoW |
+| --- | --- | --- | --- |
+| US 3 | As a developer I can work from a shared, deployed Django project so that the team can build features in parallel from day one. | Developer | Must have |
+| US 7 | As a developer I can follow agreed wireframes, an ERD, and a colour/font scheme so that the build is consistent and the UX process is documented. | Developer | Must have |
+| US 14 | As a developer I can run automated tests for models, forms, views, and permissions so that we know the app works and can evidence it for assessment. | Developer | Must have |
+| US 4 | As a visitor I can create an account and log in so that I can post recipes and join in. | Visitor | Must have |
+| US 5 | As a visitor I can see a list of published recipes so that I can find something to cook. | Visitor | Must have |
+| US 6 | As a visitor I can open a recipe to see its ingredients and method so that I can follow it. | Visitor | Must have |
+| US 16 | As a visitor I can search by title or ingredient and filter by difficulty or time so that I find a suitable recipe faster. | Visitor | Could have |
+| US 18 | As a visitor on a budget I can see the cost per portion of each recipe so that I can cook affordably. | Visitor on a budget | Could have |
+| US 20 | As a visitor I can scale a recipe from 2 to 6 servings so that quantities fit the number of people I am cooking for. | Visitor | Won't have |
+| US 8 | As a logged-in user I can submit my own recipe through a form so that I can share it with others. | Logged-in user | Must have |
+| US 10 | As a logged-in user I can leave, edit, and delete my own comments so that I can share tips and feedback. | Logged-in user | Should have |
+| US 13 | As a logged-in user I can view and update my profile so that other users know who shared a recipe. | Logged-in user | Should have |
+| US 17 | As a logged-in user I can like recipes and see them in a My Liked Recipes list on my profile so that I can find my favourites again quickly. | Logged-in user | Could have |
+| US 54 | As a logged-in user I can like a recipe and receive a confirmation notification so that I know it was saved to my profile. | Logged-in user | Could have |
+| US 9 | As a recipe author I can edit or delete my own recipes so that I can fix mistakes or remove them. | Recipe author | Must have |
+| US 11 | As a recipe author I can receive a notification when my recipe is approved or rejected, or someone comments on it, so that I know what is happening with my content. | Recipe author | Must have |
+| US 19 | As a recipe author I can get an email when my recipe is approved so that I do not have to log in to check. | Recipe author | Won't have |
+| US 12 | As an admin I can approve, reject, or remove any recipe or comment so that the blog stays accurate and appropriate. | Admin | Must have |
+| US 15 | As an assessor I can read a complete README with testing and deployment evidence so that I can see how the project was planned, built, tested, and deployed. | Assessor | Must have |
+| US 55 | As a visitor I can share a recipe I want on social media so that I can show the joy I just viewed as a fellow coder. | Visitor | Could have |
 
 ### Wireframes
 
@@ -52,7 +69,9 @@ Development was organised around small user stories and acceptance criteria. Fea
 
 **Logo**
 
-![Reci.py Logo](docs/screenshots/site_logo.png)
+<p align="center">
+    <img src="docs/screenshots/site_logo.png" alt="Reci.py Logo" width="33%">
+</p>
 
 **Tagline**  
 *Simple Recipes • Healthy Meals • For Coders*
