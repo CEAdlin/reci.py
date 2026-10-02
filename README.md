@@ -429,3 +429,14 @@ The project was developed using the Code Institute learning materials and assess
 | [reci.py repository](https://github.com/lion695/reci.py) | Source repository containing the project code, documentation, tests, and deployment configuration. |
 
 These resources supported different parts of the project, from learning and planning through to implementation, visual design, testing, deployment, and documentation. They were used alongside the team's own decisions, code reviews, manual testing, and validation rather than replacing the developers' responsibility for the final result.
+
+## Contributors
+
+This repository codebase is maintained and scaled by the following development team:
+
+*   **[Kieron](https://github.com/lion695)**
+*   **[Charles](https://github.com/ctr-code)**
+*   **[Corrine](https://github.com/CEAdlin)**
+*   **[Qasim](https://github.com/qasim5259)**
+*   **[Sarah](https://github.com/sarahjhill)**
+
