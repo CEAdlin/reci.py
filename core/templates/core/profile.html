@@ -5,7 +5,7 @@
 {% block head_title %}{{ user.username }}'s Profile | reci.py{% endblock %}
 
 {% block main %}
-<main class="profile-page container" aria-labelledby="profile-heading">
+<article class="profile-page container" aria-labelledby="profile-heading">
     <header class="profile-page-header">
         <h1 id="profile-heading">{{ user.username }}'s Profile</h1>
         <button id="signoutButton" class="btn btn-outline-primary" type="button">
@@ -120,7 +120,7 @@
             <a href="{% url 'account_reset_password' %}">Request a password reset</a>.
         </p>
     </section>
-</main>
+</article>
 
 {# Sign out confirmation modal #}
 <div class="modal fade" id="signoutModal" tabindex="-1" role="dialog" aria-labelledby="signoutModalLabel" aria-hidden="true">
