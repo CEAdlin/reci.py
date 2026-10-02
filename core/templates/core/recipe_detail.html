@@ -35,7 +35,7 @@
                     <p class="text-uppercase text-muted small fw-bold mb-2">Recipe</p>
                     <h1 class="card-title mb-3">{{ recipe.title }}</h1>
                     <p class="lead">{{ recipe.description }}</p>
-                    <div class="recipe-facts row row-cols-2 g-2 my-4" aria-label="Recipe details">
+                    <section class="recipe-facts row row-cols-2 g-2 my-4" aria-label="Recipe details">
                         <div class="col"><span class="d-block"><strong>{{ recipe.servings }}</strong> servings</span>
                         </div>
                         <div class="col"><span class="d-block"><strong>{{ recipe.prep_time }}</strong> min prep</span>
@@ -44,7 +44,7 @@
                         </div>
                         <div class="col"><span
                                 class="d-block"><strong>{{ recipe.get_difficulty_display }}</strong></span></div>
-                    </div>
+                    </section>
                     <p class="text-muted mb-0 mt-auto">By {{ recipe.author.username }} ·
                         {{ recipe.created_at|date:"j F Y" }}</p>
                     {% if user == recipe.author %}
