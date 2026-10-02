@@ -225,15 +225,15 @@ The following tables are ready for a screenshot to be added to each test case. R
 
 | Feature | Test steps | Expected result | Screenshot |
 | --- | --- | --- | --- |
-| Navigation | Use the desktop navigation and open the mobile menu. | Correct links are shown for the user's role and the menu works on small screens. | `[Screenshot placeholder: feature 1]` |
-| Footer | Scroll to the bottom of a page and select a social link. | Footer content is visible and links open correctly. | `[Screenshot placeholder: feature 2]` |
-| Homepage cards | Load the homepage with public recipes available. | Recipe cards display consistently with working detail links. | `[Screenshot placeholder: feature 3]` |
-| Search and filtering | Search by title/description and select each difficulty. | Matching recipes remain and unrelated recipes are removed. | `[Screenshot placeholder: feature 4]` |
-| Sorting and pagination | Select each sort option and move between pages. | Card order changes and pagination works without losing the current query. | `[Screenshot placeholder: feature 5]` |
-| Recipe detail | Open an approved recipe. | All recipe details and approved comments are readable. | `[Screenshot placeholder: feature 6]` |
-| Form validation | Submit empty fields, duplicate titles, and non-positive numbers. | Clear field-level validation messages prevent invalid submission. | `[Screenshot placeholder: feature 7]` |
-| Profile and notifications | Update an email address and mark a notification as read. | The profile saves and the notification is removed from the unread list. | `[Screenshot placeholder: feature 8]` |
-| Responsive layout | Test the homepage, forms, detail page, and inbox at desktop, tablet, and mobile widths. | Content stacks correctly without horizontal scrolling or distorted images. | `[Screenshot placeholder: feature 9]` |
+| Navigation | Use the desktop navigation and open the mobile menu. | Correct links are shown for the user's role and the menu works on small screens. | ![](docs/features/feat_nav.png) |
+| Footer | Scroll to the bottom of a page and select a social link. | Footer content is visible and links open correctly. | ![](docs/features/feat_footer.png) |
+| Homepage cards | Load the homepage with public recipes available. | Recipe cards display consistently with working detail links. | `![](docs/features/feat_home.png) |
+| Search and filtering | Search by title/description and select each difficulty. | Matching recipes remain and unrelated recipes are removed. | ![](docs/features/feat_search.png) |
+| Sorting and pagination | Select each sort option and move between pages. | Card order changes and pagination works without losing the current query. | ![](docs/features/feat_pagination.png) |
+| Recipe detail | Open an approved recipe. | All recipe details and approved comments are readable. | ![](docs/features/feat_recipe_deets.png) |
+| Form validation | Submit empty fields, duplicate titles, and non-positive numbers. | Clear field-level validation messages prevent invalid submission. | ![](docs/features/feat_form_validation.png) |
+| Profile and notifications | Update an email address and mark a notification as read. | The profile saves and the notification is removed from the unread list. | ![](docs/features/feat_profile.png) |
+| Responsive layout | Test the homepage, forms, detail page, and inbox at desktop, tablet, and mobile widths. | Content stacks correctly without horizontal scrolling or distorted images. | ![](docs/screenshots/responsive.png) |
 
 
 ### Performance and Responsiveness
