@@ -4,31 +4,36 @@
 
 reci.py is a Django recipe website where visitors can discover public recipes and registered users can submit recipes, comment, and receive updates about the review process.
 
-![](docs/screenshots/responsive.png)
-
-## Contents
-
-1. [Design & Planning](#design--planning)
-2. [Features](#features)
-3. [Technologies Used](#technologies-used)
-4. [Libraries Used](#libraries-used)
-5. [Testing](#testing)
-6. [Bugs](#bugs)
-7. [Deployment](#deployment)
-8. [AI](#ai)
-9. [Credits](#credits)
+![Screenshot Responsive Testing](docs/screenshots/responsive.png)
 
 ## Design & Planning
 
 ### User Stories
 
-* As a visitor, I can browse approved recipes so that I can discover something to cook.
-* As a visitor, I can search, filter, sort, and paginate recipes so that I can find a suitable recipe quickly.
-* As a visitor, I can open a recipe to see its ingredients, method, image, timings, author, and date.
-* As a registered user, I can submit a recipe so that I can share it with others.
-* As a recipe author, I can receive notifications when my recipe is submitted, approved, rejected, or commented on.
-* As a registered user, I can comment on recipes and manage my own comments.
-* As a staff reviewer, I can approve or reject pending recipes and comments.
+The user stories below are taken from the project board and grouped by user persona. The MoSCoW priority identifies whether each story was a must-have, should-have, could-have, or won't-have requirement for this release.
+
+| US No. | User Story | User | MoSCoW |
+| --- | --- | --- | --- |
+| US 3 | As a developer I can work from a shared, deployed Django project so that the team can build features in parallel from day one. | Developer | Must have |
+| US 7 | As a developer I can follow agreed wireframes, an ERD, and a colour/font scheme so that the build is consistent and the UX process is documented. | Developer | Must have |
+| US 14 | As a developer I can run automated tests for models, forms, views, and permissions so that we know the app works and can evidence it for assessment. | Developer | Must have |
+| US 4 | As a visitor I can create an account and log in so that I can post recipes and join in. | Visitor | Must have |
+| US 5 | As a visitor I can see a list of published recipes so that I can find something to cook. | Visitor | Must have |
+| US 6 | As a visitor I can open a recipe to see its ingredients and method so that I can follow it. | Visitor | Must have |
+| US 16 | As a visitor I can search by title or ingredient and filter by difficulty or time so that I find a suitable recipe faster. | Visitor | Could have |
+| US 18 | As a visitor on a budget I can see the cost per portion of each recipe so that I can cook affordably. | Visitor on a budget | Could have |
+| US 20 | As a visitor I can scale a recipe from 2 to 6 servings so that quantities fit the number of people I am cooking for. | Visitor | Won't have |
+| US 8 | As a logged-in user I can submit my own recipe through a form so that I can share it with others. | Logged-in user | Must have |
+| US 10 | As a logged-in user I can leave, edit, and delete my own comments so that I can share tips and feedback. | Logged-in user | Should have |
+| US 13 | As a logged-in user I can view and update my profile so that other users know who shared a recipe. | Logged-in user | Should have |
+| US 17 | As a logged-in user I can like recipes and see them in a My Liked Recipes list on my profile so that I can find my favourites again quickly. | Logged-in user | Could have |
+| US 54 | As a logged-in user I can like a recipe and receive a confirmation notification so that I know it was saved to my profile. | Logged-in user | Could have |
+| US 9 | As a recipe author I can edit or delete my own recipes so that I can fix mistakes or remove them. | Recipe author | Must have |
+| US 11 | As a recipe author I can receive a notification when my recipe is approved or rejected, or someone comments on it, so that I know what is happening with my content. | Recipe author | Must have |
+| US 19 | As a recipe author I can get an email when my recipe is approved so that I do not have to log in to check. | Recipe author | Won't have |
+| US 12 | As an admin I can approve, reject, or remove any recipe or comment so that the blog stays accurate and appropriate. | Admin | Must have |
+| US 15 | As an assessor I can read a complete README with testing and deployment evidence so that I can see how the project was planned, built, tested, and deployed. | Assessor | Must have |
+| US 55 | As a visitor I can share a recipe I want on social media so that I can show the joy I just viewed as a fellow coder. | Visitor | Could have |
 
 ### Wireframes
 
@@ -64,7 +69,9 @@ Development was organised around small user stories and acceptance criteria. Fea
 
 **Logo**
 
-![Reci.py Logo](docs/screenshots/site_logo.png)
+<p align="center">
+    <img src="docs/screenshots/site_logo.png" alt="Reci.py Logo" width="33%">
+</p>
 
 **Tagline**  
 *Simple Recipes • Healthy Meals • For Coders*
@@ -296,6 +303,28 @@ Run Django system checks:
 ```powershell
 .\.venv\Scripts\python.exe manage.py check
 ```
+
+#### What the Automated Tests Cover
+
+The automated tests use Django's `TestCase` framework. Each test creates an isolated temporary test database, creates the users and recipes needed for the scenario, sends requests through Django's test client, and checks the response, database state, redirects, messages, permissions, and notifications. The temporary database is removed when the test run finishes, so test data does not affect development or production data.
+
+The main test modules cover the following areas:
+
+* **`core.test_recipe_submission`** checks that recipe submission requires authentication, validates required fields and positive numeric values, prevents duplicate titles, saves a valid submission as `pending`, and displays the expected confirmation message. It also checks public recipe detail pages, hidden pending or rejected recipes, and links from the homepage.
+* **`core.test_recipe_list`** checks that only approved and published recipes appear publicly, pagination returns six cards per page, category and difficulty filters work, name and most-liked sorting work, and the `My liked` filter is limited to logged-in users. It also checks that users can like and unlike recipes and that unsafe redirect URLs are rejected.
+* **`core.test_profile`** checks the username heading, newest-first authored recipes, pending submissions, owner-only edit and delete links, liked public recipes, empty-profile behaviour, password-reset access, and valid or invalid email updates.
+* **`core.test_edit_delete_recipe`** checks that users can manage their own recipes, edits return recipes to the review queue, invalid edits do not save, delete actions require confirmation, and other users receive `403 Forbidden` responses when attempting to manage someone else's recipe.
+* **`core.test_comments`** checks anonymous access restrictions, valid and empty comment submissions, comment approval visibility, comment ownership, editing, deletion, and notification of the recipe author.
+* **`core.test_notifications`** checks login protection for the inbox, that users see only their own unread notifications, that notifications can be marked as read, and that another user's notification cannot be changed.
+* **`core.test_moderation`** checks staff-only access to moderation pages, recipe approval and rejection, comment approval and rejection, status changes, and notifications sent to authors.
+
+The focused application test command below runs these behaviour tests without the external W3C validator suite:
+
+```powershell
+.\.venv\Scripts\python.exe manage.py test core.test_comments core.test_notifications core.test_moderation core.test_profile core.test_edit_delete_recipe core.test_recipe_list core.test_recipe_submission
+```
+
+The full `manage.py test` command also includes the validation tests. `manage.py check` verifies Django configuration, installed applications, URL configuration, and model setup. `manage.py makemigrations --check --dry-run` confirms that model changes have corresponding committed migrations and that no migration file is missing.
 
 The project also includes HTML and CSS validation tests in `core/test_valid.py`. These tests use the W3C validator supplied in the `fixtures` directory and require Java. Accessibility checks include image alternative text, labelled form fields, keyboard navigation, logical headings, colour contrast, and assistive-technology state for recipe detail controls.
 

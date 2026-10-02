@@ -11,7 +11,9 @@ class RecipeListTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user("cook", password="pass12345")
 
-    def make_recipe(self, title, status="approved", category="dinner", difficulty="easy"):
+    def make_recipe(
+        self, title, status="approved", category="dinner", difficulty="easy"
+    ):
         """Create a recipe with all required fields."""
         return Recipe.objects.create(
             author=self.user,
@@ -68,7 +70,10 @@ class RecipeListTests(TestCase):
     def test_most_liked_sort_and_my_liked_filter(self):
         popular = self.make_recipe("Popular Dish")
         personal = self.make_recipe("Personal Dish")
-        other_user = User.objects.create_user("another-cook", password="pass12345")
+        other_user = User.objects.create_user(
+            "another-cook",
+            password="pass12345",
+        )
         popular.liked_by.add(self.user, other_user)
         personal.liked_by.add(self.user)
         self.client.force_login(self.user)
@@ -93,6 +98,35 @@ class RecipeListTests(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertTrue(recipe.liked_by.filter(pk=self.user.pk).exists())
+
+        self.client.post(
+            reverse("toggle_recipe_like", args=[recipe.pk]),
+            {"next": reverse("index")},
+        )
+        self.assertFalse(recipe.liked_by.filter(pk=self.user.pk).exists())
+
+    def test_like_toggle_requires_login(self):
+        recipe = self.make_recipe("Protected Like")
+
+        response = self.client.post(
+            reverse("toggle_recipe_like", args=[recipe.pk]),
+            {"next": reverse("index")},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse("account_login"), response.url)
+        self.assertFalse(recipe.liked_by.exists())
+
+    def test_like_toggle_rejects_unsafe_next_url(self):
+        recipe = self.make_recipe("Safe Redirect Like")
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse("toggle_recipe_like", args=[recipe.pk]),
+            {"next": "https://example.com/unsafe"},
+        )
+
+        self.assertRedirects(response, reverse("index"))
 
     def test_my_liked_filter_is_hidden_and_ignored_for_anonymous_users(self):
         self.make_recipe("Public Dish")
