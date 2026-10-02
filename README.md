@@ -336,6 +336,55 @@ No known bugs are outstanding at the time of writing. Any newly discovered issue
 
 ## Deployment
 
+### Fork and Clone
+
+To create your own working copy of the project:
+
+1. Open the [reci.py repository](https://github.com/lion695/reci.py) on GitHub and select **Fork**.
+2. Choose your GitHub account as the fork owner.
+3. Clone your fork locally, replacing `<your-username>` with your GitHub username:
+
+```powershell
+git clone https://github.com/<your-username>/reci.py.git
+cd reci.py
+```
+
+4. Add the original repository as `upstream` so that you can receive future changes:
+
+```powershell
+git remote add upstream https://github.com/lion695/reci.py.git
+git remote -v
+```
+
+The fork is normally called `origin`, while the original project is called `upstream`. To update your local `main` branch before starting work:
+
+```powershell
+git fetch upstream
+git rebase upstream/main
+```
+
+### Local Setup
+
+Create and activate a virtual environment, then install the project dependencies:
+
+```powershell
+python -m venv .venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
+
+Create a local `.env` file from the project's required settings, keeping secret keys, database credentials, and service URLs out of Git. Apply migrations and start the development server:
+
+```powershell
+python manage.py migrate
+python manage.py runserver
+```
+
+The local site is then available at `http://127.0.0.1:8000/`.
+
+### Heroku Deployment
+
 The deployed application is hosted on Heroku:
 
 [https://reci-py-93c536d719a2.herokuapp.com/](https://reci-py-93c536d719a2.herokuapp.com/)
@@ -344,12 +393,39 @@ The deployment uses PostgreSQL, environment-based configuration, WhiteNoise for 
 
 ## AI
 
-AI tools were used as development support for brainstorming, documentation structure, debugging guidance, and reviewing implementation details. All generated suggestions were checked against the project code, tests, and final application behaviour.
+AI was used as a development assistant throughout the project. It supported the team with ideas, explanations, code suggestions, documentation improvements, and test planning while the final technical decisions remained with the developers.
+
+| AI Used | Description |
+| --- | --- |
+| GitHub Copilot | Helped explore the codebase, suggest implementation approaches, and explain existing Django, template, CSS, and Git workflows. |
+| Brainstorming support | Helped refine user stories, feature ideas, acceptance criteria, and possible future improvements. |
+| Debugging support | Helped interpret error messages, investigate failed tests, identify likely causes, and suggest focused fixes. |
+| Automated test support | Suggested test cases for models, forms, views, permissions, comments, notifications, moderation, likes, and profile workflows. |
+| Documentation support | Helped organise the README, expand testing explanations, structure the user-story table, and improve deployment and AI-use documentation. |
+| Accessibility and quality review | Suggested checks for semantic headings, image alternative text, form labels, keyboard access, colour contrast, responsive layouts, and validation coverage. |
+
+AI played an important supporting role by helping the team work through technical problems, compare approaches, and maintain consistent documentation. It was used alongside developer judgement, manual testing, automated tests, code review, and verification against the running application. Generated suggestions were reviewed and adapted before use, and no AI output was accepted without checking that it matched the project's requirements, security considerations, and actual behaviour.
 
 ## Credits
 
-* Bootstrap documentation and components: [getbootstrap.com](https://getbootstrap.com/)
-* Font Awesome icons: [fontawesome.com](https://fontawesome.com/)
-* Django documentation: [docs.djangoproject.com](https://docs.djangoproject.com/)
-* Django Allauth documentation: [docs.allauth.org](https://docs.allauth.org/)
-* Project repository: [github.com/lion695/reci.py](https://github.com/lion695/reci.py)
+The project was developed using the Code Institute learning materials and assessment guidance alongside the software, frameworks, services, documentation, and creative tools listed below.
+
+| Credit / Software | Contribution |
+| --- | --- |
+| [Code Institute](https://codeinstitute.net/) | Provided the course structure, learning materials, project requirements, and assessment guidance used during development. |
+| [ChatGPT](https://chatgpt.com/) | Supported brainstorming, documentation planning, explanations, and image generation for project presentation assets. |
+| [GitHub Copilot](https://github.com/features/copilot) | Supported code exploration, implementation ideas, debugging, test planning, README development, and review of technical changes. |
+| [Visual Studio Code](https://code.visualstudio.com/) | Primary development environment used to edit, run, test, and review the project. |
+| [Git](https://git-scm.com/) and [GitHub](https://github.com/) | Used for version control, collaboration, upstream synchronisation, pull requests, and repository hosting. |
+| [Django](https://www.djangoproject.com/) | Provided the web framework and official documentation used to build the application. |
+| [Django Allauth](https://docs.allauth.org/) | Provided the registration, login, logout, and password-reset authentication flows. |
+| [Bootstrap](https://getbootstrap.com/) | Provided responsive layout, cards, forms, navigation, buttons, and pagination components. |
+| [Font Awesome](https://fontawesome.com/) | Provided interface icons used throughout the application. |
+| [Google Fonts](https://fonts.google.com/) | Supplied the DM Sans, Fraunces, and JetBrains Mono typefaces. |
+| [Heroku](https://www.heroku.com/) | Hosted the deployed application and its Gunicorn web process. |
+| [Neon](https://neon.tech/) | Provided the hosted PostgreSQL database used by the deployed application. |
+| [Cloudinary](https://cloudinary.com/) | Provides persistent recipe image storage when the Cloudinary deployment configuration is enabled. |
+| [W3C Nu Html Checker](https://validator.w3.org/nu/) | Used to validate HTML and CSS as part of the project's quality checks. |
+| [reci.py repository](https://github.com/lion695/reci.py) | Source repository containing the project code, documentation, tests, and deployment configuration. |
+
+These resources supported different parts of the project, from learning and planning through to implementation, visual design, testing, deployment, and documentation. They were used alongside the team's own decisions, code reviews, manual testing, and validation rather than replacing the developers' responsibility for the final result.
