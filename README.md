@@ -117,8 +117,6 @@ erDiagram
 
 Recipe statuses are `pending`, `approved`, `published`, and `rejected`. New submissions begin as `pending` and are reviewed by staff.
 
-> **Screenshot placeholder:** Add a database diagram screenshot if a visual diagram is preferred.
-
 ## Features
 
 ### Navigation
@@ -212,8 +210,6 @@ Django Allauth provides registration and login. Login protection is applied to u
 ## Testing
 
 ### Manual Testing
-
-The following tables are ready for a screenshot to be added to each test case. Replace each placeholder with the relevant image link when testing is complete.
 
 #### User Stories
 
@@ -326,6 +322,8 @@ The focused application test command below runs these behaviour tests without th
 
 The full `manage.py test` command also includes the validation tests. `manage.py check` verifies Django configuration, installed applications, URL configuration, and model setup. `manage.py makemigrations --check --dry-run` confirms that model changes have corresponding committed migrations and that no migration file is missing.
 
+![](docs/unit-tests.png)
+
 The project also includes HTML and CSS validation tests in `core/test_valid.py`. These tests use the W3C validator supplied in the `fixtures` directory and require Java. Accessibility checks include image alternative text, labelled form fields, keyboard navigation, logical headings, colour contrast, and assistive-technology state for recipe detail controls.  Each page was also screenshotted in the online W3C validator.
 
 ### HTML and CSS Validation Screenshots
@@ -371,8 +369,6 @@ Python was validated using the [Code Institute Python validator](https://pep8ci.
 ## Bugs
 
 No known bugs are outstanding at the time of writing. Any newly discovered issue should be recorded with reproduction steps, expected behaviour, actual behaviour, and its resolution.
-
-> **Screenshot placeholder:** Add evidence of the final bug-testing pass if required.
 
 ## Deployment
 
