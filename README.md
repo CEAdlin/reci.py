@@ -326,7 +326,25 @@ The focused application test command below runs these behaviour tests without th
 
 The full `manage.py test` command also includes the validation tests. `manage.py check` verifies Django configuration, installed applications, URL configuration, and model setup. `manage.py makemigrations --check --dry-run` confirms that model changes have corresponding committed migrations and that no migration file is missing.
 
-The project also includes HTML and CSS validation tests in `core/test_valid.py`. These tests use the W3C validator supplied in the `fixtures` directory and require Java. Accessibility checks include image alternative text, labelled form fields, keyboard navigation, logical headings, colour contrast, and assistive-technology state for recipe detail controls.
+The project also includes HTML and CSS validation tests in `core/test_valid.py`. These tests use the W3C validator supplied in the `fixtures` directory and require Java. Accessibility checks include image alternative text, labelled form fields, keyboard navigation, logical headings, colour contrast, and assistive-technology state for recipe detail controls.  Each page was also screenshotted in the online W3C validator.
+
+### HTML and CSS Validation Screenshots
+
+|Page|W3c Screenshot|
+|-|-|
+||![](docs/w3c/index.png)|
+|Register|![](docs/w3c/accounts-signup.png)|
+|Login|![](docs/w3c/accounts-login.png)|
+|Recipe Detail|![](docs/w3c/recipe.png)|
+|Submit a Recipe|![](docs/w3c/recipes-submit.png)|
+|Notifications|![](docs/w3c/inbox.png)|
+|Edit Recipe|![](docs/w3c/recipe-edit.png)|
+|Edit Comment|![](docs/w3c/comment-edit.png)|
+|My Recipes|![](docs/w3c/my-recipes.png)|
+|Profile|![](docs/w3c/profile.png)|
+|Admin|![](docs/w3c/recipes-admin.png)|
+|Review|![](docs/w3c/recipes-review.png)|
+|CSS|![](docs/w3c/css.png)|
 
 ## Bugs
 
