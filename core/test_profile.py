@@ -100,3 +100,29 @@ class ProfileRecipeTests(TestCase):
         response = self.client.get(reverse("profile"))
 
         self.assertNotContains(response, recipe.title)
+
+    def test_user_can_update_profile_email(self):
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse("profile"),
+            {"email": "new-address@example.com"},
+        )
+
+        self.assertRedirects(response, reverse("profile"))
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "new-address@example.com")
+
+    def test_invalid_profile_email_is_not_saved(self):
+        self.user.email = "old-address@example.com"
+        self.user.save()
+        self.client.force_login(self.user)
+
+        response = self.client.post(
+            reverse("profile"),
+            {"email": "not-an-email"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.email, "old-address@example.com")

@@ -4,19 +4,7 @@
 
 reci.py is a Django recipe website where visitors can discover public recipes and registered users can submit recipes, comment, and receive updates about the review process.
 
-![](docs/screenshots/responsive.png)
-
-## Contents
-
-1. [Design & Planning](#design--planning)
-2. [Features](#features)
-3. [Technologies Used](#technologies-used)
-4. [Libraries Used](#libraries-used)
-5. [Testing](#testing)
-6. [Bugs](#bugs)
-7. [Deployment](#deployment)
-8. [AI](#ai)
-9. [Credits](#credits)
+![Screenshot Responsive Testing](docs/screenshots/responsive.png)
 
 ## Design & Planning
 
@@ -296,6 +284,28 @@ Run Django system checks:
 ```powershell
 .\.venv\Scripts\python.exe manage.py check
 ```
+
+#### What the Automated Tests Cover
+
+The automated tests use Django's `TestCase` framework. Each test creates an isolated temporary test database, creates the users and recipes needed for the scenario, sends requests through Django's test client, and checks the response, database state, redirects, messages, permissions, and notifications. The temporary database is removed when the test run finishes, so test data does not affect development or production data.
+
+The main test modules cover the following areas:
+
+* **`core.test_recipe_submission`** checks that recipe submission requires authentication, validates required fields and positive numeric values, prevents duplicate titles, saves a valid submission as `pending`, and displays the expected confirmation message. It also checks public recipe detail pages, hidden pending or rejected recipes, and links from the homepage.
+* **`core.test_recipe_list`** checks that only approved and published recipes appear publicly, pagination returns six cards per page, category and difficulty filters work, name and most-liked sorting work, and the `My liked` filter is limited to logged-in users. It also checks that users can like and unlike recipes and that unsafe redirect URLs are rejected.
+* **`core.test_profile`** checks the username heading, newest-first authored recipes, pending submissions, owner-only edit and delete links, liked public recipes, empty-profile behaviour, password-reset access, and valid or invalid email updates.
+* **`core.test_edit_delete_recipe`** checks that users can manage their own recipes, edits return recipes to the review queue, invalid edits do not save, delete actions require confirmation, and other users receive `403 Forbidden` responses when attempting to manage someone else's recipe.
+* **`core.test_comments`** checks anonymous access restrictions, valid and empty comment submissions, comment approval visibility, comment ownership, editing, deletion, and notification of the recipe author.
+* **`core.test_notifications`** checks login protection for the inbox, that users see only their own unread notifications, that notifications can be marked as read, and that another user's notification cannot be changed.
+* **`core.test_moderation`** checks staff-only access to moderation pages, recipe approval and rejection, comment approval and rejection, status changes, and notifications sent to authors.
+
+The focused application test command below runs these behaviour tests without the external W3C validator suite:
+
+```powershell
+.\.venv\Scripts\python.exe manage.py test core.test_comments core.test_notifications core.test_moderation core.test_profile core.test_edit_delete_recipe core.test_recipe_list core.test_recipe_submission
+```
+
+The full `manage.py test` command also includes the validation tests. `manage.py check` verifies Django configuration, installed applications, URL configuration, and model setup. `manage.py makemigrations --check --dry-run` confirms that model changes have corresponding committed migrations and that no migration file is missing.
 
 The project also includes HTML and CSS validation tests in `core/test_valid.py`. These tests use the W3C validator supplied in the `fixtures` directory and require Java. Accessibility checks include image alternative text, labelled form fields, keyboard navigation, logical headings, colour contrast, and assistive-technology state for recipe detail controls.
 
