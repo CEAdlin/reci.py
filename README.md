@@ -346,6 +346,28 @@ The project also includes HTML and CSS validation tests in `core/test_valid.py`.
 |Review|![](docs/w3c/recipes-review.png)|
 |CSS|![](docs/w3c/css.png)|
 
+### Python Validation
+
+Python was validated using the [Code Institute Python validator](https://pep8ci.herokuapp.com/).
+
+|Python File|Test Results|
+|-|-|
+|[core/admin.py](core/admin.py)|![](docs/py-valid/core-admin.png)|
+|[core/common_test.py](core/common_test.py)|![](docs/py-valid/core-common_test.png)|
+|[core/forms.py](core/forms.py)|![](docs/py-valid/core-forms.png)|
+|[core/models.py](core/models.py)|![](docs/py-valid/core-models.png)|
+|[core/test_comments.py](core/test_comments.py)|![](docs/py-valid/core-test_comments.png)|
+|[core/test_edit_delete_recipe.py](core/test_edit_delete_recipe.py)|![](docs/py-valid/core-test_edit_delete_recipe.png)|
+|[core/test_moderation.py](core/test_moderation.py)|![](docs/py-valid/core-test_moderation.png)|
+|[core/test_notifications.py](core/test_notifications.py)|![](docs/py-valid/core-test_notifications.png)|
+|[core/test_profile.py](core/test_profile.py)|![](docs/py-valid/core-test_profile.png)|
+|[core/test_recipe_list.py](core/test_recipe_list.py)|![](docs/py-valid/core-test_recipe_list.png)|
+|[core/test_recipe_submission.py](core/test_recipe_submission.py)|![](docs/py-valid/core-test_recipe_submission.png)|
+|[core/test_valid.py](core/test_valid.py)|![](docs/py-valid/core-test_valid.png)|
+|[core/views.py](core/views.py)|![](docs/py-valid/core-views.png)|
+|[project/settings.py](project/settings.py)|![](docs/py-valid/project-settings.png)|
+|[project/urls.py](project/urls.py)|![](docs/py-valid/project-urls.png)|
+
 ## Bugs
 
 No known bugs are outstanding at the time of writing. Any newly discovered issue should be recorded with reproduction steps, expected behaviour, actual behaviour, and its resolution.
