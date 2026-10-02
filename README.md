@@ -219,14 +219,14 @@ The following tables are ready for a screenshot to be added to each test case. R
 
 | User story | Test steps | Expected result | Screenshot |
 | --- | --- | --- | --- |
-| Browse public recipes | Open the homepage as a visitor. | Approved and published recipes appear; pending and rejected recipes remain hidden. | `[Screenshot placeholder: user story 1]` |
-| Find a suitable recipe | Search, filter by difficulty, sort, and change page. | Results and ordering update while the selected controls remain usable. | `[Screenshot placeholder: user story 2]` |
-| View recipe information | Open a recipe card. | The detail page shows the recipe image, ingredients, method, timings, author, and date. | `[Screenshot placeholder: user story 3]` |
-| Submit a recipe | Log in, complete the form, and submit it. | The recipe is saved as `pending` and a confirmation message is shown. | `[Screenshot placeholder: user story 4]` |
-| Receive recipe notifications | Submit, approve, or reject a recipe. | The relevant author receives an unread notification in the inbox. | `[Screenshot placeholder: user story 5]` |
-| Comment on a recipe | Log in and submit a valid comment. | The comment appears and the recipe author is notified when applicable. | `[Screenshot placeholder: user story 6]` |
-| Manage own comments | Edit and delete a comment created by the logged-in user. | The comment is updated or removed; another user's comment cannot be managed. | `[Screenshot placeholder: user story 7]` |
-| Review submissions | Sign in as staff and approve or reject a pending recipe. | The recipe status changes and public visibility follows the decision. | `[Screenshot placeholder: user story 8]` |
+| Browse public recipes | Open the homepage as a visitor. | Approved and published recipes appear; pending and rejected recipes remain hidden. | ![](docs/user_stories/us_browse_public.png) |
+| Find a suitable recipe | Search, filter by difficulty, sort, and change page. | Results and ordering update while the selected controls remain usable. | ![](docs/user_stories/us_find_public.png) |
+| View recipe information | Open a recipe card. | The detail page shows the recipe image, ingredients, method, timings, author, and date. | ![](docs/user_stories/us_view_recipe.png) |
+| Submit a recipe | Log in, complete the form, and submit it. | The recipe is saved as `pending` and a confirmation message is shown. | ![](docs/user_stories/us_submit_recipe.png) |
+| Receive recipe notifications | Submit, approve, or reject a recipe. | The relevant author receives an unread notification in the inbox. | ![](docs/user_stories/us_recipe_notify.png) |
+| Comment on a recipe | Log in and submit a valid comment. | The comment appears and the recipe author is notified when applicable. | ![](docs/user_stories/us_comment_manage.png) |
+| Manage own comments | Edit and delete a comment created by the logged-in user. | The comment is updated or removed; another user's comment cannot be managed. | ![](docs/user_stories/us_comment_manage.png) |
+| Review submissions | Sign in as staff and approve or reject a pending recipe. | The recipe status changes and public visibility follows the decision. | ![](docs/user_stories/us_admin_approve.png) |
 
 #### Features
 
